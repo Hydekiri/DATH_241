@@ -1,0 +1,23 @@
+.login-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 110px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  
+  border-bottom: 4px solid #24befb;
+  padding-left: 95px;
+  padding-right: 115px;
+  background-color: white;
+  z-index: 99;
+}
+
+.logo {
+  width: 294px;
+  height: 76px;
+  object-fit: cover;
+}

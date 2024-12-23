@@ -1,0 +1,294 @@
+.admin-navbar-middle-queue {
+  background-color: #70D3FA;
+  color: white !important;
+}
+
+
+/* main */
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+
+
+/* search filter add  */
+.search-filter-add {
+  display: flex;
+  width: 1330px;
+}
+
+.search {
+  background-color: rgba(112, 211, 250, 0.42);
+  width: 760px;
+  height: 53px;
+  
+  display: flex;
+  align-items: center;
+
+  padding-left: 30px;
+  padding-right: 30px;
+  border-radius: 15px;
+  margin-right: 60px;
+}
+
+.search img {
+  cursor: pointer;
+}
+
+.search-input {
+  flex: 1;
+  background-color: transparent;
+  color: #5B5B5B;
+  font-size: 30px;
+  font-weight: light;
+  margin-left: 20px;
+
+  border: none;
+  outline: none;
+}
+
+.filter {
+  background-color: rgba(112, 211, 250, 0.42);
+  width: 280px;
+  height: 53px;
+  border-radius: 15px;
+
+  display: flex;
+  align-items: center;
+  padding-left: 25px;
+}
+
+.filter span {
+  font-size: 30px;
+  padding-left: 16px;
+}
+
+.add {
+  background-color: #24BEFB;
+  width: 220px;
+  height: 53px;
+  border: none;
+  border-radius: 20px;
+
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+.add span {
+  color: white;
+  font-size: 24px;
+  margin-left: 10px;
+}
+
+/* end .search-filter-add */
+
+
+/* 4 cai o thong tin tong quat */
+.total-display {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  
+  width: 1330px;
+}
+
+.total-display-box {
+  background-color: #86EDFF;
+  width: 316px;
+  height: 126px;
+  border-radius: 10px;
+  font-weight: bold;
+  padding-top: 15px;
+  padding-left: 25px;
+}
+
+.box-description {
+  font-size: 28px;
+  margin: 0;
+}
+
+.box-information {
+  font-size: 40px;
+  margin: 0;
+}
+
+/* end 4 cai o thong tin tong quat */
+
+/* bang thong tin nhung may in */
+
+.printers-display {
+  width: 1330px;
+  border: 1px solid #6B6B6B;
+  border-radius: 10px;
+  margin-top: 40px;
+}
+
+.printers-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/* ten cot */
+
+.column-names {
+  display: grid;
+  grid-template-columns: 196px 138px 194px 186px 187px 193px;
+  width: 1145px;
+  justify-content: space-between;
+}
+
+.column-name{
+  background-color: rgba(112, 211, 250, 0.65);
+  height: 37px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+/* end ten cot */
+
+/* printers */
+
+.printers-row {
+  width: 1330px;
+  margin-top: 35px;
+  padding-right: 6px;
+  margin-bottom: 25px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.printer-checkbox-container {
+  width: 92px;
+  display: flex;
+  justify-content: center;
+}
+
+.printer-checkbox {
+  width: 31px;
+  height: 31px;
+  border-radius: 10px;
+}
+
+.printer-display {
+  width: 1145px;
+  height: 37px;
+  border: 1px solid #6B6B6B;
+  border-radius: 10px;
+
+  display: grid;
+  grid-template-columns: 196px 138px 194px 186px 187px 193px;
+  align-items: center;
+  justify-content: space-between;
+
+  font-size: 20px;
+}
+
+.printer-infor {
+  /* margin-right: 15px; */
+  cursor: pointer;
+}
+
+.printer-queue {
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+.printer-model, .printer-id, .printer-location, .printer-weight, .printer-status, .printer-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.printer-status{
+  background-color: #1edf043f;
+  padding: 2px 0px;
+  border-radius: 10px;
+  color: #00C10D;
+}
+.toggle-button-container {
+  width: 86px;
+  display: flex;
+}
+
+.toggle-label {
+  width: 86px;
+  height: 37px;
+  margin-left: 6px;
+  position: relative;
+
+  background-color: #1EDF04;
+  border-radius: 20px;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: background-color 0.5s ease;
+}
+
+.toggle-checkbox { 
+  display: none;
+}
+
+.toggle-circle {
+  width: 31px;
+  height: 31px;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 3px;
+  left: 5px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+  transition: transform 0.5s ease;
+}
+
+.toggle-checkbox:checked + .toggle-label {
+  background-color: #DF1604;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.toggle-checkbox:checked + .toggle-label .toggle-circle {
+  box-shadow: -2px 2px 2px rgba(0, 0, 0, 0.2);
+  transform: translateX(40px); /* Slide to the right */
+}
+/* end printers */
+
+.printers-pages {
+  width: 1330px;
+  height: 48px;
+  background-color: #CBEEFC;
+  margin-top: 18px;
+  border-radius: 10px;
+  padding-right: 15px;;
+
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+.prev-page, .next-page {
+  width: 30px;
+  height: 26px;
+  background-color: white;
+  border: none;
+  box-shadow: none;
+  border-radius: 5px;
+  font-size: 20px;
+}
+
+.current-page {
+  font-size: 18px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+/* end bang thong tin cac may in */
