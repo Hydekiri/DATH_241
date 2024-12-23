@@ -1,0 +1,101 @@
+.welcome-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 110px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  
+  border-bottom: 4px solid #24befb;
+  padding-left: 95px;
+  padding-right: 115px;
+  background-color: white;
+}
+
+.logo {
+  width: 294px;
+  height: 76px;
+  object-fit: cover;
+}
+
+.welcome-login {
+  height: 60px;
+  width: 200px;
+  background-color: #24befb;
+  border: none;
+  border-radius: 15px;
+  font-size: 1.8rem;
+  color: white;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 130px;
+  padding-left: 110px;
+  padding-right: 110px;
+}
+
+.main-left {
+  max-width: 740px;
+  width: 50%;
+  margin-right: 40px;
+}
+
+.service-provider, .service-name {
+  font-size: 3rem;
+  color: #07f;
+  margin-top: 20px;
+}
+
+.service-description {
+  font-size: 1.8rem;
+  color: #082b6d;
+  margin-top: 20px;
+}
+
+.print-now-button {
+  color: white;
+  background-color: #42468f;
+  padding: 1rem 4rem;
+  align-items: center;
+  font-size: 3rem;
+  border: none;
+  border-radius: 2rem;
+  margin-top: 20px;
+}
+
+.main-right {
+  position: relative;
+  
+  max-width: 700px;
+  width: 50%;
+
+  display: flex;
+  justify-content: center; 
+  align-items: center;     
+}
+
+.image-slide {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 100%;
+  border-radius: 120px;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+  z-index: -999;
+}
+
+.show {
+  opacity: 1;
+  z-index: 1;
+}
+
