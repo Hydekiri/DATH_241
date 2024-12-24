@@ -8,5 +8,6 @@ module.exports = (app) => {
     require("./receiverMessageRounter")(router);
     require("./notificationRouter")(router);
     require("./userNotificationRouter")(router);
+    require("./printConfigRouter")(router);
     app.use("/api/d1", router);
 };
