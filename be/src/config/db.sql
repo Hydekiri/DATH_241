@@ -24,12 +24,29 @@ CREATE TABLE IF NOT EXISTS `AutoPaper` (
     FOREIGN KEY (`spso_ID`) REFERENCES `User`(`user_ID`) ON DELETE SET NULL
 );
 
+-- -- Bảng `Location`
+-- CREATE TABLE IF NOT EXISTS `Location` (
+--     `location_ID` INT PRIMARY KEY AUTO_INCREMENT,
+--     `campus` VARCHAR(255),
+--     `building` VARCHAR(255),
+--     `room` VARCHAR(50)
+-- );
+
+-- -- Bảng `Printer`
+-- CREATE TABLE IF NOT EXISTS `Printer` (
+--     `Printer_ID` INT PRIMARY KEY AUTO_INCREMENT,
+--     `branchName` VARCHAR(255),
+--     `model` VARCHAR(255),
+--     `description` TEXT,
+--     `status` ENUM('enable', 'disable') DEFAULT 'enable',
+--     `loc_ID` INT,
+--     FOREIGN KEY (`loc_ID`) REFERENCES `Location`(`location_ID`) ON DELETE SET NULL
+-- );
+
 -- Bảng `Location`
 CREATE TABLE IF NOT EXISTS `Location` (
     `location_ID` INT PRIMARY KEY AUTO_INCREMENT,
-    `campus` VARCHAR(255),
-    `building` VARCHAR(255),
-    `room` VARCHAR(50)
+    `building` VARCHAR(255)
 );
 
 -- Bảng `Printer`
@@ -40,6 +57,15 @@ CREATE TABLE IF NOT EXISTS `Printer` (
     `description` TEXT,
     `status` ENUM('enable', 'disable') DEFAULT 'enable',
     `loc_ID` INT,
+    `weight` VARCHAR(255),
+    `printer_type` VARCHAR(255),  -- For example: "In laser trắng đen"
+    `queue` INT,                  -- Number of jobs in queue
+    `prints_in_day` INT,          -- Number of prints in a day
+    `pages_printed` INT,          -- Total pages printed
+    `color_print` ENUM('yes', 'no'), -- Whether the printer supports color printing
+    `paper_size` VARCHAR(255),    -- Supported paper sizes (e.g., "A4, A5, Legal, Letter")
+    `resolution` VARCHAR(50),     -- Printer resolution (e.g., "600x600 dpi")
+    `ink_type` VARCHAR(255),      -- Ink type (e.g., "Canon XO 652152-X")
     FOREIGN KEY (`loc_ID`) REFERENCES `Location`(`location_ID`) ON DELETE SET NULL
 );
 
@@ -137,3 +163,4 @@ CREATE TABLE IF NOT EXISTS `Receiver_Message` (
     FOREIGN KEY (`notification_ID`) REFERENCES `Notification_Message`(`notification_ID`) ON DELETE CASCADE,  -- Ràng buộc khóa ngoại
     FOREIGN KEY (`user_ID`) REFERENCES `User`(`user_ID`) ON DELETE CASCADE -- Ràng buộc khóa ngoại
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+

@@ -16,10 +16,17 @@ exports.getAllPrinters = async (req, res) => {
             model: printer.model,
             description: printer.description,
             status: printer.status,
+            weight: printer.weight,
+            printer_type: printer.printer_type, 
+            queue: printer.queue,              
+            prints_in_day: printer.prints_in_day, 
+            pages_printed: printer.pages_printed, 
+            color_print: printer.color_print,    
+            paper_size: printer.paper_size,     
+            resolution: printer.resolution,      
+            ink_type: printer.ink_type,         
             location: printer.location ? {
-                campus: printer.location.campus,
-                building: printer.location.building,
-                room: printer.location.room
+                building: printer.location.building
             } : null
         }));
         
@@ -42,10 +49,17 @@ exports.getPrinterById = async (req, res) => {
             model: printer.model,
             description: printer.description,
             status: printer.status,
+            weight: printer.weight,
+            printer_type: printer.printer_type, 
+            queue: printer.queue,              
+            prints_in_day: printer.prints_in_day, 
+            pages_printed: printer.pages_printed, 
+            color_print: printer.color_print,    
+            paper_size: printer.paper_size,     
+            resolution: printer.resolution,      
+            ink_type: printer.ink_type,         
             location: printer.location ? {
-                campus: printer.location.campus,
-                building: printer.location.building,
-                room: printer.location.room
+                building: printer.location.building
             } : null
         };
 
@@ -60,7 +74,8 @@ exports.getPrinterById = async (req, res) => {
 // Tạo mới máy in
 exports.createPrinter = async (req, res) => {
     try {
-        const { branchName, model, description, status = 'enable', location } = req.body;
+        const { branchName, model, description, status = 'enable', location, weight,printer_type,
+            queue, prints_in_day, pages_printed, color_print, paper_size, resolution, ink_type } = req.body;
 
         let loc_ID = null;
         if (location) {
@@ -68,12 +83,13 @@ exports.createPrinter = async (req, res) => {
             if (existingLocation) {
                 loc_ID = existingLocation.Location_ID;
             } else {
-                const newLocation = await locationModel.createLocation(location.campus, location.building, location.room);
+                const newLocation = await locationModel.createLocation(location.building);
                 loc_ID = newLocation.Location_ID;
             }
         }
 
-        const newPrinter = await printerModel.createPrinter(branchName, model, description, status, loc_ID);
+        const newPrinter = await printerModel.createPrinter(branchName, model, description, status, loc_ID,weight, printer_type,
+            queue, prints_in_day, pages_printed, color_print, paper_size, resolution, ink_type);
         res.status(201).json({ status: 201, data: newPrinter, message: "Successfully Created Printer!" });
     } catch (error) {
         console.error("Error Creating Printer:", error);
@@ -85,7 +101,9 @@ exports.createPrinter = async (req, res) => {
 exports.updatePrinter = async (req, res) => {
     try {
         const printerId = req.params.id;
-        const { branchName, model, description, status, location } = req.body;
+        const { branchName, model, description, status, location, weight,
+            printer_type, queue, prints_in_day, pages_printed, 
+            color_print, paper_size, resolution, ink_type } = req.body;
 
         let loc_ID = null;
 
@@ -98,17 +116,15 @@ exports.updatePrinter = async (req, res) => {
 
                 // If the location details have changed, update it
                 if (
-                    existingLocation.campus !== location.campus ||
-                    existingLocation.building !== location.building ||
-                    existingLocation.room !== location.room
+                    existingLocation.building !== location.building 
                 ) {
                     await locationModel.updateLocation(loc_ID, location);
                 }
-                const newLocation = await locationModel.createLocation(location.campus, location.building, location.room);
+                const newLocation = await locationModel.createLocation(location.building);
                 loc_ID = newLocation.Location_ID;
             } else {
                 // Create new location if it does not exist
-                const newLocation = await locationModel.createLocation(location.campus, location.building, location.room);
+                const newLocation = await locationModel.createLocation(location.building);
                 loc_ID = newLocation.Location_ID;
             }
         }
@@ -120,6 +136,9 @@ exports.updatePrinter = async (req, res) => {
             description,
             status,
             loc_ID,
+            weight,
+            printer_type,
+            queue, prints_in_day, pages_printed, color_print, paper_size, resolution, ink_type
         });
 
         // Fetch the updated printer with location details
@@ -134,7 +153,16 @@ exports.updatePrinter = async (req, res) => {
                 model: printerWithDetails.model,
                 description: printerWithDetails.description,
                 status: printerWithDetails.status,
-                location: printerWithDetails.location || null // If location is null, return null instead of an empty object
+                weight: printerWithDetails.weight,
+                printer_type: printerWithDetails.printer_type, 
+                queue: printerWithDetails.queue,              
+                prints_in_day: printerWithDetails.prints_in_day, 
+                pages_printed: printerWithDetails.pages_printed, 
+                color_print: printerWithDetails.color_print,    
+                paper_size: printerWithDetails.paper_size,     
+                resolution: printerWithDetails.resolution,      
+                ink_type: printerWithDetails.ink_type, 
+                location: printerWithDetails.location || null 
             },
             message: "Successfully Updated Printer!",
         });
