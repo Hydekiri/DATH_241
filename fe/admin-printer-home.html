@@ -5,12 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quản lý máy in</title>
 
-  <link rel="stylesheet" href="/fe/styles/admin-printer-home.css">
+  <link rel="stylesheet" href="styles/admin-printer-home.css">
 
-  <link rel="stylesheet" href="/fe/styles/admin-printer-home.css">
-  <link rel="stylesheet" href="/fe/styles/general/admin-navbar.css">
-  <link rel="stylesheet" href="/fe/styles/general/general.css">
-  <link rel="stylesheet" href="/fe/styles/fontchar.css">
+
+  <link rel="stylesheet" href="styles/general/admin-navbar.css">
+  <link rel="stylesheet" href="styles/general/general.css">
 </head>
 <body>
   <div class="admin-navbar"></div>
@@ -18,17 +17,17 @@
   <div class="main">
     <div class="search-filter-add">
       <div class="search">
-        <img src="/fe/images/icons/search.png" alt="">
+        <img src="images/icons/search.png" alt="">
         <input class="search-input" type="text" placeholder="Tìm kiếm...........">
       </div>
       
       <div class="filter">
-        <img src="/fe/images/icons/filter.png" alt="">
+        <img src="images/icons/filter.png" alt="">
         <span>Lọc kết quả</span>
       </div>
 
       <button class="add">
-        <img src="/fe/images/icons/plus-circle.png" alt="">
+        <img src="images/icons/plus-circle.png" alt="">
         <span>Thêm máy in</span>
       </button>
     </div>
@@ -135,7 +134,7 @@
           </div>
         </div>
 
-        <!-- <div class="printers-row">
+        <div class="printers-row">
           <div class="printer-checkbox-container">
             <input class="printer-checkbox" type="checkbox">
           </div>
@@ -157,7 +156,7 @@
               <span class="toggle-circle"></span>
             </label>
           </div>
-        </div> -->
+        </div>
 
         <div class="printers-row">
           <div class="printer-checkbox-container">
@@ -218,6 +217,136 @@
     </div>
   </div>
 
-  <script src="/fe/scripts/general/admin-navbar.js"></script>
+  <div class="overlay hidden">
+    <form action="" class="add-printer-container form">
+      <div class="add-form-left">
+        <h2>Thêm máy in mới</h2>
+        
+        <div class="upload-image-container">
+          <input class="upload-image" type="file">
+        </div>
+        
+        <div class="input-row">
+          <label for="id" class="left-label">ID:</label>
+          <input id="id" class="left-input" type="text" placeholder="HX354021" required>
+        </div>
+        
+        <div class="input-row">
+          <label for="model" class="left-label">Model:</label>
+          <input id="model" class="left-input" type="text" placeholder="CanonXS364211" required>
+        </div>
+        
+        
+
+        <div class="input-row">
+          <label for="location" class="left-label">Vị trí:</label>
+          <input id="location" class="left-input" type="text" placeholder="H6-604" required>
+        </div>
+        
+        <div class="input-row">
+          <label for="weight" class="left-label">Trọng lượng:</label>
+          <input id="weight" class="left-input" type="text" placeholder="9.4 kg" required>
+        </div>
+        
+        <div class="add-status">
+          <span>Trạng thái:</span>
+          <div class="toggle-button-container">
+            <input type="checkbox" id="add-toggle-button" class="add-toggle-checkbox">
+            <label for="add-toggle-button" class="add-toggle-label">
+              <span class="add-toggle-circle"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="add-form-middle">
+        <div class="input-row">
+          <label for="type" class="middle-label">Kiểu máy in:</label>
+          <input id="type" class="middle-input" type="text" placeholder="In laser trắng đen" required>
+        </div>
+        
+        <div class="input-row">
+          <label for="queue" class="middle-label">Hàng đợi:</label>
+          <input id="queue" class="middle-input" type="number" placeholder="20" required>
+        </div>
+        
+        <div class="input-row">
+          <label for="daily-prints" class="middle-label">Số lượt in trong ngày:</label>
+          <input id="daily-prints" class="middle-input" type="number" placeholder="12" required>
+        </div>
+        
+
+        <div class="input-row">
+          <label for="paper" class="middle-label">Số lượng giấy in:</label>
+          <input id="paper" class="middle-input" type="number" placeholder="1200" required>
+        </div>
+        
+
+        <div class="input-row">
+          <label for="color" class="middle-label">In màu:</label>
+          <input id="color" class="middle-input" type="text" placeholder="Không" required>
+        </div>
+        
+
+        <div class="input-row">
+          <label for="size" class="middle-label">Kích thước:</label>
+          <input id="size" class="middle-input" type="text" placeholder="452x365x352.5 mm" required>
+        </div>
+        
+
+        <div class="input-row">
+          <label for="resolution" class="middle-label">Độ phân giải:</label>
+          <input id="resolution" class="middle-input" type="text" placeholder="600x600 dpi" required>
+        </div>
+        
+
+        <div class="input-row">
+          <label for="ink" class="middle-label">Loại mực:</label>
+          <input id="ink" class="middle-input" type="text" placeholder="Canon XO 652152-X" required>
+        </div>
+        
+
+        <div class="input-row">
+          <label for="paper-size" class="middle-label">Khổ giấy hỗ trợ:</label>
+          <input id="paper-size" class="middle-input" type="text" placeholder=" A4, A5, Legel" required>
+        </div>
+        
+
+        <div class="input-row">
+          <label for="type" class="middle-label">Kiểu máy in:</label>
+          <input id="type" class="middle-input" type="text" placeholder="In laser trắng đen" required>
+        </div>
+        
+
+      </div>
+
+      <div class="add-form-right">
+        <img src="images/add-printer.png" alt="">
+
+        <div class="buttons">
+          <button type="reset" class="reset-button">Đặt lại</button>
+          <button type="submit" class="submit-button">Thêm</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="overlay-2 hidden">
+    <div class="confirm-container">
+      <h1>Xác nhận</h1>
+      <p>Bạn có chắc <span>thêm máy in mới</span> này không?</p>
+
+      <div class="cancel-confirm">
+        <button class="cancel">Hủy</button>
+        <button class="confirm-button">Xác nhận</button>
+      </div>
+      
+    </div>
+  </div>
+
+
+
+  <script src="scripts/general/admin-navbar.js"></script>
+  <script src="scripts/admin-printer-home.js"></script>
 </body>
 </html>
