@@ -5,9 +5,9 @@ module.exports = (router) => {
 
     router.get("/documents", middlewareController.verifyAdmin ,documentController.getAllDocuments);
 
-    router.post("/documents", middlewareController.verifyControllerAndAdmin ,documentController.createDocument);
+    router.post("/documents", middlewareController.verifyToken,documentController.createDocument);
 
-    router.put("/documents/:config_ID/:name", middlewareController.verifyControllerAndAdmin ,documentController.updateDocument);
+    router.put("/documents/:config_ID/:name", middlewareController.verifyToken,documentController.updateDocument);
 
-    router.delete("/documents/:config_ID/:name", middlewareController.verifyControllerAndAdmin , documentController.deleteDocument);
+    router.delete("/documents/:config_ID/:name", middlewareController.verifyToken, documentController.deleteDocument);
 };
