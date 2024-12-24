@@ -1,0 +1,68 @@
+.student-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 110px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  
+  border-bottom: 4px solid #24befb;
+  padding-left: 95px;
+  padding-right: 110px;
+  background-color: white;
+  z-index: 99;
+}
+
+.student-navbar-middle {
+  flex: 1;
+  max-width: 990px;
+  min-width: 500px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: space-between;
+  align-items: stretch;
+
+  height: 100%;
+  padding-left: 15px;
+  padding-right: 30px;
+}
+
+.student-navbar-middle-print, .student-navbar-middle-buy, .student-navbar-middle-history {
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 36px;
+  text-decoration: none;
+  font-weight: bold;  
+  word-wrap: break-word;
+  white-space: normal;
+  text-align: center;
+}
+
+.student-navbar-right {
+  width: 190px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  width: 294px;
+  height: 76px;
+  object-fit: cover;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 30px;
+  border: 1px solid #24befb;
+}
