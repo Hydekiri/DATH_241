@@ -1,6 +1,8 @@
 const form = document.querySelector("form"),
-fileInput = document.querySelector(".file-input"),
-uploadedArea = document.querySelector(".uploaded-area");
+  fileInput = document.querySelector(".file-input"),
+  uploadedArea = document.querySelector(".uploaded-area");
+
+let file_inf = [];
 
 form.addEventListener("click", () => {
   fileInput.click();
@@ -28,17 +30,25 @@ function displayFile(name, file) {
                             <span class="size">${fileSize}</span>
                           </div>
                         </div>
-                        <img class="file-delete-button" src="images/icons/delete.png"></img>
+                        <img class="file-delete-button" src="images/icons/delete.png" onclick="deleteimg(event, '${name}')"></img>
                       </li>`;
   uploadedArea.insertAdjacentHTML("afterbegin", uploadedHTML);
+
+  file_inf.push({ name: name, size: fileSize });
+}
+
+function deleteimg(event, name) {
+  file_inf = file_inf.filter(file => file.name !== name);
+  event.target.closest('li').remove();
+  //console.log(file_inf);
 }
 
 
 const nextButton = document.querySelector('.next'),
-step1Div = document.querySelector('.step-1'),
-step2Div = document.querySelector('.step-2'),
-choosePrinterDiv = document.querySelector('.choose-printer'),
-settingPageDiv = document.querySelector('.setting-page');
+  step1Div = document.querySelector('.step-1'),
+  step2Div = document.querySelector('.step-2'),
+  choosePrinterDiv = document.querySelector('.choose-printer'),
+  settingPageDiv = document.querySelector('.setting-page');
 
 nextButton.addEventListener('click', showChoosePrinter);
 step2Div.addEventListener('click', showChoosePrinter);
@@ -60,8 +70,8 @@ function showSettingPage() {
 }
 
 const chooseButton = document.querySelector('.choose-button'),
-cancelChoose = document.querySelector('.cancel-choose-button'),
-successIcon = document.querySelector('.success');
+  cancelChoose = document.querySelector('.cancel-choose-button'),
+  successIcon = document.querySelector('.success');
 
 chooseButton.addEventListener('click', () => {
   chooseButton.classList.add('hidden');
@@ -74,3 +84,65 @@ cancelChoose.addEventListener('click', () => {
   cancelChoose.classList.add('hidden');
   successIcon.classList.add('hidden');
 });
+
+
+const confirm_button = document.querySelector('.confirm-button');
+
+confirm_button.addEventListener('click', () => {
+
+  const page_orientation = document.getElementById('orientation').value;
+  const number_of_page = document.getElementById('page-num').value;
+  const number_of_copy = document.getElementById('copies').value;
+  const type_of_print = document.getElementById('print-type').value;
+  const paper_type = document.getElementById('paper-size').value;
+
+  console.log(page_orientation + "-" + number_of_page + "-" + number_of_copy + "-" + type_of_print + "-" + paper_type);
+
+  ///for each element in file_inf
+  file_inf.forEach((doc) => {
+    console.log(doc.name + "----" + doc.size);
+    createDocumentWith(doc.name, doc.size);
+  })
+});
+
+function getCookie(name) {
+  let value = `; ${document.cookie}`;
+  let parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+  return null;  // If cookie not found
+}
+
+async function createDocumentWith(DocName, DocSize) {
+  const currentDate = new Date();
+  let formattedDate = currentDate.getFullYear() + "-" + 
+                    ("0" + (currentDate.getMonth() + 1)).slice(-2) + "-" + 
+                    ("0" + currentDate.getDate()).slice(-2) + " " + 
+                    ("0" + currentDate.getHours()).slice(-2) + ":" + 
+                    ("0" + currentDate.getMinutes()).slice(-2) + ":" + 
+                    ("0" + currentDate.getSeconds()).slice(-2);
+
+  const token = getCookie('token');
+
+  console.log(token);
+
+  try {
+    const respone = await fetch("http://localhost:3000/api/d1/documents", {
+      method: "POST",
+      body: JSON.stringify({
+        "config_ID": 1,
+        "name": DocName,
+        "size": DocSize,
+        "lastModifiedDate": formattedDate
+      }),
+      headers : {
+        "Content-Type": "application/json",  
+        "token": `Bearer ${token}`   
+      }
+    });
+    if(respone.ok) console.log("Successfully !");
+  }
+  catch (error) {
+    console.error(error);
+    alert("Failing create new Document !");
+  }
+}

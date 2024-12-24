@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const role = data.role;
                 if(role === "spso" || !role){
                     alert("Wrong email or password");
+                    return;
                 } 
 
                 console.log("Login successfull");
