@@ -34,13 +34,12 @@ function displayFile(name, file) {
                       </li>`;
   uploadedArea.insertAdjacentHTML("afterbegin", uploadedHTML);
 
-  file_inf.push({ name: name, size: fileSize });
+  file_inf.push({ name: name, size: (file.size / 1024 / 1024).toFixed(2) });
 }
 
 function deleteimg(event, name) {
   file_inf = file_inf.filter(file => file.name !== name);
   event.target.closest('li').remove();
-  //console.log(file_inf);
 }
 
 
@@ -96,11 +95,11 @@ confirm_button.addEventListener('click', () => {
   const type_of_print = document.getElementById('print-type').value;
   const paper_type = document.getElementById('paper-size').value;
 
-  console.log(page_orientation + "-" + number_of_page + "-" + number_of_copy + "-" + type_of_print + "-" + paper_type);
+  //console.log(page_orientation + "-" + number_of_page + "-" + number_of_copy + "-" + type_of_print + "-" + paper_type);
 
   ///for each element in file_inf
   file_inf.forEach((doc) => {
-    console.log(doc.name + "----" + doc.size);
+    //console.log(doc.name + "----" + doc.size);
     createDocumentWith(doc.name, doc.size);
   })
 });
@@ -123,7 +122,7 @@ async function createDocumentWith(DocName, DocSize) {
 
   const token = getCookie('token');
 
-  console.log(token);
+  //console.log(token);
 
   try {
     const respone = await fetch("http://localhost:3000/api/d1/documents", {
@@ -140,6 +139,7 @@ async function createDocumentWith(DocName, DocSize) {
       }
     });
     if(respone.ok) console.log("Successfully !");
+    else console.log("Failing add new Document !");
   }
   catch (error) {
     console.error(error);
