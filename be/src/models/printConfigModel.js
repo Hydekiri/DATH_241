@@ -33,28 +33,6 @@ const printConfigModel = {
         }
     },
 
-    // getConfigByDate: async (date) => {
-    //     try {
-    //         const printConfigs = await query.getOne("PrintConfiguration", { printEnd: date });
-
-    //         if (!printConfigs || printConfigs.length === 0) {
-    //             console.log("No printConfig found.");
-    //             return [];
-    //         }
-    //         for (const config of printConfigs) {
-    //             const user = await query.getOne("User", { user_ID: config.user_ID });
-    //             const printer = await query.getOne("Printer", { Printer_ID: config.printer_ID });
-    //             config.user = user || null;
-    //             config.printer = printer || null;
-    //         }
-
-    //         return printConfigs;
-    //     } catch (error) {
-    //         console.error("Error in getConfigByDate:", error);
-    //         throw error;
-    //     }
-    // },
-
     getConfigByID: async (user_ID) => {
         try {
             const printConfigs = await query.getAll("PrintConfiguration", { user_ID });
@@ -95,6 +73,37 @@ const printConfigModel = {
             return printConfigs;
         } catch (error) {
             console.error("Error in getConfigByPrinter:", error);
+            throw error;
+        }
+    },
+
+    createConfig: async (user_ID, printer_ID, numPages, numCopies, paperSize, printSide, orientation, status = 'unCompleted') => {
+        try {
+            const configData = { user_ID, printer_ID, numPages, numCopies, paperSize, printSide, orientation, status };
+            const result = await query.insertSingleRow("PrintConfiguration", configData);
+            return { config_ID: result.insertId, ...configData };
+        } catch (error) {
+            console.error("Error in createConfig:", error);
+            throw error;
+        }
+    },
+
+    updateConfig: async (config_ID, updates) => {
+        try {
+            await query.updateRow("PrintConfiguration", updates, { config_ID });
+            return { config_ID: parseInt(config_ID), ...updates };
+        } catch (error) {
+            console.error("Error in updateConfig:", error);
+            throw error;
+        }
+    },
+
+    deleteConfig: async (config_ID) => {
+        try {
+            await query.deleteRow("PrintConfiguration", { config_ID });
+            return { config_ID: parseInt(config_ID) };
+        } catch (error) {
+            console.error("Error in deleteConfig:", error);
             throw error;
         }
     }
