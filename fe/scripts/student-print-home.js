@@ -115,6 +115,9 @@ confirm_button.addEventListener('click', async () => {
     //console.log(doc.name + "----" + doc.size);
     createDocumentWith(doc.name, doc.size, configID);
   })
+
+  alert("Đăng kí thành công !");
+  window.location.reload();
 });
 
 function getCookie(name) {
