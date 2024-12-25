@@ -20,7 +20,7 @@ const printerModel = {
                 return [];
             }
             for (const printer of printers) {
-                console.log("Processing Printer:", printer); 
+                //console.log("Processing Printer:", printer); 
                 const location = await query.getOne("Location", { Location_ID: printer.loc_ID });
                 printer.location = location || null; 
             }
