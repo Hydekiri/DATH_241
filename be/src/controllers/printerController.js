@@ -183,3 +183,30 @@ exports.deletePrinter = async (req, res) => {
         res.status(500).json({ status: 500, message: 'Error Deleted Printer!!!' });
     }
 };
+
+exports.changeStatus = async (req, res) => {
+    try {
+        const printerId = req.params.id;
+
+        // Fetch the printer from the database
+        const printer = await printerModel.getPrinterById(printerId);
+        if (!printer) {
+            return res.status(404).json({ status: 404, message: "Printer does not exist" });
+        }
+
+        // Toggle the status between 'enable' and 'disable'
+        const newStatus = printer.status === 'enable' ? 'disable' : 'enable';
+
+        // Update the printer's status in the database
+        const updatedPrinter = await printerModel.updatePrinter(printerId, { status: newStatus });
+
+        res.status(200).json({
+            status: 200,
+            data: updatedPrinter,
+            message: `Printer status successfully changed to ${newStatus}!`,
+        });
+    } catch (error) {
+        console.error("Error Changing Printer Status:", error);
+        res.status(500).json({ status: 500, message: "Error Changing Printer Status", error: error.message });
+    }
+};

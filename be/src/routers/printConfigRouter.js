@@ -6,3 +6,4 @@ module.exports = (router) => {
     router.get("/printconfigs/user/:userID", printConfigController.getConfigByID);
     router.get("/printconfigs/printer/:printerID", printConfigController.getConfigByPrinter);
 };
+

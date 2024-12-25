@@ -18,6 +18,19 @@
   display: flex;
   width: 1330px;
 }
+.status-active {
+  background-color: #1EDF04; /* Màu xanh */
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.status-disabled {
+  background-color: #DF1604; /* Màu đỏ */
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+}
 
 .search {
   background-color: rgba(112, 211, 250, 0.42);
@@ -141,8 +154,10 @@
 
 .column-names {
   display: grid;
-  grid-template-columns: 196px 138px 194px 186px 187px 193px;
+  grid-template-columns: 180px 180px 100px 165px 166px 187px 158px;
+  grid-column: auto;
   width: 1145px;
+  gap: 2px;
   justify-content: space-between;
 }
 
@@ -165,7 +180,6 @@
   margin-top: 35px;
   padding-right: 6px;
   margin-bottom: 25px;
-
   display: flex;
   justify-content: space-between;
 }
@@ -189,7 +203,8 @@
   border-radius: 10px;
 
   display: grid;
-  grid-template-columns: 196px 138px 194px 186px 187px 193px;
+  grid-template-columns: 180px 180px 100px 165px 166px 187px 158px;
+  gap: 2px;
   align-items: center;
   justify-content: space-between;
 
