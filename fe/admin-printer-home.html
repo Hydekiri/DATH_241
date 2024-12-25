@@ -35,19 +35,19 @@
     <div class="total-display">
       <div class="total-display-box">
         <p class="box-description">Số lượng máy in</p>
-        <p class="box-information">32</p>
+        <p class="box-information" id="total-printers">0</p>
       </div>
       <div class="total-display-box">
         <p class="box-description">Số lượng giấy in</p>
-        <p class="box-information">12000</p>
+        <p class="box-information" id="total-paper">0</p>
       </div>
       <div class="total-display-box">
         <p class="box-description">Số lượt in trong ngày</p>
-        <p class="box-information">124</p>
+        <p class="box-information" id="total-print-jobs">0</p>
       </div>
       <div class="total-display-box">
         <p class="box-description">Hàng đợi</p>
-        <p class="box-information">32</p>
+        <p class="box-information" id="total-queue">0</p>
       </div>
     </div>
 
@@ -94,10 +94,10 @@
     </div>
 
     <div class="printers-pages">
-        <a href=""><button class="prev-page">&lt;</button></a>
-        <span class="current-page">1 / 10</span>
-        <a href=""><button class="next-page">&gt;</button></a>
-    </div>
+      <button class="prev-page" onclick="changePage(-1)">&lt;</button>
+      <span class="current-page" id="page-info">1 / 1</span>
+      <button class="next-page" onclick="changePage(1)">&gt;</button>
+  </div>
   </div>
 
   <script src="/fe/scripts/general/admin-navbar.js"></script>

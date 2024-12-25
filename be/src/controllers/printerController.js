@@ -21,7 +21,8 @@ exports.getAllPrinters = async (req, res) => {
             queue: printer.queue,              
             prints_in_day: printer.prints_in_day, 
             pages_printed: printer.pages_printed, 
-            color_print: printer.color_print,    
+            color_print: printer.color_print,   
+            printer_size: printer.printer_size, 
             paper_size: printer.paper_size,     
             resolution: printer.resolution,      
             ink_type: printer.ink_type,         
@@ -55,6 +56,7 @@ exports.getPrinterById = async (req, res) => {
             prints_in_day: printer.prints_in_day, 
             pages_printed: printer.pages_printed, 
             color_print: printer.color_print,    
+            printer_size: printer.printer_size,
             paper_size: printer.paper_size,     
             resolution: printer.resolution,      
             ink_type: printer.ink_type,         
@@ -75,7 +77,7 @@ exports.getPrinterById = async (req, res) => {
 exports.createPrinter = async (req, res) => {
     try {
         const { branchName, model, description, status = 'enable', location, weight,printer_type,
-            queue, prints_in_day, pages_printed, color_print, paper_size, resolution, ink_type } = req.body;
+            queue, prints_in_day, pages_printed, color_print,printer_size, paper_size, resolution, ink_type } = req.body;
 
         let loc_ID = null;
         if (location) {
@@ -89,7 +91,7 @@ exports.createPrinter = async (req, res) => {
         }
 
         const newPrinter = await printerModel.createPrinter(branchName, model, description, status, loc_ID,weight, printer_type,
-            queue, prints_in_day, pages_printed, color_print, paper_size, resolution, ink_type);
+            queue, prints_in_day, pages_printed, color_print,printer_size, paper_size, resolution, ink_type);
         res.status(201).json({ status: 201, data: newPrinter, message: "Successfully Created Printer!" });
     } catch (error) {
         console.error("Error Creating Printer:", error);
@@ -103,7 +105,7 @@ exports.updatePrinter = async (req, res) => {
         const printerId = req.params.id;
         const { branchName, model, description, status, location, weight,
             printer_type, queue, prints_in_day, pages_printed, 
-            color_print, paper_size, resolution, ink_type } = req.body;
+            color_print,printer_size, paper_size, resolution, ink_type } = req.body;
 
         let loc_ID = null;
 
@@ -138,7 +140,7 @@ exports.updatePrinter = async (req, res) => {
             loc_ID,
             weight,
             printer_type,
-            queue, prints_in_day, pages_printed, color_print, paper_size, resolution, ink_type
+            queue, prints_in_day, pages_printed, color_print,printer_size, paper_size, resolution, ink_type
         });
 
         // Fetch the updated printer with location details
@@ -158,7 +160,8 @@ exports.updatePrinter = async (req, res) => {
                 queue: printerWithDetails.queue,              
                 prints_in_day: printerWithDetails.prints_in_day, 
                 pages_printed: printerWithDetails.pages_printed, 
-                color_print: printerWithDetails.color_print,    
+                color_print: printerWithDetails.color_print,   
+                printer_size: printerWithDetails.printer_size,  
                 paper_size: printerWithDetails.paper_size,     
                 resolution: printerWithDetails.resolution,      
                 ink_type: printerWithDetails.ink_type, 

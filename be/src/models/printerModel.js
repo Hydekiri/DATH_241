@@ -33,10 +33,10 @@ const printerModel = {
     },
 
     createPrinter: async (branchName, model, description, status = 'enable', loc_ID, weight, printer_type,
-                        queue, prints_in_day, pages_printed, color_print, paper_size, resolution, ink_type) => {
+                        queue, prints_in_day, pages_printed, color_print,printer_size, paper_size, resolution, ink_type) => {
         try {
             const printerData = { branchName, model, description, status, loc_ID,weight ,printer_type,
-                queue, prints_in_day, pages_printed, color_print, paper_size, resolution, ink_type };
+                queue, prints_in_day, pages_printed, color_print,printer_size, paper_size, resolution, ink_type };
             const result = await query.insertSingleRow("Printer", printerData);
             return { Printer_ID: result.insertId, ...printerData };
         } catch (error) { 

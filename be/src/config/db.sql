@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS `Printer` (
     `queue` INT,                  -- Number of jobs in queue
     `prints_in_day` INT,          -- Number of prints in a day
     `pages_printed` INT,          -- Total pages printed
+    `printer_size`  VARCHAR(255),
     `color_print` ENUM('yes', 'no'), -- Whether the printer supports color printing
     `paper_size` VARCHAR(255),    -- Supported paper sizes (e.g., "A4, A5, Legal, Letter")
     `resolution` VARCHAR(50),     -- Printer resolution (e.g., "600x600 dpi")

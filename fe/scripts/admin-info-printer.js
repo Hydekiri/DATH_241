@@ -23,14 +23,14 @@ const fetchPrinterInfo = async () => {
 
 // Hàm render thông tin chung của máy in
 const renderPrinterInfo = (printer) => {
-    document.querySelector(".IDPrinter").textContent = `ID: ${printer.Printer_ID}`;
-    document.querySelector(".model").textContent = `Model: ${printer.model}`;
-    document.querySelector(".location").textContent = `Vị trí: ${printer.location.building}`;
-    document.querySelector(".wei").textContent = `Trọng Lượng: ${printer.weight || 'N/A'}`;
+    document.querySelector(".IDPrinter").innerHTML = `<span>ID:</span> ${printer.Printer_ID}`;
+    document.querySelector(".model").innerHTML = `<span>Model:</span> ${printer.model}`;
+    document.querySelector(".location").innerHTML = `<span>Vị trí:</span> ${printer.location.building}`;
+    document.querySelector(".wei").innerHTML = `<span>Trọng Lượng: </span>${printer.weight || 'N/A'}`;
     
+    const statusColor = printer.status === 'enable' ? ' background-color: #1edf043f; padding: 2px 2px; border-radius: 10px;color: #00C10D; ' : 'color: red; background-color: #FFCCCC;padding: 2px 2px; border-radius: 10px;';
     const statusText = printer.status === 'enable' ? 'Hoạt động' : 'Vô hiệu hóa';
-    document.querySelector(".status span").textContent = `Trạng thái: ${statusText}`;
-    
+    document.querySelector(".status").innerHTML = `<span>Trạng thái:</span> <span style='${statusColor}'>${statusText}</span>`;
     // Lịch sử in
     const historyContainer = document.querySelector(".history-container");
     historyContainer.innerHTML = `
@@ -41,18 +41,18 @@ const renderPrinterInfo = (printer) => {
 
 // Hàm render thông tin chi tiết của máy in
 const renderPrinterInfo2 = (printer) => {
-    document.querySelector(".printermodel").textContent = `Kiểu máy in: ${printer.printer_type || '0'}`;
-    document.querySelector(".queue").textContent = `Hàng đợi: ${printer.queue || '0'}`;
-    document.querySelector(".printInDay").textContent = `Số lượt in trong ngày: ${printer.prints_in_day || '0'}`;
-    document.querySelector(".numPage").textContent = `Số lượng giấy in: ${printer.pages_printed || '0'}`;
-    document.querySelector(".printColor").textContent = `In màu: ${printer.color_print === 'yes' ? 'Có' : 'Không'}`;
-    document.querySelector(".size").textContent = `Kích thước: ${printer.size || '0'}`;
-    document.querySelector(".HD").textContent = `Độ phân giải: ${printer.resolution || '0'}`;
-    document.querySelector(".ink").textContent = `Loại mực: ${printer.ink_type || '0'}`;
+    document.querySelector(".printermodel").innerHTML = `<span>Kiểu máy in:</span> ${printer.printer_type || '0'}`;
+    document.querySelector(".queue").innerHTML = `<span>Hàng đợi:</span> ${printer.queue || '0'}`;
+    document.querySelector(".printInDay").innerHTML = `<span>Số lượt in trong ngày: </span>${printer.prints_in_day || '0'}`;
+    document.querySelector(".numPage").innerHTML = `<span>Số lượng giấy in:</span> ${printer.pages_printed || '0'}`;
+    document.querySelector(".printColor").innerHTML = `<span>In màu: </span>${printer.color_print === 'yes' ? 'Có' : 'Không'}`;
+    document.querySelector(".size").innerHTML = `<span>Kích thước: </span>${printer.printer_size || '0'}`;
+    document.querySelector(".HD").innerHTML = `<span>Độ phân giải: </span>${printer.resolution || '0'}`;
+    document.querySelector(".ink").innerHTML = `<span>Loại mực: </span>${printer.ink_type || '0'}`;
     
     // Xử lý khổ giấy hỗ trợ
     const paperSizes = printer.paper_size ? printer.paper_size.split(', ') : ['N/A'];
-    document.querySelector(".Apage").textContent = `Khổ giấy hỗ trợ: ${paperSizes.join(", ")}`;
+    document.querySelector(".Apage").innerHTML = `<span>Khổ giấy hỗ trợ: </span>${paperSizes.join(", ")}`;
 };
 
 

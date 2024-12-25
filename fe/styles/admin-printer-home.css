@@ -26,8 +26,8 @@
 }
 
 .status-disabled {
-  background-color: #DF1604; /* Màu đỏ */
-  color: white;
+  background-color: #FFCCCC; /* Nền đỏ nhạt */
+  color: red; /* Chữ đỏ */
   padding: 5px;
   border-radius: 5px;
 }
