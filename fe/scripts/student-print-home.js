@@ -121,7 +121,7 @@ async function createDocumentWith(DocName, DocSize) {
                     ("0" + currentDate.getSeconds()).slice(-2);
 
   const token = getCookie('token');
-
+  const userID = getCookie('id');
   //console.log(token);
 
   try {
@@ -145,4 +145,8 @@ async function createDocumentWith(DocName, DocSize) {
     console.error(error);
     alert("Failing create new Document !");
   }
+}
+
+async function createPrintConfigWith(page_orientation,number_of_page,number_of_copy,type_of_print,paper_type){
+  
 }

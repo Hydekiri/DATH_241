@@ -33,6 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 const accesstoken = data.Access_token;
                 document.cookie = "token=" + `${accesstoken}`;
 
+                const userID = data.id;
+                document.cookie = "id=" + `${userID}`;
+
                 window.location.href = "./student-print-home.html";
             }
         } catch (error) {
