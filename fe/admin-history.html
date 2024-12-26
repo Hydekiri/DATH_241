@@ -1,79 +1,129 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý lịch sử in chi tiết</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lịch sử in</title>
 
-    <link rel="stylesheet" href="styles/admin-history.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/fe/styles/general/admin-navbar.css">
-    <link rel="stylesheet" href="/fe/styles/general/general.css">
-    <link rel="stylesheet" href="/fe/styles/fontchar.css">
+  <link rel="stylesheet" href="styles/admin-history.css">
+
+
+  <link rel="stylesheet" href="styles/general/admin-navbar.css">
+  <link rel="stylesheet" href="styles/general/general.css">
 </head>
 <body>
-    <div class="admin-navbar"></div>
+  <div class="admin-navbar"></div>
 
-    <div class="main">
-            <div class="return">
-                <button><i class="fas fa-arrow-left" style="font-size: 24px; color: #24BEFB;"></i></button>
-            </div>
-            <div class="total-display">
-                <div class="title">Lịch Sử Máy In</div>
-                <div class="ima"><img src="/fe/images/welcome-1-2.jpg"/></div>
-                <div class="IDPrinter"><span>ID:</span> HX354021</div>
-                <div class="model"><span>Model:</span> CanonXS364211</div>
-                <div class="location"><span>Vị trí:</span> H6-604</div>
-                <div class="wei"><span>Trọng Lượng:</span> 9.4 kg</div>
-                <div class="status"><span>Trạng thái:</span> <span style="color: rgb(0, 202, 0);">Hoạt động</span></div>
-                <div class="history"><span>Printer's Info:</span> 
-                    <div class="history-container">
-                        <a href="#">Chi tiết</a>
-                        <i class="fas fa-info-circle printer-infor" style="font-size: 24px; color: #ffffff; margin-right: 10px;"></i>
-                    </div>
-                </div>
-            </div>
-    
-            <div class="printers-display">
-            <table class="printer-history">
-                <thead>
-                    <tr>
-                        <th>Thông tin sinh viên</th>
-                        <th>Thời gian in</th>
-                        <th>Số tờ/Khổ giấy</th>
-                        <th>File In</th>
-                        <th>Tình trạng</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="success">
-                        <td>Nguyễn Minh Tuấn<br>2213768</td>
-                        <td>13/11/2024<br>15:03:21</td>
-                        <td>50<br>A4</td>
-                        <td>computernetwork.pdf<br>Đã kiểm duyệt</td>
-                        <td>In thành công</td>
-                    </tr>
-                    <tr class="success">
-                        <td>Nguyễn Minh Tuấn<br>2213768</td>
-                        <td>13/11/2024<br>15:03:21</td>
-                        <td>50<br>A4</td>
-                        <td>computernetwork.pdf<br>Đã kiểm duyệt</td>
-                        <td>In thành công</td>
-                    </tr>
-                    <tr class="error">
-                        <td>Nguyễn Minh Tuấn<br>2213768</td>
-                        <td>13/11/2024<br>15:03:21</td>
-                        <td>-1<br>Lỗi</td>
-                        <td>computernetwork.pdf<br>Hết giấy in</td>
-                        <td>In thất bại</td>
-                    </tr>
-                </tbody>
-            </table>
-            <button class="delete-history-btn">Xóa lịch sử in</button>
+  <div class="main">
+    <div class="search-filter-add">
+      <div class="search">
+        <img src="images/icons/search.png" alt="">
+        <input class="search-input" type="text" placeholder="Tìm kiếm...........">
+      </div>
+      
+      <div class="filter">
+        <img src="images/icons/filter.png" alt="">
+        <span>Lọc kết quả</span>
+      </div>
+    </div>
+
+    <div class="date-filter">
+      <div class="date-input">
+        <label for="start-date">Từ ngày</label>
+        <input id="start-date" type="date" class="start-date">
+      </div>
+      
+      <div class="date-input">
+        <label for="end-date">Đến ngày</label>
+        <input id="end-date" type="date" class="end-date">
+      </div>
+    </div>
+
+    <div class="printers-display">
+      <div class="column-names">
+        <div class="column-name">Họ và tên</div>
+        <div class="column-name">ID</div>
+        <div class="column-name">Máy in</div>
+        <div class="column-name">Số tờ/ khổ giấy</div>
+        <div class="column-name">Thời gian</div>
+        <div class="column-name">Thao tác</div>
+      </div>
+
+      <div class="printers-rows">
+        <div class="printers-row">
+          <div class="student-name">Nguyễn văn A</div>
+          <div class="printer-id">HX3291566</div>
+          <div class="printer-name">CanonXPSS65215</div>
+          <div class="printer-paper">40/ A4</div>
+          <div class="print-time">11/12/2024</div>
+          <div class="printer-actions">
+            <img class="history-delete" src="images/icons/delete.png" alt="">
+          </div>
         </div>
-        
 
-        </div> 
-    <script src="scripts/general/admin-navbar.js"></script>
+        <div class="printers-row">
+          <div class="student-name">Nguyễn văn A</div>
+          <div class="printer-id">HX3291566</div>
+          <div class="printer-name">CanonXPSS65215</div>
+          <div class="printer-paper">40/ A4</div>
+          <div class="print-time">11/12/2024</div>
+          <div class="printer-actions">
+            <img class="history-delete" src="images/icons/delete.png" alt="">
+          </div>
+        </div>
+
+        <div class="printers-row">
+          <div class="student-name">Nguyễn văn A</div>
+          <div class="printer-id">HX3291566</div>
+          <div class="printer-name">CanonXPSS65215</div>
+          <div class="printer-paper">40/ A4</div>
+          <div class="print-time">11/12/2024</div>
+          <div class="printer-actions">
+            <img class="history-delete" src="images/icons/delete.png" alt="">
+          </div>
+        </div>
+
+        <div class="printers-row">
+          <div class="student-name">Nguyễn văn A</div>
+          <div class="printer-id">HX3291566</div>
+          <div class="printer-name">CanonXPSS65215</div>
+          <div class="printer-paper">40/ A4</div>
+          <div class="print-time">11/12/2024</div>
+          <div class="printer-actions">
+            <img class="history-delete" src="images/icons/delete.png" alt="">
+          </div>
+        </div>
+        <div class="printers-row">
+          <div class="student-name">Nguyễn văn A</div>
+          <div class="printer-id">HX3291566</div>
+          <div class="printer-name">CanonXPSS65215</div>
+          <div class="printer-paper">40/ A4</div>
+          <div class="print-time">11/12/2024</div>
+          <div class="printer-actions">
+            <img class="history-delete" src="images/icons/delete.png" alt="">
+          </div>
+        </div>
+
+        <div class="printers-row">
+          <div class="student-name">Nguyễn văn A</div>
+          <div class="printer-id">HX3291566</div>
+          <div class="printer-name">CanonXPSS65215</div>
+          <div class="printer-paper">40/ A4</div>
+          <div class="print-time">11/12/2024</div>
+          <div class="printer-actions">
+            <img class="history-delete" src="images/icons/delete.png" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="printers-pages">
+        <a href=""><button class="prev-page">&lt;</button></a>
+        <span class="current-page">1 / 10</span>
+        <a href=""><button class="next-page">&gt;</button></a>
+    </div>
+  </div>
+
+  <script src="scripts/general/admin-navbar.js"></script>
 </body>
 </html>
