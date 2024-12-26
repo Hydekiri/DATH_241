@@ -11,10 +11,9 @@
   
   border-bottom: 4px solid #24befb;
   padding-left: 95px;
-  padding-right: 115px;
+  padding-right: 110px;
   background-color: white;
   z-index: 99;
-  /* font-family: "lato-heavy"; */
 }
 
 .admin-navbar-middle {

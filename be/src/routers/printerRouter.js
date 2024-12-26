@@ -1,5 +1,6 @@
 module.exports = (router) => {
     const printerController = require("../controllers/printerController");
+    const middlewareController = require("../controllers/middlewareController");
 
     router.get("/printers", printerController.getAllPrinters);
     router.get("/printers/:id", printerController.getPrinterById);
