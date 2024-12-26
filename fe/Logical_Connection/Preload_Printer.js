@@ -42,18 +42,18 @@ function createPrinterHTMLWith(id, model, location, status) {
 
     // Build the new printer HTML string
     const printerHTML = `
-      <div class="printer-display">
-        <div class="printer-id">${id}</div>
-        <div class="printer-model">${model}</div>
-        <div class="printer-location">${location}</div>
-        <div class="printer-status">${status}</div>
-        <div class="printer-actions">
-          <button class="choose-button">Chọn</button>
-          <button class="cancel-choose-button hidden" >Hủy</button>
-          <img class="success hidden" src="images/icons/success.png" alt="">
-          <img class="printer-infor" src="images/icons/infor.png" alt="">
+        <div class="printer-display">
+            <div class="printer-id">${id}</div>
+            <div class="printer-model">${model}</div>
+            <div class="printer-location">${location}</div>
+            <div class="printer-status">${status}</div>
+            <div class="printer-actions">
+                <button class="choose-button">Chọn</button>
+                <button class="cancel-choose-button hidden" >Hủy</button>
+                <img class="success hidden" src="images/icons/success.png" alt="">
+                <img class="printer-infor" src="images/icons/infor.png" alt="">
+            </div>
         </div>
-      </div>
     `;
 
     // Append the new HTML to the list of printers

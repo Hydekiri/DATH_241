@@ -117,6 +117,3 @@ INSERT INTO `Receiver_Message` (`notification_ID`, `user_ID`, `status`) VALUES
 (3, 3, 'read'),
 (4, 4, 'unread'),
 (5, 5, 'read');
-
-
-

@@ -191,3 +191,24 @@ exports.deleteConfig = async (req, res) => {
         res.status(500).json({ status: 500, message: 'Error Deleting Print Configuration' });
     }
 };
+
+exports.deleteConfigByPrinter = async (req, res) => {
+    try {
+        const printer_ID = req.params.printerID;
+        const printer = await printerModel.getPrinterById(printer_ID);
+        if (!printer) {
+            return res.status(404).json({ status: 404, message: "Printer does not exist" });
+        }
+
+        const deletedConfig = await printConfigModel.deleteConfigByPrinter(printer_ID);
+
+        res.status(200).json({ 
+            status: 200, 
+            data: deletedConfig, 
+            message: "Print Configuration Deleted Successfully!" 
+        });
+    } catch (error) {
+        console.error("Error deleting print configuration:", error);
+        res.status(500).json({ status: 500, message: 'Error Deleting Print Configuration' });
+    }
+};
