@@ -102,7 +102,7 @@ function addPrinterEventListeners() {
         }
     });
 }
-
+  
 function resetAllPrinters() {
     const allPrinters = document.querySelectorAll('.printer-display');
   
