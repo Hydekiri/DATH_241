@@ -106,6 +106,16 @@ const printConfigModel = {
             console.error("Error in deleteConfig:", error);
             throw error;
         }
+    },
+
+    deleteConfigByPrinter: async (printer_ID) => {
+        try {
+            await query.deleteRow("PrintConfiguration", { printer_ID });
+            return { printer_ID: parseInt(printer_ID) };
+        } catch (error) {
+            console.error("Error in deleteConfigByPrinter:", error);
+            throw error;
+        }
     }
 };
 module.exports = printConfigModel;

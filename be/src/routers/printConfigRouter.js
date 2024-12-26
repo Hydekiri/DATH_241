@@ -7,4 +7,5 @@ module.exports = (router) => {
     router.post("/printconfigs", printConfigController.createConfig);
     router.put("/printconfigs/:id", printConfigController.updateConfig);
     router.delete("/printconfigs/:id", printConfigController.deleteConfig);
+    router.delete("/printconfigs/printer/:printerID", printConfigController.deleteConfigByPrinter);
 };
