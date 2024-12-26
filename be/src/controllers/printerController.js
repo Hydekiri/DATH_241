@@ -76,28 +76,40 @@ exports.getPrinterById = async (req, res) => {
 // Tạo mới máy in
 exports.createPrinter = async (req, res) => {
     try {
-        const { branchName, model, description, status = 'enable', location, weight,printer_type,
-            queue, prints_in_day, pages_printed, color_print,printer_size, paper_size, resolution, ink_type } = req.body;
+        const { branchName, model, description, status = 'enable', location, weight, printer_type,
+            queue, prints_in_day, pages_printed, color_print, printer_size, paper_size, resolution, ink_type } = req.body;
 
         let loc_ID = null;
+
+        // Kiểm tra nếu có location trong body yêu cầu
         if (location) {
-            const existingLocation = await locationModel.findLocation(location);
+            const existingLocation = await locationModel.findLocation(location.building);
             if (existingLocation) {
-                loc_ID = existingLocation.Location_ID;
+                loc_ID = existingLocation.Location_ID; // Sử dụng ID của location hiện tại
             } else {
+                // Tạo location mới nếu không tìm thấy
                 const newLocation = await locationModel.createLocation(location.building);
-                loc_ID = newLocation.Location_ID;
+                loc_ID = newLocation.Location_ID; // Gán ID của location mới
             }
         }
 
-        const newPrinter = await printerModel.createPrinter(branchName, model, description, status, loc_ID,weight, printer_type,
-            queue, prints_in_day, pages_printed, color_print,printer_size, paper_size, resolution, ink_type);
-        res.status(201).json({ status: 201, data: newPrinter, message: "Successfully Created Printer!" });
+        // Tạo máy in với loc_ID đúng
+        const newPrinter = await printerModel.createPrinter(
+            branchName, model, description, status, loc_ID, weight, printer_type,
+            queue, prints_in_day, pages_printed, color_print, printer_size, paper_size, resolution, ink_type
+        );
+
+        res.status(201).json({
+            status: 201,
+            data: newPrinter,
+            message: "Successfully Created Printer!"
+        });
     } catch (error) {
         console.error("Error Creating Printer:", error);
         res.status(500).json({ status: 500, message: 'Error Creating Printer' });
     }
 };
+
 
 
 exports.updatePrinter = async (req, res) => {
