@@ -1,11 +1,10 @@
-// Lấy printer_ID từ URL
 const urlParams = new URLSearchParams(window.location.search);
 const printer_ID = urlParams.get('printer_ID');
 
 console.log(printer_ID); // Hiển thị printer_ID lên console
 
 // Fetch thông tin máy in và hiển thị
-const fetchPrinterInfo = async () => {
+const fetchPrinterHistoryInfo = async () => {
     try {
         const response = await fetch(`http://localhost:3000/api/d1/printers/${printer_ID}`);
         if (!response.ok) {
@@ -14,7 +13,6 @@ const fetchPrinterInfo = async () => {
         const data = await response.json();
         console.log(data); // Xử lý dữ liệu máy in ở đây
         renderPrinterInfo(data.data); // Render thông tin chung
-
     } catch (error) {
         console.error(error);
         alert("Không thể tải thông tin máy in!");
@@ -35,37 +33,20 @@ const renderPrinterInfo = (printer) => {
     const historyContainer = document.querySelector(".history-container");
     historyContainer.innerHTML = `
         <a href="#">Chi tiết</a>
-        <i class="fas fa-info-circle printer-infor" style="font-size: 24px; color: #ffffff; margin-right: 10px;"onclick="showPrinterHistoryInfo(${printer.Printer_ID})"></i>
+        <i class="fas fa-info-circle printer-infor" style="font-size: 24px; color: #ffffff; margin-right: 10px;"onclick="showPrinterInfo(${printer.Printer_ID})"></i>
     `;
 };
 
-// Hàm render thông tin chi tiết của máy in
-const renderPrinterInfo2 = (printer) => {
-    document.querySelector(".printermodel").innerHTML = `<span>Kiểu máy in:</span> ${printer.printer_type || '0'}`;
-    document.querySelector(".queue").innerHTML = `<span>Hàng đợi:</span> ${printer.queue || '0'}`;
-    document.querySelector(".printInDay").innerHTML = `<span>Số lượt in trong ngày: </span>${printer.prints_in_day || '0'}`;
-    document.querySelector(".numPage").innerHTML = `<span>Số lượng giấy in:</span> ${printer.pages_printed || '0'}`;
-    document.querySelector(".printColor").innerHTML = `<span>In màu: </span>${printer.color_print === 'yes' ? 'Có' : 'Không'}`;
-    document.querySelector(".size").innerHTML = `<span>Kích thước: </span>${printer.printer_size || '0'}`;
-    document.querySelector(".HD").innerHTML = `<span>Độ phân giải: </span>${printer.resolution || '0'}`;
-    document.querySelector(".ink").innerHTML = `<span>Loại mực: </span>${printer.ink_type || '0'}`;
-    
-    // Xử lý khổ giấy hỗ trợ
-    const paperSizes = printer.paper_size ? printer.paper_size.split(', ') : ['N/A'];
-    document.querySelector(".Apage").innerHTML = `<span>Khổ giấy hỗ trợ: </span>${paperSizes.join(", ")}`;
-};
-
-
-const showPrinterHistoryInfo = async (printer_ID) => {
-    const res = window.confirm("Bạn có chắc muốn xem lịch sử của máy in này?");
+const showPrinterInfo = async (printer_ID) => {
+    const res = window.confirm("Bạn có chắc muốn xem thông tin máy in này?");
     if (!res) return;
 
     // Điều hướng đến trang thông tin máy in với ID máy in
-    window.location.href = `admin-printer-history.html?printer_ID=${printer_ID}`;
+    window.location.href = `admin-info-printer.html?printer_ID=${printer_ID}`;
 };
 
 // Gọi hàm fetchPrinterInfo khi trang được tải
-window.onload = fetchPrinterInfo;
+window.onload = fetchPrinterHistoryInfo;
 
 // Tạo sự kiện "Trở lại"
 document.querySelector(".return button").addEventListener("click", () => {

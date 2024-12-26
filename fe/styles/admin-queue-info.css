@@ -1,0 +1,262 @@
+.admin-navbar-middle-queue {
+  background-color: #70D3FA;
+  color: white !important;
+}
+
+.return i {
+  font-size: 24px; /* Kích thước biểu tượng */
+  color: #24BEFB; /* Màu sắc của biểu tượng */
+}
+.return  button{
+  border: none;
+  width: 77px;
+  height: 58px;
+  background-color: #24BEFB;
+}
+
+
+.main {
+  display: grid;
+  grid-template-columns: 1fr 2.4fr;
+  justify-content: space-between;
+  gap: 80px;
+
+  padding: 40px 110px;
+}
+
+.total-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 5px black;
+}
+
+
+
+.total-display .title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #0033cc;
+  margin-bottom: 22px;
+  font-family: 'Lato-Heavy';
+  font-size: 30px;
+}
+
+.total-display .ima img {
+  width: 385px;
+  height: 227px;
+  border: 1px solid #848484;
+  background-color: #00b7ff82;
+  border-radius: 5px;
+  margin-bottom: 22px;
+}
+
+.total-display .IDPrinter, .total-display .model, .total-display .location, .total-display .wei, .total-display .status, .total-display .history {
+  margin-bottom: 22px; /* Space between each block */
+  font-weight: bold;
+  color: #0033cc;
+  font-family: 'Lato-Heavy';
+  font-size: 28px;
+  justify-self: left;
+  margin-left: 36px;
+}
+
+.total-display .IDPrinter, .total-display .model, .total-display .location, .total-display .wei, .total-display .status, .total-display .history {
+  color: #000000;
+}
+
+.history{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.history-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #24BEFB;
+  border-radius: 10px;
+  font-size: 26px;
+  font-family: 'Lato-Heavy';
+  width: 157px;
+  height: 44px;
+  border: none;
+  padding: 5px 2px;
+  margin-left: 10px;
+}
+
+.history a{ 
+  text-decoration: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 26px;
+  font-family: 'Lato-Heavy';
+}
+
+.info-details {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 0;
+  border-radius: 10px;
+  box-shadow: 0 0 5px black;
+}
+
+.column-name {
+  background-color: #70D3FA;
+  font-size: 20px;
+  font-weight: bold;
+
+  width: 90%;
+  height: 60px;
+
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 2fr 1fr;
+  align-items: center;
+  gap: 15px;
+
+  border-radius: 10px;
+}
+
+.column-name span, .column {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.queue-displays {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;  
+
+  margin-top: 30px;
+}
+
+.queue-display {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 2fr 1fr;
+  align-items: center;
+  gap: 15px;
+}
+
+.column {
+  height: 75px;
+  background-color: #FFF0D1;
+  color: #FFAA00;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.name, .order, .file {
+  flex-direction: column;
+  gap: 6px;
+}
+
+.column span {
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.delete-queue {
+  background-color: #FC5656;
+  color: white;
+  border: none;
+}
+
+/*#8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888*/
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.5);
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay-box {
+  background-color: white;
+  width: 710px;
+  height: 260px;
+  border-radius: 15px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.overlay-box h1 {
+  margin-top: 30px;
+  margin-bottom: 0;
+  font-size: 36px;
+}
+
+.overlay-box p {
+  margin-top: 10px;
+  margin-bottom: 30px;
+  font-size: 24px;
+}
+
+.overlay-box p span {
+  color: #06DD15;
+}
+
+.cancel-confirm {
+  display: flex;
+  gap: 30px;
+}
+
+.cancel, .confirm {
+  width: 150px;
+  height: 50px;
+  border-radius: 15px;
+  border: none;
+  color: white;
+  font-size: 26px;
+}
+
+.cancel {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.confirm {
+  background-color: red;
+}
+
+.delete-success {
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #25C710;
+  color: white;
+
+  position: fixed;
+  top: 130px;
+  right: 110px;
+  z-index: 99999;
+  width: 200px;
+  height: 60px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+
+.hidden {
+  display: none;
+}
