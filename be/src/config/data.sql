@@ -1,7 +1,7 @@
 -- Bảng User
 INSERT INTO `User`
     (`email`, `password
-    `, `name`, `role`, `pageBalance`) VALUES
+`, `name`, `role`, `pageBalance`) VALUES
 ('student1@example.com', 'password123', 'Student One', 'student', 100),
 ('student2@example.com', 'password456', 'Student Two', 'student', 150),
 ('spso1@example.com', 'password789', 'SPSO One', 'spso', 0),
@@ -118,8 +118,7 @@ user_ID`,
 
 -- Bảng Paper_Package
 INSERT INTO `Paper_Package` (`
-name`,
-`quantity
+name`,`quantity
 `, `price`) VALUES
 ('Basic Package', 500, 10),
 ('Standard Package', 1000, 18),
