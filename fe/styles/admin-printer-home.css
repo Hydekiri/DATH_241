@@ -140,6 +140,7 @@
   border: 1px solid #6B6B6B;
   border-radius: 10px;
   margin-top: 40px;
+  font-family: 'Lato-Heavy';
 }
 
 .printers-display {
@@ -159,6 +160,7 @@
   width: 1145px;
   gap: 2px;
   justify-content: space-between;
+  font-family: 'Lato-Heavy';
 }
 
 .column-name{
@@ -215,7 +217,12 @@
   margin-right: 15px;
   cursor: pointer;
 }
-
+.printer-status{
+  background-color: #1edf043f;
+  padding: 2px 0px;
+  border-radius: 10px;
+  color: #00C10D;
+}
 .printer-delete {
   cursor: pointer;
 }
@@ -243,7 +250,7 @@
   transition: background-color 0.5s ease;
 }
 
-.toggle-checkbox {
+.toggle-checkbox { 
   display: none;
 }
 
@@ -301,172 +308,6 @@
 
 /* end bang thong tin cac may in */
 
-/* them may in */
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-}
-
-.add-printer-container {
-  background-color: white;
-  width: 1330px;
-  height: 725px;
-  border-radius: 10px;
-  padding: 30px 30px;
-
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  column-gap: 20px;
-
-  font-size: 30px;
-}
-
-.add-form-left, .add-form-middle {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  max-width: 450px;
-}
-
-.add-form-left h2 {
-  font-size: 36px;
-  margin: 0;
-}
-
-.upload-image-container {
-  width: 100%;
-  height: 230px;
-  background-color: #B67EFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.upload-image {
-  content: "Tải ảnh máy in";
-  background-color: white;
-}
-
-.input-row {
-  width: 100%;
-  height: 50px;
-
-  border: 2px solid rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 0 10px;
-}
-
-.left-label, .middle-label {
-  display: inline-block;
-  white-space: nowrap;
-  
-  font-size: 30px;
-  color: #3039D5;
-  font-weight: bold;
-}
-
-.middle-label {
-  font-size: 28px;
-}
-
-.left-input, .middle-input {
-  font-size: 28px;
-  border: none;
-  flex: 1;
-  width: 100%;
-  outline: none;
-}
-
-.add-status {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #3039D5;
-}
-
-.add-toggle-label {
-  width: 86px;
-  height: 37px;
-  margin-left: 6px;
-  position: relative;
-
-  background-color: #1EDF04;
-  border-radius: 20px;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
-  cursor: pointer;
-  transition: background-color 0.5s ease;
-}
-
-.add-toggle-checkbox {
-  display: none;
-}
-
-.add-toggle-circle {
-  width: 31px;
-  height: 31px;
-  background-color: white;
-  border-radius: 50%;
-  position: absolute;
-  top: 3px;
-  left: 5px;
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
-  transition: transform 0.5s ease;
-}
-
-.add-toggle-checkbox:checked + .add-toggle-label {
-  background-color: #DF1604;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
-}
-
-.add-toggle-checkbox:checked + .add-toggle-label .add-toggle-circle {
-  box-shadow: -2px 2px 2px rgba(0, 0, 0, 0.2);
-  transform: translateX(40px); /* Slide to the right */
-}
-
-.add-form-right {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.buttons {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-}
-
-.reset-button, .submit-button {
-  width: 150px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  border: none;
-  border-radius: 20px;
-}
-
-.reset-button {
-  background-color: #FB9324;
-}
-
-.submit-button {
-  background-color: #00B51E;
-}
-
 /* overlay 2 */
 .overlay-2 {
   position: fixed;
@@ -506,7 +347,7 @@
 }
 
 .confirm-container p span {
-  color: #06DD15;
+  color: #ff7700;
 }
 
 .cancel-confirm {
@@ -524,14 +365,25 @@
 }
 
 .cancel {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(95, 95, 95, 0.5);
+}
+.cancel:hover{
+  background-color: rgba(0, 0, 0, 0.669);
 }
 
 .confirm-button {
-  background-color: red;
+  background-color: rgba(255, 60, 60, 0.765);
+}
+.confirm-button:hover {
+  background-color: rgba(26, 158, 12, 0.765);
+}
+/* end overlay 2 */
+
+button {
+  font-size: 24px;
+  font-weight: bold;
 }
 
-/* end overlay 2 */
 
 /* end them may in */
 
