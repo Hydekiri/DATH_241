@@ -177,6 +177,7 @@
 }
 
 .printer-checkbox {
+  display: none;
   width: 31px;
   height: 31px;
   border-radius: 10px;
