@@ -1,3 +1,4 @@
+
 let currentPage = 1;
 let totalPages = 1;
 const itemsPerPage = 5;
@@ -32,31 +33,54 @@ const updateTotals = (printers) => {
     document.getElementById('total-print-jobs').textContent = totalPrintJobs;
     document.getElementById('total-queue').textContent = totalQueue;
 };
-const handleToggleStatus = async (printerId, currentStatus) => {
-    const response = window.confirm("Bạn có chắc muốn thay đổi trạng thái của máy in?");
-    if (!response) return;
+const handleToggleStatus = async (printerId, currentStatus, event) => {
+    event.preventDefault();
 
-    try {
-        // const newStatus = currentStatus === 'enable' ? 'disable' : 'enable';
+    const overlay = document.querySelector('.overlay-2');
+    const confirmButton = document.querySelector('.confirm-button');
+    const cancelButton = document.querySelector('.cancel');
+    const toggleCheckbox = document.querySelector(`#toggle-${printerId}`);
+    
+    overlay.classList.remove('hidden'); 
+    
+    toggleCheckbox.disabled = true;
 
-        const updateResponse = await fetch(`http://localhost:3000/api/d1/printers/${printerId}/status`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                status: currentStatus
-            }),
-        });
+    confirmButton.onclick = async () => {
+        try {
 
-        if (!updateResponse.ok) {
-            throw new Error("Không thể cập nhật trạng thái máy in");
+            const newStatus = currentStatus === 'enable' ? 'disable' : 'enable';
+
+            const updateResponse = await fetch(`http://localhost:3000/api/d1/printers/${printerId}/status`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    status: newStatus
+                }),
+            });
+
+            if (!updateResponse.ok) {
+                throw new Error("Không thể cập nhật trạng thái máy in");
+            }
+
+            toggleCheckbox.checked = newStatus === 'disable';
+            fetchPrinters(); 
+
+            overlay.classList.add('hidden');
+        } catch (e) {
+            console.log(e.message);
+            alert("Không thể thay đổi trạng thái của máy in ngay bây giờ! Vui lòng thử lại sau!");
+            overlay.classList.add('hidden'); 
+        } finally {
+            toggleCheckbox.disabled = false;
         }
+    };
 
-        fetchPrinters(); // Tải lại danh sách máy in
-    } catch (e) {
-        console.log(e.message);
-        alert("Không thể thay đổi trạng thái của máy in ngay bây giờ! Vui lòng thử lại sau!");
-    }
+    cancelButton.onclick = () => {
+        overlay.classList.add('hidden'); 
+        toggleCheckbox.disabled = false;
+    };
 };
+
 
 // const renderPrinters = (printers) => {
 //     const printersRowsContainer = document.querySelector(".printers-rows");
@@ -129,7 +153,7 @@ const renderPrinters = () => {
                 </div>
             </div>
             <div class="toggle-button-container">
-                <input type="checkbox" id="toggle-${printer.Printer_ID}" class="toggle-checkbox" ${printer.status === 'disable' ? 'checked' : ''} onclick="handleToggleStatus(${printer.Printer_ID}, '${printer.status}')">
+                <input type="checkbox" id="toggle-${printer.Printer_ID}" class="toggle-checkbox" ${printer.status === 'disable' ? 'checked' : ''} onclick="handleToggleStatus(${printer.Printer_ID}, '${printer.status}', event)">
                 <label for="toggle-${printer.Printer_ID}" class="toggle-label">
                     <span class="toggle-circle"></span>
                 </label>
@@ -174,3 +198,5 @@ const handleDelete = async (printer_ID) => {
 
 // Call fetchPrinters when the page loads
 window.onload = fetchPrinters;
+
+

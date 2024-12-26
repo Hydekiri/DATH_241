@@ -34,7 +34,7 @@
 
 .search {
   background-color: rgba(112, 211, 250, 0.42);
-  width: 760px;
+  width: 1040px;
   height: 53px;
   
   display: flex;
@@ -305,3 +305,87 @@
 }
 
 /* end bang thong tin cac may in */
+
+/* overlay 2 */
+.overlay-2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.confirm-container {
+  background-color: white;
+  width: 710px;
+  height: 260px;
+  border-radius: 15px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.confirm-container h1 {
+  margin-top: 30px;
+  margin-bottom: 0;
+  font-size: 36px;
+}
+
+.confirm-container p {
+  margin-top: 10px;
+  margin-bottom: 30px;
+  font-size: 24px;
+}
+
+.confirm-container p span {
+  color: #ff7700;
+}
+
+.cancel-confirm {
+  display: flex;
+  gap: 30px;
+}
+
+.cancel, .confirm-button {
+  width: 150px;
+  height: 50px;
+  border-radius: 15px;
+  border: none;
+  color: white;
+  font-size: 26px;
+}
+
+.cancel {
+  background-color: rgba(95, 95, 95, 0.5);
+}
+.cancel:hover{
+  background-color: rgba(0, 0, 0, 0.669);
+}
+
+.confirm-button {
+  background-color: rgba(255, 60, 60, 0.765);
+}
+.confirm-button:hover {
+  background-color: rgba(26, 158, 12, 0.765);
+}
+/* end overlay 2 */
+
+button {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+
+/* end them may in */
+
+.hidden {
+  display: none;
+}
+

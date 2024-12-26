@@ -3,6 +3,11 @@ const printer_ID = urlParams.get('printer_ID');
 
 console.log(printer_ID); // Hiển thị printer_ID lên console
 
+
+const fetchPrinterHistory = async () => {
+    fetchPrinterHistoryInfo();
+    fetchPrinterHistoryInfo2();
+};
 // Fetch thông tin máy in và hiển thị
 const fetchPrinterHistoryInfo = async () => {
     try {
@@ -16,6 +21,20 @@ const fetchPrinterHistoryInfo = async () => {
     } catch (error) {
         console.error(error);
         alert("Không thể tải thông tin máy in!");
+    }
+};
+const fetchPrinterHistoryInfo2 = async () => {
+    try {
+        const response = await fetch(`http://localhost:3000/api/d1/printconfigs/printer/${printer_ID}`);
+        if (!response.ok) {
+            throw new Error("Không thể lấy lịch sử máy in");
+        }
+        const data = await response.json();
+        console.log(data); 
+        renderPrintHistory(data.data); 
+    } catch (error) {
+        console.error(error);
+        alert("Không thể tải lịch sử máy in!");
     }
 };
 
@@ -33,8 +52,36 @@ const renderPrinterInfo = (printer) => {
     const historyContainer = document.querySelector(".history-container");
     historyContainer.innerHTML = `
         <a href="#">Chi tiết</a>
-        <i class="fas fa-info-circle printer-infor" style="font-size: 24px; color: #ffffff; margin-right: 10px;"onclick="showPrinterInfo(${printer.Printer_ID})"></i>
+       <i class="fas fa-info-circle printer-infor" style="font-size: 24px; color: #ffffff; margin-right: 10px;" onclick="showPrinterInfo(${printer.Printer_ID})"></i>
     `;
+};
+const renderPrintHistory = (history) => {
+    const historyContainer = document.querySelector(".printer-history tbody");
+    historyContainer.innerHTML = ''; // Clear existing rows
+    
+    // Check if history is an array
+    if (!Array.isArray(history)) {
+        console.error("History is not an array", history);
+        return;
+    }
+
+    history.forEach(config => {
+        // Ensure that we have a user and documents
+        const statusClass = config.status === 'completed' ? 'success' : 'error'; 
+        const printStartDate = new Date(config.printStart);
+        const formattedDate = printStartDate.toLocaleDateString(); // 'dd/mm/yyyy' 
+        const formattedTime = printStartDate.toLocaleTimeString(); // 'HH:MM:SS' 
+        const historyRow = `
+            <tr class="${statusClass}">
+                <td>${config.user ? `${config.user.name}<br> ID: ${config.user.user_ID}` : 'N/A'}</td>
+                <td>${formattedDate}<br>${formattedTime}</td>
+                <td>${config.paperSize}<br>${config.numPages}</td>
+                <td>${config.documents.map(doc => doc.name).join('<br>')}</td>
+                <td>${config.status === 'completed' ? 'Successful' : 'Failed'}</td>
+            </tr>
+        `;
+        historyContainer.innerHTML += historyRow; // Append the new row
+    });
 };
 
 const showPrinterInfo = async (printer_ID) => {
@@ -46,8 +93,8 @@ const showPrinterInfo = async (printer_ID) => {
 };
 
 // Gọi hàm fetchPrinterInfo khi trang được tải
-window.onload = fetchPrinterHistoryInfo;
-
+window.onload = fetchPrinterHistory;
+// window.onload = fetchPrinterHistoryInfo2;
 // Tạo sự kiện "Trở lại"
 document.querySelector(".return button").addEventListener("click", () => {
     window.history.back(); // Quay lại trang trước đó

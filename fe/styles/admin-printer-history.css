@@ -107,6 +107,7 @@
 
 /* Button styling */
 .delete-history-btn {
+  position: fixed;
   margin-top: 320px;
   margin-left: 700px;
   background-color: #F66;

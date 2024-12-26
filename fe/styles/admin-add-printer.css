@@ -41,13 +41,22 @@
   flex-direction: column;
   justify-content: space-between;
   max-width: 450px;
+
 }
 
 .add-form-left h2 {
-  font-size: 36px;
+  font-size: 38px;
   margin: 0;
+  margin-bottom: 15px;
+  margin-left: 5px;
 }
-
+.add-form-middle h2{
+  font-size: 38px;
+  margin: 0;
+  margin-bottom: 15px;
+  margin-left: 5px;
+  color: #ffffff;
+}
 .upload-image-container {
   width: 100%;
   height: 230px;
@@ -72,7 +81,7 @@
   padding: 0 10px;
 }
 
-#model, #location, #weight, #type, #queue, #daily-prints, #paper, #color, #size, #resolution, #ink, #paper-size {
+#model, #location, #description, #weight, #printer_type, #queue, #prints_in_day, #pages_printed, #color_print, #printer_size, #resolution, #ink_type, #paper_size , #status{
   flex: 1;
   min-width: 0;
 }
@@ -101,6 +110,16 @@
   align-items: center;
   gap: 10px;
   color: #3039D5;
+}
+#sts {
+  margin-left: 11px;
+  font-size: 30px;
+}
+.add-status2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #ffffff;
 }
 
 .toggle-button-container {
@@ -177,7 +196,9 @@
 .submit-button {
   background-color: #00B51E;
 }
-
+body{
+  background-color: #04c2df;
+}
 /* overlay 2 */
 .overlay-2 {
   position: fixed;
@@ -191,6 +212,10 @@
   align-items: center;
   justify-content: center;
   z-index: 9999;
+}
+.input-row input::placeholder {
+  color: #a3a3a3d0;
+  font-size: 24px;
 }
 
 .confirm-container {
@@ -217,7 +242,7 @@
 }
 
 .confirm-container p span {
-  color: #06DD15;
+  color: #ff6a00;
 }
 
 .cancel-confirm {
@@ -233,14 +258,28 @@
   color: white;
   font-size: 26px;
 }
-
+.ima img {
+  width: 385px;
+  height: 227px;
+  border: 1px solid #848484;
+  background-color: #00b7ff82;
+  border-radius: 5px;
+  margin-bottom: 22px;
+}
 .cancel {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(95, 95, 95, 0.5);
+}
+.cancel:hover{
+  background-color: rgba(0, 0, 0, 0.669);
 }
 
 .confirm-button {
-  background-color: red;
+  background-color: rgba(255, 60, 60, 0.765);
 }
+.confirm-button:hover {
+  background-color: rgba(26, 158, 12, 0.765);
+}
+/* end overlay 2 */
 
 /* end overlay 2 */
 
