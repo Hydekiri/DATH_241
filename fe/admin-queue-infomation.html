@@ -3,103 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thông tin hàng đợi của máy in</title>
+    <title>Quản lý máy in</title>
 
-    <link rel="stylesheet" href="styles/admin-queue-info.css">
+    <link rel="stylesheet" href="/fe/styles/admin-queue-infomation.css">
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/fe/styles/general/admin-navbar.css">
     <link rel="stylesheet" href="/fe/styles/general/general.css">
     <link rel="stylesheet" href="/fe/styles/fontchar.css">
+    <script src="/fe/scripts/admin-queue-infomation.js" defer></script>
 </head>
 <body>
     <div class="admin-navbar"></div>
 
-        <a href="admin-queue.html" class="return">
-            <button><i class="fas fa-arrow-left" style="font-size: 24px; color: white;"></i></button>
-        </a>
-
-        <div class="main">
-            <div class="total-display">
-                <div class="title">Thông tin máy in</div>
-                <div class="ima"><img src="/fe/images/welcome-1-2.jpg"/></div>
-                <div class="info-details">
-                <div class="IDPrinter"><span>ID:</span> HX354021</div>
-                <div class="model"><span>Model:</span> CanonXS364211</div>
-                <div class="location"><span>Vị trí:</span> H6-604</div>
-                <div class="wei"><span>Trọng Lượng:</span> 9.4 kg</div>
-                <div class="status"><span>Trạng thái:</span> <span style="color: rgb(0, 202, 0);">Hoạt động</span></div>
-                <div class="history"><span>Lịch sử:</span> 
-                    <div class="history-container">
-                        <a href="admin-printer-history.html">Xem</a>
-                        <i class="fas fa-info-circle printer-infor" style="font-size: 24px; color: #ffffff; margin-right: 10px;"></i>
-                    </div>
-                </div>
-                </div>
-                
-            </div>
-
-            <div class="right">
-                <div class="column-name">
-                <span>Thông tin sinh viên</span>
-                <span>Thời gian in</span>
-                <span>Vị trí hàng đợi</span>
-                <span>File in</span>
-                <span>Thao tác</span>
-                </div>
-                
-                <div class="queue-displays">
-                <div class="queue-display">
-                    <div class="name column">Nguyễn A <span>2213897</span></div>
-                    <div class="time column">Chưa in</div>
-                    <div class="order column">1 <span>Chuẩn bị in</span></div>
-                    <div class="file column">abc.pdf <span>Đã kiểm duyệt</span></div>
-                    <button class="delete-queue column">Xóa</button>
-                </div>
-
-                <div class="queue-display">
-                    <div class="name column">Nguyễn A <span>2213897</span></div>
-                    <div class="time column">Chưa in</div>
-                    <div class="order column">1 <span>Chuẩn bị in</span></div>
-                    <div class="file column">abc.pdf <span>Đã kiểm duyệt</span></div>
-                    <button class="delete-queue column">Xóa</button>
-                </div>
-
-                <div class="queue-display">
-                    <div class="name column">Nguyễn A <span>2213897</span></div>
-                    <div class="time column">Chưa in</div>
-                    <div class="order column">1 <span>Chuẩn bị in</span></div>
-                    <div class="file column">abc.pdf <span>Đã kiểm duyệt</span></div>
-                    <button class="delete-queue column">Xóa</button>
-                </div>
-
-                <div class="queue-display">
-                    <div class="name column">Nguyễn A <span>2213897</span></div>
-                    <div class="time column">Chưa in</div>
-                    <div class="order column">1 <span>Chuẩn bị in</span></div>
-                    <div class="file column">abc.pdf <span>Đã kiểm duyệt</span></div>
-                    <button class="delete-queue column">Xóa</button>
-                </div>
-                </div>
-            </div>
-            </div>
-            
-            <div class="overlay hidden">
-            <div class="overlay-box">
-                <h1>Xác nhận</h1>
-                <p>Bạn có chắc <span>xóa hàng đợi</span> này không?</p>
-
-                <div class="cancel-confirm">
-                <button class="cancel">Hủy</button>
-                <button class="confirm">Xác nhận</button>
+    <div class="main">
+        <div class="return">
+            <button><i class="fas fa-arrow-left" style="font-size: 24px; color: #24BEFB;"></i></button>
+        </div>
+        <div class="total-display">
+            <div class="title">Thông Tin Máy In</div>
+            <div class="ima"><img src="/fe/images/welcome-1-2.jpg"/></div>
+            <div class="IDPrinter"><span>ID:</span> </div>
+            <div class="model"><span>Model:</span> </div>
+            <div class="location"><span>Vị trí:</span> </div>
+            <div class="wei"><span>Trọng Lượng:</span></div>
+            <div class="status"><span>Trạng thái:</span> </div>
+            <div class="history"><span>Lịch sử in:</span> 
+                <div class="history-container">
+                    <a href="#">Chi tiết</a>
+                    <i class="fas fa-info-circle printer-infor" style="font-size: 24px; color: #ffffff; margin-right: 10px;"></i>
                 </div>
             </div>
         </div>
 
-    <div class="delete-success hidden">
-        Xóa thành công
+        <div class="printers-display">
+        <table class="printer-history">
+            <thead>
+                <tr>
+                    <th>Thông tin sinh viên</th>
+                    <th>Thời gian in</th>
+                    <th>Vị trí hàng đợi</th>
+                    <th>Số tờ/Khổ giấy</th>
+                    <th>File In</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="success">
+                    <td>Nguyễn Minh Tuấn<br>2213768</td>
+                    <td>13/11/2024<br>15:03:21</td>
+                    <td>ID: 12<br>Tổng:14</td>
+                    <td>50<br>A4</td>
+                    <td>computernetwork.pdf<br>Đã kiểm duyệt</td>
+                    <td><button>In</button></td>
+                </tr>
+                <tr class="success">
+                    <td>Nguyễn Minh Tuấn<br>2213768</td>
+                    <td>13/11/2024<br>15:03:21</td>
+                    <td>ID: 12<br>Tổng:14</td>
+                    <td>50<br>A4</td>
+                    <td>computernetwork.pdf<br>Đã kiểm duyệt</td>
+                    <td><button>In</button></td>
+                </tr>
+                <tr class="success">
+                    <td>Nguyễn Minh Tuấn<br>2213768</td>
+                    <td>13/11/2024<br>15:03:21</td>
+                    <td>ID: 12<br>Tổng:14</td>
+                    <td>50<br>A4</td>
+                    <td>computernetwork.pdf<br>Đã kiểm duyệt</td>
+                    <td><button>In</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="delete-history-btn">Xóa lịch sử in</button>
     </div>
 
-    <script src="scripts/general/admin-navbar.js"></script>
-    <script src="scripts/admin-queue-info.js"></script>
+    </div> 
+    
+
+    <script src="/fe/scripts/general/admin-navbar.js"></script>
 </body>
 </html>

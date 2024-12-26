@@ -24,7 +24,133 @@ cancel.addEventListener('click', () => {
     overlay2.classList.add('hidden');
 });
 
-// Xác nhận thêm máy in mới
+// const fetchPrinter = async () => {
+//     if (!printer_ID) {
+//         alert("No printer ID provided.");
+//         return;
+//     }
+
+//     try {
+//         const response = await fetch(`http://localhost:3000/api/d1/printers/${printer_ID}`);
+//         if (!response.ok) {
+//             throw new Error("Không thể lấy thông tin máy in");
+//         }
+//         const data = await response.json();
+//         console.log(data); // Xử lý dữ liệu máy in ở đây
+//         renderPrinter(data.data); // Render thông tin chung
+
+//     } catch (error) {
+//         console.error(error);
+//         alert("Không thể tải thông tin máy in!");
+//     }
+// };
+
+// const renderPrinter = (printer) => {
+//     const printersRowsContainer = document.querySelector(".overlay");
+
+//     printersRowsContainer.innerHTML = ''; // Clear any previous content
+
+//     const row = document.createElement("div");
+//     row.classList.add("printers-row");
+
+//     const statusClass = printer.status === 'enable' ? 'status-active' : 'status-disabled';
+//     const statusText = printer.status === 'enable' ? 'Hoạt động' : 'Vô hiệu hóa';
+//     row.innerHTML = `
+//         <form action="" class="add-printer-container form">
+//             <div class="add-form-left">
+//                 <h2>Thêm máy in mới</h2>
+//                 <div class="input-row">
+//                     <label for="model" class="left-label">Model:</label>
+//                     <input id="model" class="left-input" type="text" value="${printer.model}" required>
+//                 </div>
+//                 <div class="input-row">
+//                     <label for="branchName" class="left-label">BranchName:</label>
+//                     <input id="branchName" class="left-input" type="text" value="${printer.branchName}" required>
+//                 </div>
+//                 <div class="input-row">
+//                     <label for="location" class="left-label">Vị trí:</label>
+//                     <input id="location" class="left-input" type="text" value="${printer.location.building}" required>
+//                 </div>
+//                 <div class="input-row">
+//                     <label for="weight" class="left-label">Trọng lượng:</label>
+//                     <input id="weight" class="left-input" type="text" value="${printer.weight}" required>
+//                 </div>
+//                 <div class="input-row">
+//                     <label for="description" class="left-label">Mô tả:</label>
+//                     <input id="description" class="left-input" type="text" value="${printer.description}" required>
+//                 </div>
+//                 <div class="input-row">
+//                     <label for="printer_type" class="middle-label">Kiểu máy in:</label>
+//                     <input id="printer_type" class="middle-input" type="text" value="${printer.printer_type}" required>
+//                 </div>
+//                 <div class="input-row">
+//                     <label for="queue" class="middle-label">Hàng đợi:</label>
+//                     <input id="queue" class="middle-input" type="number" value="${printer.queue}" required>
+//                 </div>
+//                 <div class="input-row">
+//                     <label for="status" class="middle-label">Trạng thái:</label>
+//                     <select id="status" class="middle-input" required>
+//                         <option value="enable" ${printer.status === 'enable' ? 'selected' : ''}>Có</option>
+//                         <option value="disable" ${printer.status === 'disable' ? 'selected' : ''}>Không</option>
+//                     </select>
+//                 </div>
+//             </div>
+
+//             <div class="add-form-middle">
+//                 <h2>Tes</h2>
+//                 <div class="input-row">
+//                     <label for="prints_in_day" class="middle-label">Số lượt in trong ngày:</label>
+//                     <input id="prints_in_day" class="middle-input" type="number" value="${printer.prints_in_day}" required>
+//                 </div>
+//                 <div class="input-row">
+//                     <label for="pages_printed" class="middle-label">Số lượng giấy in:</label>
+//                     <input id="pages_printed" class="middle-input" type="number" value="${printer.pages_printed}" required>
+//                 </div>
+//                 <div class="input-row">
+//                     <label for="color_print" class="middle-label">In màu:</label>
+//                     <select id="color_print" class="middle-input" required>
+//                         <option value="no" ${printer.color_print === 'no' ? 'selected' : ''}>Không</option>
+//                         <option value="yes" ${printer.color_print === 'yes' ? 'selected' : ''}>Có</option>
+//                     </select>
+//                 </div>
+//                 <div class="input-row">
+//                     <label for="printer_size" class="middle-label">Kích thước:</label>
+//                     <input id="printer_size" class="middle-input" type="text" value="${printer.printer_size}" required>
+//                 </div>
+//                 <div class="input-row">
+//                     <label for="resolution" class="middle-label">Độ phân giải:</label>
+//                     <input id="resolution" class="middle-input" type="text" value="${printer.resolution}" required>
+//                 </div>
+//                 <div class="input-row">
+//                     <label for="ink_type" class="middle-label">Loại mực:</label>
+//                     <input id="ink_type" class="middle-input" type="text" value="${printer.ink_type}" required>
+//                 </div>
+//                 <div class="input-row">
+//                     <label for="paper_size" class="middle-label">Khổ giấy hỗ trợ:</label>
+//                     <input id="paper_size" class="middle-input" type="text" value="${printer.paper_size}" required>
+//                 </div>
+//                 <div class="add-status2">
+//                     <span>Trạng thái:</span>
+//                     <div class="toggle-button-container">
+                        
+//                     </div>
+//                 </div>
+//             </div>
+
+//             <div class="add-form-right">
+//                 <img src="images/add-printer.png" alt="">
+//                 <div class="buttons">
+//                     <button type="reset" class="reset-button">Đặt lại</button>
+//                     <button type="submit" class="submit-button">Xác nhận</button>
+//                 </div>
+//             </div>
+//         </form>
+//     `;
+//     printersRowsContainer.appendChild(row);
+// };
+// window.onload = fetchPrinter;
+
+// Xác nhận chỉnh sửa
 confirmButton.addEventListener('click', async () => {
     const formValues = document.querySelectorAll('.form input, .form select');
     const printerData = {};
@@ -33,50 +159,36 @@ confirmButton.addEventListener('click', async () => {
     formValues.forEach(input => {
         const key = input.id;
         let value = input.value.trim();
-
-        // Convert numbers and handle empty values
-        if (input.type === 'number') {
-            value = value ? Number(value) : null;
-        } else if (!value) {
-            value = null;
-        }
-
-        printerData[key] = value;
+        printerData[key] = input.type === 'number' ? Number(value) || null : value || null;
     });
 
-    // Format the location field
-    if (printerData.location) {
-        printerData.location = { building: printerData.location }; 
-    } else {
-        printerData.location = null;
+    // Ensure location is properly structured
+    if (printerData.location && typeof printerData.location === 'string') {
+        printerData.location = { building: printerData.location };
     }
 
-    // Required field validation
-    const requiredFields = ['branchName', 'model', 'weight', 'location'];
+    // Validate required fields
+    const requiredFields = ['branchName', 'model', 'status', 'location'];
     for (const field of requiredFields) {
         if (!printerData[field]) {
-            alert(`Missing required field: ${field}. Please complete all required fields.`);
+            alert(`Field "${field}" is required!`);
             return;
         }
     }
 
     console.log('Data to send:', printerData);
 
-    // Send the data to the server
+    // Send PUT request
     try {
         const response = await fetch(`http://localhost:3000/api/d1/printers/${printer_ID}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                Printer_ID: printer_ID,
-                ...printerData
-            }),
+            body: JSON.stringify(printerData), // Corrected payload
         });
 
         if (response.ok) {
             alert('Printer updated successfully!');
-            console.log('Sent data:', printerData);
-            window.location.href = 'admin-info-printer.html'; // Redirect after success
+            window.location.href = 'admin-printer-home.html';
         } else {
             const errorText = await response.text();
             alert(`Server Error: ${errorText}`);
@@ -87,130 +199,6 @@ confirmButton.addEventListener('click', async () => {
     }
 });
 
-const fetchPrinter = async () => {
-    if (!printer_ID) {
-        alert("No printer ID provided.");
-        return;
-    }
 
-    try {
-        const response = await fetch(`http://localhost:3000/api/d1/printers/${printer_ID}`);
-        if (!response.ok) {
-            throw new Error("Không thể lấy thông tin máy in");
-        }
-        const data = await response.json();
-        console.log(data); // Xử lý dữ liệu máy in ở đây
-        renderPrinter(data.data); // Render thông tin chung
 
-    } catch (error) {
-        console.error(error);
-        alert("Không thể tải thông tin máy in!");
-    }
-};
 
-const renderPrinter = (printer) => {
-    const printersRowsContainer = document.querySelector(".overlay");
-
-    printersRowsContainer.innerHTML = ''; // Clear any previous content
-
-    const row = document.createElement("div");
-    row.classList.add("printers-row");
-
-    const statusClass = printer.status === 'enable' ? 'status-active' : 'status-disabled';
-    const statusText = printer.status === 'enable' ? 'Hoạt động' : 'Vô hiệu hóa';
-    row.innerHTML = `
-        <form action="" class="add-printer-container form">
-            <div class="add-form-left">
-                <h2>Thêm máy in mới</h2>
-                <div class="input-row">
-                    <label for="model" class="left-label">Model:</label>
-                    <input id="model" class="left-input" type="text" value="${printer.model}" required>
-                </div>
-                <div class="input-row">
-                    <label for="branchName" class="left-label">BranchName:</label>
-                    <input id="branchName" class="left-input" type="text" value="${printer.branchName}" required>
-                </div>
-                <div class="input-row">
-                    <label for="location" class="left-label">Vị trí:</label>
-                    <input id="location" class="left-input" type="text" value="${printer.location.building}" required>
-                </div>
-                <div class="input-row">
-                    <label for="weight" class="left-label">Trọng lượng:</label>
-                    <input id="weight" class="left-input" type="text" value="${printer.weight}" required>
-                </div>
-                <div class="input-row">
-                    <label for="description" class="left-label">Mô tả:</label>
-                    <input id="description" class="left-input" type="text" value="${printer.description}" required>
-                </div>
-                <div class="input-row">
-                    <label for="printer_type" class="middle-label">Kiểu máy in:</label>
-                    <input id="printer_type" class="middle-input" type="text" value="${printer.printer_type}" required>
-                </div>
-                <div class="input-row">
-                    <label for="queue" class="middle-label">Hàng đợi:</label>
-                    <input id="queue" class="middle-input" type="number" value="${printer.queue}" required>
-                </div>
-                <div class="input-row">
-                    <label for="status" class="middle-label">Trạng thái:</label>
-                    <select id="status" class="middle-input" required>
-                        <option value="enable" ${printer.status === 'enable' ? 'selected' : ''}>Có</option>
-                        <option value="disable" ${printer.status === 'disable' ? 'selected' : ''}>Không</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="add-form-middle">
-                <h2>Tes</h2>
-                <div class="input-row">
-                    <label for="prints_in_day" class="middle-label">Số lượt in trong ngày:</label>
-                    <input id="prints_in_day" class="middle-input" type="number" value="${printer.prints_in_day}" required>
-                </div>
-                <div class="input-row">
-                    <label for="pages_printed" class="middle-label">Số lượng giấy in:</label>
-                    <input id="pages_printed" class="middle-input" type="number" value="${printer.pages_printed}" required>
-                </div>
-                <div class="input-row">
-                    <label for="color_print" class="middle-label">In màu:</label>
-                    <select id="color_print" class="middle-input" required>
-                        <option value="no" ${printer.color_print === 'no' ? 'selected' : ''}>Không</option>
-                        <option value="yes" ${printer.color_print === 'yes' ? 'selected' : ''}>Có</option>
-                    </select>
-                </div>
-                <div class="input-row">
-                    <label for="printer_size" class="middle-label">Kích thước:</label>
-                    <input id="printer_size" class="middle-input" type="text" value="${printer.printer_size}" required>
-                </div>
-                <div class="input-row">
-                    <label for="resolution" class="middle-label">Độ phân giải:</label>
-                    <input id="resolution" class="middle-input" type="text" value="${printer.resolution}" required>
-                </div>
-                <div class="input-row">
-                    <label for="ink_type" class="middle-label">Loại mực:</label>
-                    <input id="ink_type" class="middle-input" type="text" value="${printer.ink_type}" required>
-                </div>
-                <div class="input-row">
-                    <label for="paper_size" class="middle-label">Khổ giấy hỗ trợ:</label>
-                    <input id="paper_size" class="middle-input" type="text" value="${printer.paper_size}" required>
-                </div>
-                <div class="add-status2">
-                    <span>Trạng thái:</span>
-                    <div class="toggle-button-container">
-                        
-                    </div>
-                </div>
-            </div>
-
-            <div class="add-form-right">
-                <img src="images/add-printer.png" alt="">
-                <div class="buttons">
-                    <button type="reset" class="reset-button">Đặt lại</button>
-                    <button type="submit" class="submit-button">Xác nhận</button>
-                </div>
-            </div>
-        </form>
-    `;
-    printersRowsContainer.appendChild(row);
-};
-
-// Load printer data when the page loads
-window.onload = fetchPrinter;

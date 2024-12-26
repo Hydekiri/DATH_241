@@ -52,7 +52,7 @@ const renderPrinterInfo = (printer) => {
     const historyContainer = document.querySelector(".history-container");
     historyContainer.innerHTML = `
         <a href="#">Chi tiết</a>
-       <i class="fas fa-info-circle printer-infor" style="font-size: 24px; color: #ffffff; margin-right: 10px;" onclick="showPrinterInfo(${printer.Printer_ID})"></i>
+        <i class="fas fa-info-circle printer-infor" style="font-size: 24px; color: #ffffff; margin-right: 10px;" onclick="showPrinterInfo(${printer.Printer_ID})"></i>
     `;
 };
 const renderPrintHistory = (history) => {
