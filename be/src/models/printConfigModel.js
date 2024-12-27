@@ -116,6 +116,29 @@ const printConfigModel = {
             console.error("Error in deleteConfigByPrinter:", error);
             throw error;
         }
+    },
+
+    getAllUserHistory: async (user_ID) => {
+        try {
+            const printConfigs = await query.getAll("PrintConfiguration", { user_ID });
+
+            if (!printConfigs || printConfigs.length === 0) {
+                console.log("No printConfig found.");
+                return [];
+            }
+            for (const config of printConfigs) {
+                const user = await query.getOne("User", { user_ID: config.user_ID });
+                const printer = await query.getOne("Printer", { Printer_ID: config.printer_ID });
+                config.user = user || null;
+                config.printer = printer || null;
+            }
+
+            return printConfigs;
+        } catch (error) {
+            console.error("Error in getAllUserHistory:", error);
+            throw error;
+        }
     }
+
 };
 module.exports = printConfigModel;

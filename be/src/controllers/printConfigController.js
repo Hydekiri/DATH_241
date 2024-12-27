@@ -212,3 +212,56 @@ exports.deleteConfigByPrinter = async (req, res) => {
         res.status(500).json({ status: 500, message: 'Error Deleting Print Configuration' });
     }
 };
+
+exports.getAllUserHistory = async (req, res) => {
+    try {
+        const user_ID = req.params.userID;
+        const user = await userModel.getUserById(user_ID);
+        if (!user) {
+            return res.status(404).json({ status: 404, message: "User does not exist" });
+        }
+
+        const printConfigs = await printConfigModel.getAllUserHistory(user_ID);
+        if (!printConfigs || printConfigs.length === 0) {
+            return res.status(404).json({ status: 404, message: "No Print Configurations Found" });
+        }
+
+        const formattedConfigs = await Promise.all(printConfigs.map(async config => {
+            const documents = await query.getAll("Document", { config_ID: config.config_ID });
+            const location = await query.getOne("Location", { location_ID: config.printer.loc_ID });
+            return {
+                config_ID: config.config_ID,
+                printStart: config.printStart,
+                printEnd: config.printEnd,
+                user : config.user ? {
+                    user_ID: config.user.user_ID,
+                    name: config.user.name,
+                    email: config.user.email,
+                    pageBalance: config.user.pageBalance
+                } : null,
+                printer: config.printer ? {
+                    branchName: config.printer.branchName,
+                    location: location ? {
+                        campus: location.campus, 
+                        building: location.building, 
+                        room: location.room
+                    } : null
+                    // location: location ? `${location.campus}, ${location.building}, ${location.room}` : null
+                } : null,
+                numPages: config.numPages,
+                numCopies: config.numCopies,
+                paperSize: config.paperSize,
+                printSide: config.printSide,
+                orientation: config.orientation,
+                status: config.status,
+                documents: documents.map(doc => ({
+                    name: doc.name
+                }))
+            };
+        }));
+        res.status(200).json({ status: 200, data: formattedConfigs, message: "Successfully Retrieved Print Configurations!" });
+    } catch (error) {
+        console.error("Error fetching print configurations:", error);
+        res.status(500).json({ status: 500, message: 'Error Retrieving Print Configurations' });
+    }
+};
