@@ -1,0 +1,150 @@
+.student-navbar-middle-history {
+  background-color: #70D3FA;
+  color: white !important;
+}
+
+.return i {
+  font-size: 24px; /* Kích thước biểu tượng */
+  color: #24BEFB; /* Màu sắc của biểu tượng */
+}
+.return  button{
+  border: none;
+  width: 77px;
+  height: 58px;
+  background-color: #24BEFB;
+}
+
+
+.main {
+  display: grid;
+  grid-template-columns: 1fr 2.4fr;
+  justify-content: space-between;
+  gap: 80px;
+
+  padding: 40px 90px;
+}
+
+.total-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 5px black;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+
+
+.total-display .title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #0033cc;
+  margin-bottom: 22px;
+  font-family: 'Lato-Heavy';
+  font-size: 30px;
+}
+
+.total-display .ima img {
+  width: 385px;
+  height: 227px;
+  border: 1px solid #848484;
+  background-color: #00b7ff82;
+  border-radius: 5px;
+  margin-bottom: 22px;
+}
+
+.total-display div span {
+  color: #0033cc;
+}
+
+.info-details {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 20px;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 0;
+  border-radius: 10px;
+  box-shadow: 0 0 5px black;
+}
+
+.column-name {
+  background-color: #70D3FA;
+  font-size: 20px;
+  font-weight: bold;
+
+  width: 95%;
+  height: 60px;
+
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 2fr 1fr;
+  align-items: center;
+  gap: 15px;
+
+  border-radius: 10px;
+}
+
+.column-name span, .column {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.special {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.queue-displays {
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;  
+
+  margin-top: 30px;
+}
+
+.queue-display {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 2fr 1fr;
+  align-items: center;
+  gap: 15px;
+}
+
+.column {
+  height: 75px;
+  background-color: #EFEEEE;
+  color: #000;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.success {
+  color: #08B116;
+  background-color: #ABFFA0;
+}
+
+.fail {
+  color: #DD0000;
+  background-color: #FFA9A9;
+}
+
+.name-printer, .paper, .file {
+  flex-direction: column;
+  gap: 6px;
+}
+
+.column span {
+  font-size: 16px;
+  font-weight: normal;
+}
+

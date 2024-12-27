@@ -12,8 +12,8 @@ exports.getAllLocations = async (req, res) => {
 
 exports.createLocation = async (req, res) => {
     try {
-        const { campus, building, room } = req.body;
-        const newLocation = await locationModel.createLocation(campus, building, room);
+        const { building} = req.body;
+        const newLocation = await locationModel.createLocation(building);
         res.status(200).json({ status: 200, data: newLocation, message: "Successfully Created Location!" });
     } catch (error) {
         console.error("Error creating location:", error);
@@ -24,8 +24,8 @@ exports.createLocation = async (req, res) => {
 exports.updateLocation = async (req, res) => {
     try {
         const locationId = req.params.id;
-        const { campus, building, room } = req.body;
-        const updatedLocation = await locationModel.updateLocation(locationId, { campus, building, room });
+        const { building } = req.body;
+        const updatedLocation = await locationModel.updateLocation(locationId, { building});
         res.status(200).json({ status: 200, data: updatedLocation, message: "Successfully Updated Location!" });
     } catch (error) {
         console.error("Error updating location:", error);

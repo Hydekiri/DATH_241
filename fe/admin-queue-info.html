@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin hàng đợi của máy in</title>
+
+    <link rel="stylesheet" href="styles/admin-queue-info.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/fe/styles/general/admin-navbar.css">
+    <link rel="stylesheet" href="/fe/styles/general/general.css">
+    <link rel="stylesheet" href="/fe/styles/fontchar.css">
+</head>
+<body>
+    <div class="admin-navbar"></div>
+
+    <a href="admin-queue.html" class="return">
+      <button><i class="fas fa-arrow-left" style="font-size: 24px; color: white;"></i></button>
+    </a>
+
+    <div class="main">
+      <div class="total-display">
+        <div class="title">Thông tin máy in</div>
+        <div class="ima"><img src="/fe/images/welcome-1-2.jpg"/></div>
+        <div class="info-details">
+          <div class="IDPrinter"><span>ID:</span> HX354021</div>
+          <div class="model"><span>Model:</span> CanonXS364211</div>
+          <div class="location"><span>Vị trí:</span> H6-604</div>
+          <div class="wei"><span>Trọng Lượng:</span> 9.4 kg</div>
+          <div class="status"><span>Trạng thái:</span> <span style="color: rgb(0, 202, 0);">Hoạt động</span></div>
+          <div class="history"><span>Lịch sử:</span> 
+              <div class="history-container">
+                  <a href="admin-printer-history.html">Xem</a>
+                  <i class="fas fa-info-circle printer-infor" style="font-size: 24px; color: #ffffff; margin-right: 10px;"></i>
+              </div>
+          </div>
+        </div>
+        
+      </div>
+
+      <div class="right">
+        <div class="column-name">
+          <span>Thông tin sinh viên</span>
+          <span>Thời gian in</span>
+          <span>Vị trí hàng đợi</span>
+          <span>File in</span>
+          <span>Thao tác</span>
+        </div>
+        
+        <div class="queue-displays">
+          <div class="queue-display">
+            <div class="name column">Nguyễn A <span>2213897</span></div>
+            <div class="time column">Chưa in</div>
+            <div class="order column">1 <span>Chuẩn bị in</span></div>
+            <div class="file column">abc.pdf <span>Đã kiểm duyệt</span></div>
+            <button class="delete-queue column">Xóa</button>
+          </div>
+
+          <div class="queue-display">
+            <div class="name column">Nguyễn A <span>2213897</span></div>
+            <div class="time column">Chưa in</div>
+            <div class="order column">1 <span>Chuẩn bị in</span></div>
+            <div class="file column">abc.pdf <span>Đã kiểm duyệt</span></div>
+            <button class="delete-queue column">Xóa</button>
+          </div>
+
+          <div class="queue-display">
+            <div class="name column">Nguyễn A <span>2213897</span></div>
+            <div class="time column">Chưa in</div>
+            <div class="order column">1 <span>Chuẩn bị in</span></div>
+            <div class="file column">abc.pdf <span>Đã kiểm duyệt</span></div>
+            <button class="delete-queue column">Xóa</button>
+          </div>
+
+          <div class="queue-display">
+            <div class="name column">Nguyễn A <span>2213897</span></div>
+            <div class="time column">Chưa in</div>
+            <div class="order column">1 <span>Chuẩn bị in</span></div>
+            <div class="file column">abc.pdf <span>Đã kiểm duyệt</span></div>
+            <button class="delete-queue column">Xóa</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="overlay hidden">
+      <div class="overlay-box">
+        <h1>Xác nhận</h1>
+        <p>Bạn có chắc <span>xóa hàng đợi</span> này không?</p>
+
+        <div class="cancel-confirm">
+          <button class="cancel">Hủy</button>
+          <button class="confirm">Xác nhận</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="delete-success hidden">
+      Xóa thành công
+    </div>
+
+    <script src="scripts/general/admin-navbar.js"></script>
+    <script src="scripts/admin-queue-info.js"></script>
+</body>
+</html>
