@@ -242,9 +242,7 @@ exports.getAllUserHistory = async (req, res) => {
                 printer: config.printer ? {
                     branchName: config.printer.branchName,
                     location: location ? {
-                        campus: location.campus, 
-                        building: location.building, 
-                        room: location.room
+                        building: location.building
                     } : null
                     // location: location ? `${location.campus}, ${location.building}, ${location.room}` : null
                 } : null,
