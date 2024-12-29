@@ -21,6 +21,7 @@ exports.getAllConfigs = async (req, res) => {
                     name: config.user.name
                 } : null,
                 printer: config.printer ? {
+                    printer_ID: config.printer.Printer_ID,
                     branchName: config.printer.branchName
                 } : null,
                 numPages: config.numPages,
@@ -240,6 +241,7 @@ exports.getAllUserHistory = async (req, res) => {
                     pageBalance: config.user.pageBalance
                 } : null,
                 printer: config.printer ? {
+                    printer_ID: config.printer.Printer_ID,
                     branchName: config.printer.branchName,
                     location: location ? {
                         building: location.building

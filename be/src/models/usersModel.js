@@ -22,7 +22,7 @@
 
         getUserById: async (id) => {
             try {
-                const user = await query.getOne("User", { user_ID: id });
+                const user = await query.getOne("User", { user_ID: id }); 
                 return user;
             } catch (error) {
                 console.log(error);

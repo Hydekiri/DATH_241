@@ -44,7 +44,7 @@ const renderHistory = () => {
             <div class="printer-paper">${record.numPages}/ ${record.paperSize}</div>
             <div class="print-time">${formattedDate} <br> ${formattedTime}</div>
             <div class="printer-actions">
-                <img class="printer-infor" src="images/icons/infor.png" alt="" onclick="showUserHistory(${record.user?.user_ID})">
+                <img class="printer-infor" src="images/icons/infor.png" alt="" onclick="showUserHistory('${record.user?.user_ID}', '${record.printer?.printer_ID}')">
                 <img class="history-delete" src="images/icons/delete.png" alt="" onclick="handleDeleteUserHistory('${record.user?.user_ID}')">
             </div>
         `;
@@ -55,12 +55,12 @@ const renderHistory = () => {
     document.getElementById('page-info').textContent = `${currentPage} / ${totalPages || 1}`;
     updatePaginationButtons();
 };
-const showUserHistory = async (user_ID) => {
+const showUserHistory = async (user_ID, printer_ID) => {
     const res = window.confirm("Bạn có chắc muốn xem lịch sử in của người này?");
     if (!res) return;
 
-    // Điều hướng đến trang thông tin máy in với ID máy in
-    window.location.href = `student-history.html?user_ID=${user_ID}`;
+    // Điều hướng đến trang thông tin lịch sử người dùng với user_ID và printerID
+    window.location.href = `admin-student-history.html?user_ID=${user_ID}&printer_ID=${printer_ID}`;
 };
 
 const handleDeleteUserHistory = async (userID) => {
