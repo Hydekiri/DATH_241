@@ -1,8 +1,10 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const data = await fetchPrinterData();
+    console.log(data);
+
     data.forEach((printer) =>{
         if(printer.status === "enable"){
-            const loc = printer.location.campus[0] +"." + printer.location.building[0] + "." + printer.location.room.split(" ")[1];
+            const loc = printer.location.building;
             createPrinterHTMLWith(printer.Printer_ID, printer.model, loc , printer.status === "enable" ? "Hoạt động" : "Không hoạt động");
         }
     });
