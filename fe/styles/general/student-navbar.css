@@ -65,4 +65,5 @@
   object-fit: cover;
   border-radius: 30px;
   border: 1px solid #24befb;
+  cursor: pointer;
 }
