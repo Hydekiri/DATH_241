@@ -1,18 +1,22 @@
-.main {
+body {
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.main {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
   align-items: start;
+  gap: 100px;
+
+  max-width: 1400px;
   margin: 0 110px;
   margin-top: -20px;
 }
 
 .main-left {
-  width: 650px;
-  position: relative;
-  margin-right: 80px;
-}
-
-.main-right {
-  width: 550px;
   position: relative;
 }
 
@@ -30,11 +34,12 @@ h2 {
 }
 
 .login-image {
-  width: 850px;
+  width: 150%;
+  max-width: 1000px;
   object-fit: cover;
   position: absolute;
   left: 50%;
-  transform: translate(-55%, -110px);
+  transform: translate(-53%, -110px);
   z-index: -1;
 }
 
@@ -81,7 +86,7 @@ label {
 }
 
 #remember {
-  -webkit-appearance: none; /* Loại bỏ kiểu mặc định */
+  -webkit-appearance: none; 
   appearance: none;
 
   width: 35px;
@@ -123,4 +128,4 @@ input[type="checkbox"]:checked::before {
   font-size: 36px;
   border: none;
   border-radius: 50px;
-}
+} 

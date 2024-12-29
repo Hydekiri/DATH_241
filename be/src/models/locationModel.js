@@ -19,9 +19,9 @@ const locationModel = {
         }
     },
 
-    createLocation: async (campus, building, room) => {
+    createLocation: async (building) => {
         try {
-            const locationData = { campus, building, room };
+            const locationData = {building };
             const result = await query.insertSingleRow("Location", locationData);
             return { Location_ID: result.insertId, ...locationData };
         } catch (error) {

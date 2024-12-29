@@ -1,0 +1,145 @@
+.student-navbar-middle-buy {
+  background-color: #70D3FA;
+  color: white !important;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+  justify-content: space-between;
+  padding: 200px;
+
+  gap: 50px;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  max-width: 400px;
+  padding: 50px;
+  text-wrap: wrap;
+  line-height: 1.5;
+
+  background-color: #1B4368;
+  color: white;
+  border-radius: 20px;
+}
+
+.left-header, .right-header {
+  font-size: 36px;
+  color: white;
+  margin-bottom: 30px;
+}
+
+.left-content, .more-info {
+  font-size: 24px;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  max-width: 850px;
+  padding: 20px;
+
+  background-color: #70D3FA;
+}
+
+.buy {
+  margin-top: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 30px;
+}
+
+.choose-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;  
+
+  width: 230px;
+  height: 60px;
+  background-color: #2870FF;
+  border-radius: 15px;
+}
+
+.buy-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.minus, .plus {
+  border: none;
+  background-color: transparent;
+  font-size: 50px;
+  font-weight: bold;
+  box-shadow: none;
+}
+
+.numpage {
+  font-size: 24px;
+  color: white;
+  font-weight: bold;
+}
+
+.choose-num input {
+  width: 50px;
+  border: none;
+  background-color: transparent;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.button-pay {
+  background-color: #FF2626;
+  color: white;
+  font-size: 26px;
+  width: 230px;
+  height: 60px;
+
+  border: none;
+  border-radius: 15px;
+  box-shadow: none;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Loại bỏ nút trên Firefox */
+  -webkit-appearance: none;  /* Loại bỏ nút trên Chrome, Safari */
+  appearance: none;          /* Loại bỏ nút trên các trình duyệt hỗ trợ chuẩn */
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none; /* Loại bỏ nút trên Chrome, Safari */
+  margin: 0; /* Loại bỏ khoảng cách */
+}
+

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng ký in</title>
+  <link rel="stylesheet" href="styles/general/general.css">
+  <link rel="stylesheet" href="styles/general/student-navbar.css">
+  <link rel="stylesheet" href="styles/student-print-home.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+</head>
+<body>
+  <div class="student-navbar"></div>
+
+  <div class="main">
+    <div class="main-left">
+      <div class="file-upload-container">
+        <header>File Upload</header>
+        <section class="uploaded-area"></section>
+        <form action="#">
+          <input class="file-input" type="file" name="file" accept="application/pdf" hidden>
+          <i class="fas fa-cloud-upload-alt"></i>
+          <p>Browse File to Upload</p>
+        </form>
+      </div>
+    </div>
+
+    <div class="main-right">
+      <header>
+        <div class="step-1 show">1. Tải file lên</div>
+        <div class="step-2">2. Chọn máy in</div>
+      </header>
+      <div class="setting-page">
+        <h1>Thông số in</h1>
+        <div class="selections">
+          <div class="selection">
+            <label for="orientation">Hướng in</label>
+            <select name="orientation" id="orientation">
+              <option value="portrait">Dọc (Portrait)</option>
+              <option value="landscape">Ngang (Landscape)</option>
+            </select>
+          </div>
+
+          <div class="selection">
+            <label for="page-num">Số trang</label>
+            <input id="page-num" type="number" required value="33">
+          </div>
+
+          <div class="selection">
+            <label for="copies">Số bản</label>
+            <input type="number" name="copies" id="copies" value="1">
+          </div>
+
+          <div class="selection">
+            <label for="print-type">Kiểu in</label>
+            <select name="print-type" id="print-type">
+              <option value="one-side">1 mặt</option>
+              <option value="both-side">2 mặt</option>
+            </select>
+          </div>
+
+          <div class="selection">
+            <label for="paper-size">Khổ giấy</label>
+            <select name="paper-size" id="paper-size">
+              <option value="A4">A4</option>
+              <option value="A3">A3</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="next">Tiếp theo ></button>
+      </div>
+
+      <div class="choose-printer hidden">
+        <h1>Máy in khả dụng</h1>
+
+        <div class="priter-list-container">
+          <div class="column-names">
+            <span class="column-name">ID</span>
+            <span class="column-name">Model</span>
+            <span class="column-name">Vị trí</span>
+            <span class="column-name">Trạng thái</span>
+            <span></span>
+          </div>
+          
+          <div class="printers-row">
+            <div class="printer-display hidden">
+              <div class="printer-id">HX3291566</div>
+              <div class="printer-model">CanonXPSS65215</div>
+              <div class="printer-location">H6-608</div>
+              <div class="printer-status">Hoạt động</div>
+              <div class="printer-actions">
+                <button class="choose-button">Chọn</button>
+                <button class="cancel-choose-button hidden">Hủy</button>
+                <img class="success hidden" src="images/icons/success.png" alt="">
+                <img class="printer-infor" src="images/icons/infor.png" alt="">
+              </div>
+            </div>
+          
+          </div>
+        </div>
+
+        <button class="confirm-button">Xác nhận đăng kí</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="scripts/general/student-navbar.js"></script>
+  <script src="scripts/student-print-home.js"></script>
+  <script src="./Logical_Connection/Preload_Printer.js"></script>
+</body>
+</html>

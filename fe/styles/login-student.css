@@ -1,0 +1,131 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.main {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  align-items: start;
+  gap: 100px;
+
+  max-width: 1400px;
+  margin: 0 110px;
+  margin-top: -20px;
+}
+
+.main-left {
+  position: relative;
+}
+
+h1 {
+  font-size: 50px;
+  margin: 0 auto;
+  font-weight: 500;
+}
+
+h2 {
+  font-size: 46px;
+  font-weight: 500;
+  margin-top: 4px;
+  margin-bottom: 50px;
+}
+
+.login-image {
+  width: 150%;
+  max-width: 1000px;
+  object-fit: cover;
+  position: absolute;
+  left: 50%;
+  transform: translate(-53%, -110px);
+  z-index: -1;
+}
+
+label {
+  font-size: 36px;
+  display: block;
+  font-weight: 300;
+  margin-bottom: 10px;
+}
+
+.input-group {
+  margin-bottom: 40px;
+}
+
+.input-group input {
+  height: 80px;
+  width: 550px;
+  border: 3px solid #009AF3;
+  border-radius: 40px;
+
+  font-size: 36px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.remember-forget {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -20px;
+  margin-bottom: 40px;
+}
+
+.remember-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remember-label {
+  font-size: 20px;
+  display: inline;
+  margin: 0;
+}
+
+#remember {
+  -webkit-appearance: none; 
+  appearance: none;
+
+  width: 35px;
+  height: 35px;
+  border-radius: 50%; 
+  border: 3px solid #009AF3;
+
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+input[type="checkbox"]:checked::before {
+  content: '';
+  width: 24px;
+  height: 24px; 
+  border-radius: 50%;
+  background-color: #009AF3
+}
+
+.forget {
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #009AF3;
+}
+
+
+
+.submit-button {
+  width: 550px;
+  height: 85px;
+  color: white;
+  background-color: #009AF3;
+  font-size: 36px;
+  border: none;
+  border-radius: 50px;
+} 

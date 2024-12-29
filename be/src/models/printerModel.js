@@ -20,7 +20,7 @@ const printerModel = {
                 return [];
             }
             for (const printer of printers) {
-                console.log("Processing Printer:", printer); 
+                //console.log("Processing Printer:", printer); 
                 const location = await query.getOne("Location", { Location_ID: printer.loc_ID });
                 printer.location = location || null; 
             }
@@ -32,15 +32,17 @@ const printerModel = {
         }
     },
 
-    createPrinter: async (branchName, model, description, status = 'enable', loc_ID) => {
+    createPrinter: async (branchName, model, description, status = 'enable', loc_ID, weight, printer_type,
+                        queue, prints_in_day, pages_printed, color_print,printer_size, paper_size, resolution, ink_type) => {
         try {
-            const printerData = { branchName, model, description, status, loc_ID };
+            const printerData = { branchName, model, description, status, loc_ID,weight ,printer_type,
+                queue, prints_in_day, pages_printed, color_print,printer_size, paper_size, resolution, ink_type };
             const result = await query.insertSingleRow("Printer", printerData);
             return { Printer_ID: result.insertId, ...printerData };
-        } catch (error) {
+        } catch (error) { 
             console.error("Error in createPrinter:", error);
             throw error;
-        }
+        } 
     },
 
     updatePrinter: async (printer_ID, updates) => {

@@ -1,11 +1,12 @@
 module.exports = (router) => {
     const usersController = require("../controllers/usersController");
 
-    router.get("/users", usersController.getUsers);
-    router.get("/users/:id", usersController.getUserById);
-    router.put("/users/:id", usersController.updateUser);
-    router.delete("/users/:id", usersController.deleteUser);
-    router.post("/users", usersController.createUser);
-    // router.post("/users/login", usersController.login); 
+    const middlewareController = require("../controllers/middlewareController");
 
+    router.get("/users",usersController.getUsers);
+    router.get("/users/:id", middlewareController.verifyControllerAndAdmin, usersController.getUserById);
+    router.put("/users/:id", middlewareController.verifyControllerAndAdmin, usersController.updateUser);
+    router.delete("/users/:id", middlewareController.verifyControllerAndAdmin, usersController.deleteUser);
+    router.post("/users", middlewareController.verifyAdmin, usersController.createUser);
+    // router.post("/users/login", usersController.login); 
 };
