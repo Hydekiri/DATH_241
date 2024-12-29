@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const data = await fetchPrinterData();
+    console.log(data);
+
     data.forEach((printer) =>{
         console.log(printer);
         if (printer.status === "enable") {
