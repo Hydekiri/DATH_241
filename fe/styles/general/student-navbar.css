@@ -66,3 +66,36 @@
   border-radius: 30px;
   border: 1px solid #24befb;
 }
+
+/* --------------- Log out --------------------- */
+.student-navbar-avatar .logout-tab {
+  display: none;
+  position: absolute;
+  top: 25%;
+  right: 5px; 
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+}
+
+#logout-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 10px;
+  font-size: 14px;
+  width: 100%;
+}
+
+.student-navbar-avatar.active .logout-tab {
+  display: block;
+}
+
+.student-navbar-avatar .avatar {
+  cursor: pointer;
+}

@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-    document.cookie = "";
+    document.cookie = "token=";
+    document.cookie = "id=";
 
     const signButton = document.querySelector('.submit-button');
 
