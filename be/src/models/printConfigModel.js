@@ -138,6 +138,16 @@ const printConfigModel = {
             console.error("Error in getAllUserHistory:", error);
             throw error;
         }
+    }, 
+
+    deleteAllUserHistoryByID: async (user_ID) => {
+        try {
+            await query.deleteRow("PrintConfiguration", { user_ID });
+            return { user_ID: parseInt(user_ID) };
+        } catch (error) {
+            console.error("Error in deleteAllUserHistory:", error);
+            throw error;
+        }
     }
 
 };
