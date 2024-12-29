@@ -227,7 +227,7 @@
   cursor: pointer;
 }
 
-.printer-model, .printer-id, .printer-location, .printer-weight, .printer-status, .printer-actions {
+.printer-model,.printer-branchName, .printer-id, .printer-location, .printer-weight, .printer-status, .printer-actions {
   display: flex;
   justify-content: center;
 }

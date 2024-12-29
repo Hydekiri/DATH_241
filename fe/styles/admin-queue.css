@@ -14,10 +14,11 @@
 
 
 /* search filter add  */
-.search-filter-add {
+/* .search-filter-add {
   display: flex;
-  width: 1330px;
-}
+  width: 1390px;
+  margin-left: 60px;
+} */
 .status-active {
   background-color: #1EDF04; /* Màu xanh */
   color: white;
@@ -32,9 +33,16 @@
   border-radius: 5px;
 }
 
+/* search filter  */
+.search-filter-add {
+  display: flex;
+  width: 1390px;
+  margin-left: 60px;
+}
+
 .search {
   background-color: rgba(112, 211, 250, 0.42);
-  width: 1040px;
+  width: 100%;
   height: 53px;
   
   display: flex;
@@ -49,6 +57,7 @@
 .search img {
   cursor: pointer;
 }
+
 
 .search-input {
   flex: 1;

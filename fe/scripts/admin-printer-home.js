@@ -141,7 +141,7 @@ const renderPrinters = () => {
                 <input class="printer-checkbox" type="checkbox">
             </div>
             <div class="printer-display">
-                <div class="printer-model">${printer.branchName}</div>
+                <div class="printer-branchName">${printer.branchName}</div>
                 <div class="printer-model">${printer.model}</div>
                 <div class="printer-id">${printer.Printer_ID}</div>
                 <div class="printer-location">${printer.location.building}</div>
@@ -195,6 +195,42 @@ const handleDelete = async (printer_ID) => {
         alert("Không thể xóa máy in ngay lúc này! Vui lòng thử lại sau!");
     }
 };
+
+
+document.querySelector(".search-input").addEventListener("input", (event) => {
+    const searchTerm = event.target.value.toLowerCase(); // Lấy giá trị nhập vào và chuyển thành chữ thường
+    filterPrinters(searchTerm); // Gọi hàm lọc
+});
+const filterPrinters = (searchTerm) => {
+    const printerRows = document.querySelectorAll(".printers-row"); // Lấy tất cả các hàng máy in
+
+    printerRows.forEach((row) => {
+        const model = row.querySelector(".printer-model").textContent.toLowerCase();
+        const branchName = row.querySelector(".printer-branchName")?.textContent.toLowerCase() || '';
+        const status = row.querySelector(".printer-status").textContent.toLowerCase();
+        const building = row.querySelector(".printer-location").textContent.toLowerCase();
+        const weight = row.querySelector(".printer-weight").textContent.toLowerCase();
+        const id = row.querySelector(".printer-id").textContent.toLowerCase();
+        // Kiểm tra nếu giá trị nhập khớp với bất kỳ thuộc tính nào
+        if (model.includes(searchTerm)  || building.includes(searchTerm)|| id.includes(searchTerm)|| weight.includes(searchTerm)|| branchName.includes(searchTerm) || status.includes(searchTerm)) {
+            row.style.display = ""; // Hiển thị hàng
+        } else {
+            row.style.display = "none"; // Ẩn hàng
+        }
+    });
+};
+
+
+document.querySelector(".search-input").addEventListener("input", (event) => {
+    const searchTerm = event.target.value.toLowerCase();
+    const filteredData = printerData.filter(printer => 
+        printer.model.toLowerCase().includes(searchTerm) ||
+        (printer.branchName && printer.branchName.toLowerCase().includes(searchTerm)) ||
+        printer.status.toLowerCase().includes(searchTerm) || printer.weight.toLowerCase().includes(searchTerm) ||
+        printer.location.building.toLowerCase().includes(searchTerm)|| printer.id.toLowerCase().includes(searchTerm)
+    );
+    renderPrinters(filteredData); // Hiển thị dữ liệu đã lọc
+});
 
 // Call fetchPrinters when the page loads
 window.onload = fetchPrinters;

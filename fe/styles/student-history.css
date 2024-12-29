@@ -1,41 +1,32 @@
-.student-navbar-middle-history {
+/* .admin-navbar-middle-printer modification */
+.admin-navbar-middle-history   {
   background-color: #70D3FA;
   color: white !important;
 }
 
-.return i {
-  font-size: 24px; /* Kích thước biểu tượng */
-  color: #24BEFB; /* Màu sắc của biểu tượng */
-}
-.return  button{
-  border: none;
-  width: 77px;
-  height: 58px;
-  background-color: #24BEFB;
-}
-
-
+/* main */
 .main {
-  display: grid;
-  grid-template-columns: 1fr 2.4fr;
-  justify-content: space-between;
-  gap: 80px;
-
-  padding: 40px 90px;
-}
-
-.total-display {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 30px 10px;
-  border-radius: 10px;
-  box-shadow: 0 0 5px black;
-  font-size: 30px;
-  font-weight: bold;
+  justify-content: space-between; /* Aligns items with space between */
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+  margin-top: 110px;
+  padding: 0 115px;  /* Add padding on the left and right to center the content */
+  font-family: 'Lato-Heavy';
 }
 
-
+/* total-display */
+.total-display {
+  width: 469px;
+  height: 728px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  padding: 22px; /* Padding for inner content */
+  align-items: center;
+  justify-items: center;
+}
 
 .total-display .title {
   font-size: 18px;
@@ -55,96 +46,259 @@
   margin-bottom: 22px;
 }
 
-.total-display div span {
+.total-display .uName span, .total-display .uID span, .total-display .pageBalance span, .total-display .eMail span, .total-display .status span, .total-display .history span {
+   /* Space between each block */
+  font-weight: bold;
+  color: #0033cc;
+  font-family: 'Lato-Heavy';
+  font-size: 28px;
+  justify-self: left;
+  margin-left: 36px;
+
+}
+
+.total-display .uName, .total-display .uID, .total-display .pageBalance, .total-display .eMail, .total-display .status, .total-display .history{
+  color: #000000;
+  font-weight: bold;
+  font-family: 'Lato-Heavy';
+  font-size: 28px;
+  justify-self: left;
+  margin: 20px 0;
+}
+
+
+/* Table styling */
+.printers-display {
+  width: 974px;
+    height: 728px;
+    background-color: #ffffff;
+    border:  1px solid #c8c8c8;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    padding: 32px;
+}
+
+.printer-history {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  font-family: 'Lato-Heavy';
+  font-size: 18px;
+  
+}
+
+.printer-history th {
+  background-color: #70D3FA;
+  color: white;
+  padding: 10px;
+  font-size: 20px;
+  
+}
+
+.printer-history td {
+  padding: 10px;
+  border: 10px solid #ffffff;
+  
+}
+
+.success td {
+  background-color: #1edf043e;
+  color: #17C000;
+  
+}
+
+.error td {
+  background-color: #FAD4D4;
+  color: #F90000;
+}
+
+/* Button styling */
+.delete-history-btn {
+  position: fixed;
+  margin-top: 320px;
+  margin-left: 700px;
+  background-color: #F66;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.delete-history-btn:hover {
+  background-color: #D55;
+}
+
+/* Wrap the two boxes with a gap */
+.main {
+  display: flex;
+  justify-content: space-between; /* Ensures they are spaced out */
+  gap: 55px; /* Add 55px gap between the boxes */
+}
+
+
+.title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #0033cc;
+  margin-bottom: 20px;
+}
+
+.printermodel, .queue, .printInDay, .numPage, .printColor, .size, .HD, .ink, .Apage { 
+  margin-bottom: 10px;
+  color: #000000;
+}
+.history, .IDPrinter, .model, .location, .wei, .status {
+  margin-bottom: 10px;
+  color: #000000;
+}
+.history span {
+  font-weight: bold;
+  color: #0033cc;
+  padding-right: 5px;
+}
+.IDPrinter span {
+  font-weight: bold;
+  color: #0033cc;
+}
+.location span {
+  font-weight: bold;
   color: #0033cc;
 }
 
-.info-details {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  gap: 20px;
-}
-
-.right {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 30px 0;
-  border-radius: 10px;
-  box-shadow: 0 0 5px black;
-}
-
-.column-name {
-  background-color: #70D3FA;
-  font-size: 20px;
+.wei span {
   font-weight: bold;
-
-  width: 95%;
-  height: 60px;
-
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 2fr 1fr;
-  align-items: center;
-  gap: 15px;
-
-  border-radius: 10px;
+  color: #0033cc;
 }
-
-.column-name span, .column {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.special {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.queue-displays {
-  width: 95%;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;  
-
-  margin-top: 30px;
-}
-
-.queue-display {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 2fr 1fr;
-  align-items: center;
-  gap: 15px;
-}
-
-.column {
-  height: 75px;
-  background-color: #EFEEEE;
-  color: #000;
-  border-radius: 10px;
-  font-size: 20px;
+.model span {
   font-weight: bold;
+  color: #0033cc;
+}.status span {
+  font-weight: bold;
+  color: #0033cc;
+}
+.numPage span {
+  font-weight: bold;
+  color: #0033cc;
+}
+.queue span {
+  font-weight: bold;
+  color: #0033cc;
+}
+.printColor span {
+  font-weight: bold;
+  color: #0033cc;
+}
+.ink span {
+  font-weight: bold;
+  color: #0033cc;
+}
+.printInDay span {
+  font-weight: bold;
+  color: #0033cc;
+}
+.size span {
+  font-weight: bold;
+  color: #0033cc;
+}
+.HD span {
+  font-weight: bold;
+  color: #0033cc;
+}
+.printermodel  span {
+  font-weight: bold;
+  color: #0033cc;
+}
+.Apage span {
+  font-weight: bold;
+  color: #0033cc;
+}
+/* .edit span {
+  font-weight: bold;
+  color: #0033cc;
+} */
+
+.edit {
+  margin-top: 20px;
+  width: 180px;
+  height: 52px;
+  margin-left: 760px;
 }
 
-.success {
-  color: #08B116;
-  background-color: #ABFFA0;
+.edit a {
+  text-decoration: none;
+  background-color: #24BEFB;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 15px;
+  font-size: 26px;
+  font-family: 'Lato-Heavy';
+
+  
 }
 
-.fail {
-  color: #DD0000;
-  background-color: #FFA9A9;
+.history{
+  display: flex;
+  /* align-items: center; */
+  /* justify-content: flex-start; */
+}
+.history-container{
+  background-color: #24BEFB;
+  border-radius: 10px;
+  font-size: 26px;
+  font-family: 'Lato-Heavy';
+  width: 157px;
+  height: 44px;
+  border: none;
+  padding: 5px 2px;
 }
 
-.name-printer, .paper, .file {
-  flex-direction: column;
-  gap: 6px;
+.history a{ 
+  text-decoration: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 26px;
+  font-family: 'Lato-Heavy';
 }
 
-.column span {
-  font-size: 16px;
-  font-weight: normal;
+
+.return {
+  position: absolute; /* Định vị tuyệt đối */
+  top: 10px; /* Đặt khoảng cách từ trên xuống */
+  left: 13px; /* Đặt khoảng cách từ bên trái */
+  z-index: 1000; /* Đảm bảo nó nằm trên các thành phần khác */
+  cursor: pointer;
 }
 
+.return i {
+  font-size: 24px; /* Kích thước biểu tượng */
+  color: #24BEFB; /* Màu sắc của biểu tượng */
+}
+.return  button{
+  border: none;
+  width: 77px;
+  height: 58px;
+}
+
+body {
+  position: relative;
+}
+
+.deco {
+  position: absolute; /* Định vị tuyệt đối */
+  top: 58px; /* Đặt khoảng cách từ trên xuống */
+  left: 1142px; /* Đặt khoảng cách từ bên trái */
+  z-index: 1000; /* Đảm bảo nó nằm trên các thành phần khác */
+  cursor: pointer;
+  width: 386px;
+  height: 498px;
+  background-color: #bdbdbd;
+  border-radius: 10px;
+}
+
+.deco i {
+  font-size: 24px; /* Kích thước biểu tượng */
+  color: #24BEFB; /* Màu sắc của biểu tượng */
+}

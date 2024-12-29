@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  
+  font-family: 'Lato-Heavy';
 }
 
 
@@ -153,7 +153,7 @@
 
 .printers-row {
   width: 1145px;
-  height: 37px;
+  height: 57px;
   border: 1px solid #6B6B6B;
   border-radius: 10px;
 

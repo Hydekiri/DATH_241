@@ -3,78 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lịch sử in cá nhân</title>
-
+    <title>Quản lý lịch sử in của sinh viên</title>
+    
     <link rel="stylesheet" href="styles/student-history.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/fe/styles/general/student-navbar.css">
+    <link rel="stylesheet" href="/fe/styles/general/admin-navbar.css">
     <link rel="stylesheet" href="/fe/styles/general/general.css">
     <link rel="stylesheet" href="/fe/styles/fontchar.css">
+    <script src="/fe/scripts/student-history.js" defer></script>
 </head>
 <body>
-    <div class="student-navbar"></div>
-
-    <a href="admin-queue.html" class="return">
-      <button><i class="fas fa-arrow-left" style="font-size: 24px; color: white;"></i></button>
-    </a>
+    <div class="admin-navbar"></div>
 
     <div class="main">
-      <div class="total-display">
-        <div class="title">Lịch sử in cá nhân</div>
-        <div class="ima"><img src="/fe/images/welcome-1-2.jpg"/></div>
-        <div class="info-details">
-          <div class="student-name"><span>Tên:</span> Nguyễn Minh Tuấn</div>
-          <div class="student-id"><span>MSSV:</span> 2213040</div>
-          <div class="year"><span>Năm:</span> 3</div>
-          <div class="total-file"><span>Số file đã in:</span> 15</div>
+            <div class="return">
+                <button><i class="fas fa-arrow-left" style="font-size: 24px; color: #24BEFB;"></i></button>
+            </div>
+            <div class="total-display">
+                <div class="title">Lịch Sử In Cá Nhân</div>
+                <div class="ima"><img src="/fe/images/welcome-1-2.jpg"/></div>
+                <div class="uName"><span>Tên:</span> Nguyễn Minh Tín</div>
+                <div class="uID"><span>ID:</span> 2214589</div>
+                <div class="pageBalance"><span>Số trang in:</span> 604</div>
+                <div class="eMail"><span>Email: </span> mtin@hcmut.edu.vn</div>
+                <div class="status"><span>Trạng thái:</span> <span style="color: rgb(0, 202, 0);">Hoạt động</span></div>
+      
+            </div> b
+    
+            <div class="printers-display">
+            <table class="printer-history">
+                <thead>
+                    <tr>
+                        <th>Máy in</th>
+                        <th>Thời gian in</th>
+                        <th>Số tờ/Khổ giấy</th>
+                        <th>File In</th>
+                        <th>Tình trạng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="success">
+                        <td>Canon<br>H6-302</td>
+                        <td>13/11/2024<br>15:03:21</td>
+                        <td>50<br>A4</td>
+                        <td>computernetwork.pdf<br>Đã kiểm duyệt</td>
+                        <td>In thành công</td>
+                    </tr>
+                    <tr class="success">
+                        <td>Canon<br>H6-302</td>
+                        <td>13/11/2024<br>15:03:21</td>
+                        <td>50<br>A4</td>
+                        <td>computernetwork.pdf<br>Đã kiểm duyệt</td>
+                        <td>In thành công</td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="delete-history-btn">Xóa lịch sử in</button>
         </div>
         
-      </div>
 
-      <div class="right">
-        <div class="column-name">
-          <span>Máy in</span>
-          <span>Thời gian in</span>
-          <span class="special">Số tờ/ <span>khổ giấy</span></span>
-          <span>File in</span>
-          <span>Tình trạng</span>
-        </div>
-        
-        <div class="queue-displays">
-          <div class="queue-display">
-            <div class="name-printer column">CanonHX354656-X<span>H6-302</span></div>
-            <div class="time-print column">13/11/2024</div>
-            <div class="paper column">50 <span>A4</span></div>
-            <div class="file column">abc.pdf <span>Đã kiểm duyệt</span></div>
-            <div class="status success column">Thành công</div>
-          </div>
-
-          <div class="queue-display">
-            <div class="name-printer column">CanonHX354656-X<span>H6-302</span></div>
-            <div class="time-print column">13/11/2024</div>
-            <div class="paper column">50 <span>A4</span></div>
-            <div class="file column">abc.pdf <span>Đã kiểm duyệt</span></div>
-            <div class="status fail column">Thất bại</div>
-          </div>
-          <div class="queue-display">
-            <div class="name-printer column">CanonHX354656-X<span>H6-302</span></div>
-            <div class="time-print column">13/11/2024</div>
-            <div class="paper column">50 <span>A4</span></div>
-            <div class="file column">abc.pdf <span>Đã kiểm duyệt</span></div>
-            <div class="status success column">Thành công</div>
-          </div>
-
-          <div class="queue-display">
-            <div class="name-printer column">CanonHX354656-X<span>H6-302</span></div>
-            <div class="time-print column">13/11/2024</div>
-            <div class="paper column">50 <span>A4</span></div>
-            <div class="file column">abc.pdf <span>Đã kiểm duyệt</span></div>
-            <div class="status success column">Thành công</div>
-          </div>
-        </div>
-      </div>
-    </div> 
-
-    <script src="scripts/general/student-navbar.js"></script>
+        </div> 
+    <script src="scripts/general/admin-navbar.js"></script>
 </body>
 </html>
