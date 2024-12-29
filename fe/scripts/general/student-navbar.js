@@ -1,9 +1,9 @@
 function LogOutSTD() {
-    const avatar = document.querySelector('.student-navbar-avatar .avatar');
 
-    if (avatar) {
-        avatar.addEventListener("click", () => {
-            alert("Logging out...");
+    const logoutTab = document.querySelector('.student-navbar-avatar .logout-tab');
+
+    if (logoutTab) {
+        logoutTab.addEventListener("click", () => {
 
             document.cookie = "token=";
             document.cookie = "id=";
@@ -11,15 +11,20 @@ function LogOutSTD() {
             window.location.href = "./welcome.html";
         });
     } else {
-        console.error("Avatar element not found. Check your HTML structure.");
+        console.error("Logout tab not found. Check your HTML structure.");
     }
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-  fetch('http://127.0.0.1:5500/fe/scripts/general/student-navbar.html')
-      .then(response => response.text())
-      .then(data => {
-          document.querySelector('.student-navbar').innerHTML = data;
-      })
-      .catch(error => console.error('Error loading navbar:', error));
+document.addEventListener("DOMContentLoaded", async () => {
+    const res = await fetch('http://127.0.0.1:5500/fe/scripts/general/student-navbar.html')
+        .then(response => response.text())
+        .then(data => {
+            document.querySelector('.student-navbar').innerHTML = data;
+        })
+        .catch(error => console.error('Error loading navbar:', error));
+
+    const avatar = document.querySelector('.student-navbar-avatar .avatar');
+    if (avatar) avatar.addEventListener("click", () => {
+        avatar.parentElement.classList.toggle("active");
+    });
 });
