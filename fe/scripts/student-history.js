@@ -1,106 +1,120 @@
-document.addEventListener("DOMContentLoaded", () => {
-    // Ensure Cookies library is available
-    if (typeof Cookies === 'undefined') {
-        console.error('Cookies library is not defined. Ensure js-cookie is loaded.');
+const getCookie = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+};
+
+// Ensure user_ID is available
+const user_ID = parseInt(getCookie('id'));
+if (!user_ID) {
+    console.error('User ID not found in cookies');
+    alert('User not authenticated');
+}
+
+const urlParams = new URLSearchParams(window.location.search);
+const printer_ID = urlParams.get('printer_ID');
+console.log('Printer ID:', printer_ID);  // Debug log for printer_ID
+console.log('user_ID ID:', user_ID);  
+const fetchPrinterHistory = async () => {
+    try {
+        await fetchPrinterHistoryInfo();
+        await fetchPrinterHistoryInfo2();
+    } catch (error) {
+        console.error("Error fetching printer history:", error);
+    }
+};
+
+const fetchPrinterHistoryInfo = async () => {
+    const token = getCookie('token');
+    try {
+        const response = await fetch(`http://localhost:3000/api/d1/users/${user_ID}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "token": `Bearer ${token}`
+            }
+        });
+        if (!response.ok) throw new Error("Không thể lấy thông tin user");
+        const data = await response.json();
+        renderPrinterInfo(data.data);
+    } catch (error) {
+        console.error(error);
+        alert("Không thể tải thông tin máy in!");
+    }
+};
+
+const fetchPrinterHistoryInfo2 = async () => {
+    const token = getCookie('token');
+    try {
+        const response = await fetch(`http://localhost:3000/api/d1/printconfigs/user/${user_ID}/history`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "token": `Bearer ${token}`
+            }
+        });
+        if (!response.ok) throw new Error("Không thể lấy lịch sử máy in");
+        const data = await response.json();
+        renderPrintHistory(data.data || []);
+    } catch (error) {
+        console.error(error);
+        alert("Không thể tải lịch sử máy in!");
+    }
+};
+
+const renderPrinterInfo = (user) => {
+    if (!user) {
+        console.error("User data is not available");
+        alert("Không thể hiển thị thông tin người dùng!");
         return;
     }
 
-    // Fetch Navbar
-    const navbarElement = document.querySelector('.admin-navbar');
-    if (navbarElement) {
-        fetch('/fe/scripts/general/student-navbar.html')
-            .then(response => {
-                if (!response.ok) throw new Error(`Failed to load navbar: ${response.status}`);
-                return response.text();
-            })
-            .then(data => {
-                navbarElement.innerHTML = data;
-            })
-            .catch(error => console.error('Error loading navbar:', error));
-    } else {
-        console.error('Navbar container not found!');
+    document.querySelector(".uName").innerHTML = `<span>Tên:</span> ${user.name || 'N/A'}`;
+    document.querySelector(".uID").innerHTML = `<span>ID:</span> ${user.user_ID || 'N/A'}`;
+    document.querySelector(".pageBalance").innerHTML = `<span>Số trang in:</span> ${user.pageBalance || 0}`;
+    document.querySelector(".eMail").innerHTML = `<span>Email: </span> ${user.email || 'N/A'}`;
+    
+    const statusText = user.role === 'student' ? 'Hoạt động' : 'Vô hiệu hóa';
+    const statusColor = user.role === 'student' 
+        ? 'rgb(0, 202, 0)' 
+        : 'red';
+    document.querySelector(".status").innerHTML = `<span>Trạng thái:</span> <span style="color: ${statusColor};">${statusText}</span>`;
+};
+
+
+const renderPrintHistory = (history) => {
+    const tbody = document.querySelector(".printer-history tbody");
+    tbody.innerHTML = ''; // Clear existing rows
+
+    if (!history.length) {
+        tbody.innerHTML = '<tr><td colspan="5">Không có dữ liệu</td></tr>';
+        return;
     }
 
-    // Fetch and display print history
-    const fetchPrintHistory = async () => {
-        const userID = Cookies.get('id');
-        if (!userID) {
-            console.error('User ID not found in cookies. Ensure the user is logged in.');
-            return;
-        }
+    history.forEach((record) => {
+        const formattedDate = new Date(record.printStart).toLocaleDateString('vi-VN');
+        const formattedTime = new Date(record.printStart).toLocaleTimeString('vi-VN');
+        const statusClass = record.status.toLowerCase() === 'completed' ? 'success' : 'error';
+        const documents = record.documents?.map(doc => doc.name).join('<br>') || 'N/A';
 
-        try {
-            const response = await fetch(`http://localhost:3000/api/printconfigs/user/${userID}/history`);
-            if (!response.ok) throw new Error(`Failed to fetch history: ${response.status}`);
+        const row = `
+            <tr class="${statusClass}">
+                <td>${record.printer?.branchName || 'N/A'}<br>${record.printer?.location?.building || ''}</td>
+                <td>${formattedDate}<br>${formattedTime}</td>
+                <td>${record.numPages} (x${record.numCopies})<br>${record.paperSize}</td>
+                <td>${documents}</td>
+                <td>${record.status === 'Completed' ? 'In thành công' : 'Thất bại'}</td>
+            </tr>
+        `;
+        tbody.innerHTML += row;
+    });
+};
 
-            const history = await response.json();
-            const tbody = document.querySelector('.printer-history tbody');
-            if (!tbody) {
-                console.error('Printer history table body not found!');
-                return;
-            }
 
-            tbody.innerHTML = '';
-            history.forEach(config => {
-                const printTime = new Date(config.printTime);
-                const statusClass = config.status === 'success' ? 'success' : 'failed';
-                const statusText = config.status === 'success' ? 'In thành công' : 'Thất bại';
 
-                const row = `
-                    <tr class="${statusClass}">
-                        <td>${config.printer_ID}<br>${config.location || 'N/A'}</td>
-                        <td>${printTime.toLocaleDateString('vi-VN')}<br>${printTime.toLocaleTimeString('vi-VN')}</td>
-                        <td>${config.numPages}<br>${config.paperSize}</td>
-                        <td>${config.documents.map(doc => doc.name).join(', ')}<br>${config.documentsApproved ? 'Đã kiểm duyệt' : 'Chưa kiểm duyệt'}</td>
-                        <td>${statusText}</td>
-                    </tr>
-                `;
-                tbody.innerHTML += row;
-            });
-        } catch (error) {
-            console.error('Error fetching print history:', error);
-        }
-    };
+window.onload = fetchPrinterHistory;
 
-    // Delete print history
-    const deleteHistoryButton = document.querySelector('.delete-history-btn');
-    if (deleteHistoryButton) {
-        deleteHistoryButton.addEventListener('click', () => {
-            if (confirm('Bạn có chắc chắn muốn xóa toàn bộ lịch sử in?')) {
-                const userID = Cookies.get('id');
-                if (!userID) {
-                    console.error('User ID not found in cookies. Ensure the user is logged in.');
-                    return;
-                }
-
-                fetch(`http://localhost:3000/api/printconfigs/user/${userID}/history`, {
-                    method: 'DELETE',
-                })
-                    .then(response => {
-                        if (!response.ok) throw new Error(`Failed to delete history: ${response.status}`);
-                        alert('Lịch sử in đã được xóa thành công!');
-                        location.reload();
-                    })
-                    .catch(error => {
-                        console.error('Error deleting history:', error);
-                        alert('Đã xảy ra lỗi khi xóa lịch sử in. Vui lòng thử lại!');
-                    });
-            }
-        });
-    } else {
-        console.error('Delete history button not found!');
-    }
-
-    // Back button functionality
-    const backButton = document.querySelector('.return button');
-    if (backButton) {
-        backButton.addEventListener('click', () => {
-            window.history.back();
-        });
-    } else {
-        console.error('Back button not found!');
-    }
-
-    // Fetch and display print history on page load
-    fetchPrintHistory();
+document.querySelector(".return button").addEventListener("click", () => {
+    window.history.back(); // Quay lại trang trước đó
 });

@@ -149,3 +149,7 @@ const handleDeletePrintHistory = async () => {
 document.querySelector('.delete-history-btn').addEventListener('click', handleDeletePrintHistory);
 
 window.onload = fetchPrinterHistory;
+
+document.querySelector(".return button").addEventListener("click", () => {
+    window.history.back(); // Quay lại trang trước đó
+});
