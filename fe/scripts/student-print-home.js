@@ -110,6 +110,8 @@ confirm_button.addEventListener('click', async () => {
   //console.log(page_orientation + "-" + number_of_page + "-" + number_of_copy + "-" + type_of_print + "-" + paper_type);
   const configID = await createPrintConfigWith(page_orientation, number_of_page, number_of_copy, type_of_print, paper_type, Printer_ID);
 
+  if(!configID) return;
+
   ///for each element in file_inf                                             
   file_inf.forEach((doc) => {
     //console.log(doc.name + "----" + doc.size);
@@ -183,7 +185,15 @@ async function createPrintConfigWith(page_orientation, number_of_page, number_of
     const balancepage = user.pageBalance;
     if (balancepage < number_of_page * number_of_copy) {
       alert("You don't have enough page for printing ! Please Buy More !");
+      window.location.href = './student-buy.html';
       return;
+    }
+    else{
+      const updt = await substractPageBalance(balancepage - number_of_page * number_of_copy);
+      if(!updt) {
+        alert("Failing update PageBlance for Printing !");
+        return;
+      }
     }
   }
   catch (error) {
@@ -203,7 +213,7 @@ async function createPrintConfigWith(page_orientation, number_of_page, number_of
         "paperSize": paper_type,
         "printSide": type_of_print,
         "orientation": page_orientation,
-        "status": "Completed"
+        "status": "unCompleted"
       }),
       headers: {
         "Content-Type": "application/json"
@@ -218,5 +228,31 @@ async function createPrintConfigWith(page_orientation, number_of_page, number_of
   catch (error) {
     console.error(error);
     throw error;
+  }
+}
+
+async function substractPageBalance(pgNum) {
+  const userID = parseInt(getCookie('id'));
+  const token = getCookie('token');
+  try {
+    const respone = await fetch(`http://localhost:3000/api/d1/users/${userID}`, {
+      method: "PUT",
+      body : JSON.stringify({
+        "pageBalance" : pgNum 
+      })
+      ,
+      headers: {
+        "Content-Type": "application/json",
+        "token": `Bearer ${token}`
+      }
+    });
+    if(!respone.ok) return "Failing update PageNumber !";
+
+    return true;
+
+
+  }catch(error){
+    console.error(error);
+    return false;
   }
 }
