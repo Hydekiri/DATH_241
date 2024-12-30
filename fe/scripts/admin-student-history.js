@@ -57,6 +57,11 @@ const fetchPrinterHistoryInfo2 = async () => {
         if (!response.ok) throw new Error("Không thể lấy lịch sử máy in");
         const data = await response.json();
         renderPrintHistory(data.data || []);
+
+        // Lọc chỉ các mục có status là "Completed"
+        // const completedHistory = data.data.filter(record => record.status === "Completed");
+
+        // renderPrintHistory(completedHistory);
     } catch (error) {
         console.error(error);
         alert("Không thể tải lịch sử máy in!");
@@ -104,7 +109,7 @@ const renderPrintHistory = (history) => {
                 <td>${formattedDate}<br>${formattedTime}</td>
                 <td>${record.numPages} (x${record.numCopies})<br>${record.paperSize}</td>
                 <td>${documents}</td>
-                <td>${record.status === 'Completed' ? 'In thành công' : 'Thất bại'}</td>
+                <td>${record.status == 'Completed' ? 'In thành công' : 'Đang đợi in'}</td>
             </tr>
         `;
         tbody.innerHTML += row;

@@ -18,11 +18,38 @@ const fetchPrinterInfo = async () => {
         renderPrinterInfo(data.data); // Render thông tin chung
         renderPrinterInfo2(data.data);
 
+        checkAndResetPrintCount(data.data.last_reset);
+
     } catch (error) {
         console.error(error);
         alert("Không thể tải thông tin máy in!");
     }
 };
+const checkAndResetPrintCount = async (lastReset) => {
+    const now = new Date();
+    const lastResetDate = new Date(lastReset);
+    const hoursDiff = Math.abs(now - lastResetDate) / 36e5; // Convert to hours
+
+    if (hoursDiff >= 24) {
+        try {
+            const response = await fetch(`http://localhost:3000/api/d1/printers/${printer_ID}/resetPrintInDay`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error('Reset failed');
+            }
+            
+            // Refresh printer info after reset
+            fetchPrinterInfo();
+        } catch (error) {
+            console.error('Error resetting print count:', error);
+        }
+    }
+}
 
 // Hàm render thông tin chung của máy in
 const renderPrinterInfo = (printer) => {
@@ -76,6 +103,9 @@ document.querySelector(".edit a").addEventListener("click", (e) => {
         alert("Không tìm thấy ID máy in!");
     }
 });
+
+
+
 // Gọi hàm fetchPrinterInfo khi trang được tải
 window.onload = fetchPrinterInfo;
 
@@ -83,3 +113,4 @@ window.onload = fetchPrinterInfo;
 document.querySelector(".return button").addEventListener("click", () => {
     window.history.back(); // Quay lại trang trước đó
 });
+

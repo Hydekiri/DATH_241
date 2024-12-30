@@ -5,13 +5,15 @@ let allHistory = [];
 let filteredHistory = [];
 
 const fetchPrintHistory = async () => {
+    
     try {
         const response = await fetch('http://localhost:3000/api/d1/printconfigs');
+        // if (printconfig.status !== 'unCompleted') return;
         if (!response.ok) {
             throw new Error("Failed to fetch print history");
         }
         const data = await response.json();
-        allHistory = data.data;
+        allHistory = data.data.filter(record => record.status === "Completed");
         filteredHistory = [...allHistory];
         totalPages = Math.ceil(filteredHistory.length / itemsPerPage);
         renderHistory();
@@ -22,21 +24,22 @@ const fetchPrintHistory = async () => {
 };
 
 const renderHistory = () => {
+    
     const historyContainer = document.querySelector(".printers-rows");
     historyContainer.innerHTML = '';
     
     const start = (currentPage - 1) * itemsPerPage;
     const end = start + itemsPerPage;
     const pageHistory = filteredHistory.slice(start, end);
-
+    
     pageHistory.forEach(record => {
+        // if (record.status !== 'unCompleted') return;
         const row = document.createElement("div");
         row.classList.add("printers-row");
 
         const printDate = new Date(record.printStart);
         const formattedDate = printDate.toLocaleDateString('vi-VN');
         const formattedTime = printDate.toLocaleTimeString('vi-VN');
-
         row.innerHTML = `
             <div class="student-name">${record.user?.name || 'N/A'}</div>
             <div class="printer-id">${record.user?.user_ID || 'N/A'}</div>

@@ -11,5 +11,7 @@ module.exports = (app) => {
     require("./authRouter")(router);
     require("./documentRouter")(router);
     require("./printConfigRouter")(router);
+    require("./orderRouter")(router);
+    require("./queueRouter")(router);
     app.use("/api/d1", router);
 };

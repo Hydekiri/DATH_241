@@ -1,6 +1,6 @@
 const printerModel = require('../models/printerModel');
 const locationModel = require('../models/locationModel');
-
+const cron = require('node-cron');
 // Lấy tất cả các máy in kèm theo thông tin vị trí
 exports.getAllPrinters = async (req, res) => {
     try {
@@ -26,7 +26,7 @@ exports.getAllPrinters = async (req, res) => {
             paper_size: printer.paper_size,     
             resolution: printer.resolution,      
             ink_type: printer.ink_type,         
-            location: printer.location ? {
+            location: printer.location ? { 
                 building: printer.location.building
             } : null
         }));
@@ -202,19 +202,12 @@ exports.deletePrinter = async (req, res) => {
 exports.changeStatus = async (req, res) => {
     try {
         const printerId = req.params.id;
-
-        // Fetch the printer from the database
         const printer = await printerModel.getPrinterById(printerId);
         if (!printer) {
             return res.status(404).json({ status: 404, message: "Printer does not exist" });
         }
-
-        // Toggle the status between 'enable' and 'disable'
         const newStatus = printer.status === 'enable' ? 'disable' : 'enable';
-
-        // Update the printer's status in the database
         const updatedPrinter = await printerModel.updatePrinter(printerId, { status: newStatus });
-
         res.status(200).json({
             status: 200,
             data: updatedPrinter,
@@ -225,3 +218,90 @@ exports.changeStatus = async (req, res) => {
         res.status(500).json({ status: 500, message: "Error Changing Printer Status", error: error.message });
     }
 };
+
+exports.resetPrintInDay = async (req, res) => {
+    try {
+        const printers = await printerModel.getAllPrinters();
+
+        if (!printers || printers.length === 0) {
+            return res.status(404).json({ status: 404, message: "No printers found" });
+        }
+
+        for (const printer of printers) {
+            console.log(`Resetting prints_in_day for Printer_ID: ${printer.Printer_ID}`);
+            const updatedPrinter = await printerModel.updatePrinter(printer.Printer_ID, { prints_in_day: 0 });
+            console.log(`Updated Printer: ${JSON.stringify(updatedPrinter)}`);
+        }
+
+        res.status(200).json({
+            status: 200,
+            message: "Successfully reset prints_in_day for all printers!"
+        });
+    } catch (error) {
+        console.error("Error Resetting Prints in Day:", error);
+        res.status(500).json({ status: 500, message: "Error Resetting Prints in Day", error: error.message });
+    }
+};
+exports.resetPrintInDayByID = async (req, res) => {
+    try {
+        const printerId = req.params.id;
+        const printer = await printerModel.getPrinterById(printerId);
+        if (!printer) {
+            return res.status(404).json({ status: 404, message: "Printer does not exist" });
+        }
+        const newPrints_in_day = printer.prints_in_day = 0 ;
+        const updatedPrinter = await printerModel.updatePrinter(printerId, { prints_in_day: newPrints_in_day });
+        res.status(200).json({
+            status: 200,
+            data: updatedPrinter,
+            message: `Printer prints_in_day successfully changed to ${newPrints_in_day}!`,
+        });
+    } catch (error) {
+        console.error("Error Changing Printer Status:", error);
+        res.status(500).json({ status: 500, message: "Error Changing Printer Prints_in_day", error: error.message });
+    }
+};
+
+
+exports.increPrintInDayByID = async (req, res) => {
+    try {
+        const printerId = req.params.id;
+        const printer = await printerModel.getPrinterById(printerId);
+        if (!printer) {
+            return res.status(404).json({ status: 404, message: "Printer does not exist" });
+        }
+        const newPrints_in_day = printer.prints_in_day + 1;
+        const updatedPrinter = await printerModel.updatePrinter(printerId, { prints_in_day: newPrints_in_day });
+        res.status(200).json({
+            status: 200,
+            data: updatedPrinter,
+            message: `Printer prints_in_day successfully changed to ${newPrints_in_day}!`,
+        });
+    } catch (error) {
+        console.error("Error Changing Printer prints_in_day:", error);
+        res.status(500).json({ status: 500, message: "Error Changing Printer Prints_in_day", error: error.message });
+    }
+};
+
+exports.updatePages_printed = async (req, res) => {
+    try {
+        const printerId = req.params.id;
+        const printer = await printerModel.getPrinterById(printerId);
+        const { pages_printed } = req.body;
+        if (!printer) {
+            return res.status(404).json({ status: 404, message: "Printer does not exist" });
+        }
+        const newPages_printed = pages_printed;
+        const updatedPrinter = await printerModel.updatePrinter(printerId, { pages_printed: newPages_printed });
+        res.status(200).json({
+            status: 200,
+            data: updatedPrinter,
+            message: `Printer pages_printed successfully changed to ${newPages_printed}!`,
+        });
+    } catch (error) {
+        console.error("Error Changing Printer Status:", error);
+        res.status(500).json({ status: 500, message: "Error Changing Printer Prints_in_day", error: error.message });
+    }
+};
+
+

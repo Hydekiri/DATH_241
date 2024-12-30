@@ -67,6 +67,8 @@ const printerModel = {
         }
     },
 
+    
+
     getPrinterById: async (printer_ID) => {
         try {
             const printer = await query.getOne("Printer", { Printer_ID: printer_ID });
