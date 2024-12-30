@@ -117,3 +117,15 @@ INSERT INTO `Receiver_Message` (`notification_ID`, `user_ID`, `status`) VALUES
 (3, 3, 'read'),
 (4, 4, 'unread'),
 (5, 5, 'read');
+
+INSERT INTO `Queue` (`printer_ID`,`userID`, `config_ID`, `document_name`, `queue_position`, `status`, `numPages`)
+VALUES
+(1, 1, 1, 'Document1.pdf', 1, '1', 10),
+-- Tài liệu đầu tiên
+(2, 2, 2, 'Document2.docx', 1, '1', 20),
+-- Tài liệu thứ hai
+(3, 3, 3, 'Document3.xlsx', 1, '1', 15),
+-- Tài liệu thứ ba
+(4, 4, 4, 'Document4.txt', 1, '1', 30),
+-- Tài liệu thứ tư
+(5, 5, 5, 'Document5.jpeg', 1, '1', 5); -- Tài liệu cuối cùng
