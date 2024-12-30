@@ -138,7 +138,7 @@ const renderPrinters = () => {
         const statusText = printer.status === 'enable' ? 'Hoạt động' : 'Vô hiệu hóa';
         row.innerHTML = `
             <div class="printer-checkbox-container">
-                <input class="printer-checkbox" type="checkbox">
+                <input class="printer-checkbox" type="checkbox" style="display: none">
             </div>
             <div class="printer-display">
                 <div class="printer-model">${printer.branchName}</div>
@@ -149,14 +149,10 @@ const renderPrinters = () => {
                 <div class="printer-status" style="${statusColor}">${statusText}</div>
                 <div class="printer-actions">
                     <img class="printer-infor" src="images/icons/infor.png" alt="" onclick="showQueueInfo(${printer.Printer_ID})">
-                    <img class="printer-delete" src="images/icons/delete.png" alt="" onclick="handleDelete(${printer.Printer_ID})">
+                    <img class="printer-delete" src="images/icons/delete.png" alt="" onclick="handleDelete(${printer.Printer_ID})" style="display: none">
                 </div>
             </div>
             <div class="toggle-button-container">
-                <input type="checkbox" id="toggle-${printer.Printer_ID}" class="toggle-checkbox" ${printer.status === 'disable' ? 'checked' : ''} onclick="handleToggleStatus(${printer.Printer_ID}, '${printer.status}', event)">
-                <label for="toggle-${printer.Printer_ID}" class="toggle-label">
-                    <span class="toggle-circle"></span>
-                </label>
             </div>
         `;
         printersRowsContainer.appendChild(row);

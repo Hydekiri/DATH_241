@@ -69,6 +69,7 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         border-radius: 10px;
         padding: 32px;
+        position: relative;
     }
     
     .printer-history {
@@ -107,7 +108,9 @@
     
     /* Button styling */
     .delete-history-btn {
-        position: fixed;
+        position: absolute;
+        bottom: 40px;
+        right: 40px;
         margin-top: 320px;
         margin-left: 700px;
         background-color: #F66;
@@ -294,4 +297,23 @@
     .deco i {
         font-size: 24px; /* Kích thước biểu tượng */
         color: #24BEFB; /* Màu sắc của biểu tượng */
+    }
+
+    .print-action {
+        padding: 0 !important;
+        position: relative;
+    }
+
+    .print-button {
+        font-size: 24px;
+        margin: 0;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        box-shadow: none;
+        background-color: #24BEFB;;
+        border: none;
+        color: white;
     }
