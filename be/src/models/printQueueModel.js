@@ -58,7 +58,7 @@ const queuePrinterModel = {
             );
             const queuePosition = result[0].next_position;
             // 4. Xác định trạng thái ban đầu (đang in hoặc chờ in)
-            const status = '1'
+            const status = 'unCompleted'
             const printStart = null;
 
             // 5. Thêm bản ghi vào `Queue`

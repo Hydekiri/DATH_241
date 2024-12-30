@@ -11,6 +11,7 @@ exports.getAllDocumentOnQueue = async (req, res) => {
             userID: queue.userID,
             timeStart: queue.print_start,
             queuePosition: queue.queue_position,
+            numPages: queue.numPages,
             documentName: queue.document_name,
         }));
 

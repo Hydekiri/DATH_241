@@ -173,7 +173,7 @@ CREATE TABLE IF NOT EXISTS `Queue` (
     `config_ID` INT NOT NULL,                  -- Tham chiếu đến config_ID trong bảng Document
     `document_name` VARCHAR(255) NOT NULL,     -- Tham chiếu đến name trong bảng Document
     `queue_position` INT NOT NULL,
-    `status` ENUM('0', '1', '-1') DEFAULT '1',
+    `status` VARCHAR(50) DEFAULT 'unCompleted',
     `numPages` INT NOT NULL,
     `print_start` DATETIME DEFAULT NULL,
     `print_end` DATETIME DEFAULT NULL,
