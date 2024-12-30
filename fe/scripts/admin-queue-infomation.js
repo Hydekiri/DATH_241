@@ -126,7 +126,7 @@ async function updatePrinter(printerPage) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                pages_printed: 2000
+                pages_printed: printerPage
             })
         });
 
