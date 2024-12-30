@@ -21,4 +21,5 @@ module.exports = (router) => {
             console.error("Lỗi khi reset số lượt in:", error);
         }
     });
+    
 };
