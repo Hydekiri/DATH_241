@@ -27,12 +27,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (avatar) avatar.addEventListener("click", () => {
         avatar.parentElement.classList.toggle("active");
     });
+
+    setupNotificationPopup(); // Ensure the function is called
 });
 
 function setupNotificationPopup() {
     const notificationIcon = document.querySelector('.student-navbar-notification a');
+    if (!notificationIcon) {
+        console.error("Notification icon not found. Check your HTML structure.");
+        return;
+    }
+
     const notificationPopup = document.createElement('div');
     notificationPopup.classList.add('notification-popup');
+    notificationPopup.style.position = 'absolute'; // Ensure the popup is positioned correctly
+    notificationPopup.style.display = 'none'; // Initially hide the popup
     document.body.appendChild(notificationPopup);
 
     notificationIcon.addEventListener('click', async (event) => {
@@ -44,11 +53,13 @@ function setupNotificationPopup() {
             const userID = parseInt(getCookie('id'));
             const token = getCookie('token');
             const response = await fetch(`http://localhost:3000/api/d1/users/${userID}/notifications`, {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    "Content-Type": "application/json",
+                    "token": `Bearer ${token}`
                 }
             });
+            if (!response.ok) console.log("Failing Getting User by ID for create config!");
             const result = await response.json();
 
             if (result.status === 200) {
@@ -85,4 +96,11 @@ function parseJwt(token) {
     }).join(''));
 
     return JSON.parse(jsonPayload);
+}
+
+function getCookie(name) {
+    let value = `; ${document.cookie}`;
+    let parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;  // If cookie not found
 }
