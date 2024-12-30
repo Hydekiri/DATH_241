@@ -125,6 +125,25 @@ async function handlePrintButton(config_ID) {
     }
 }
 
+// async function sendMessage(printconfig) {
+//     try {
+//         const response = await fetch(`http://localhost:3000/api/d1/notifications/send`, {
+//             method: "POST",
+//             headers: {
+//             "Content-Type": "application/json",
+//             },
+//             body: JSON.stringify({
+//             userId: printconfig.user.user_ID,
+//             title: "Thông báo in thành công",
+//             content: `Vui lòng đến phòng ${printconfig.printer.location.building} để nhận tài liệu ${printconfig.documents.map(doc => doc.name).join(', ')}!`
+//             })
+//         });
+//     } catch (error) {
+//         console.error("Error sending notification:", error);
+//         alert("Không thể gửi thông báo!");
+//     }
+// }
+
 // Gọi hàm fetchPrinterInfo khi trang được tải
 window.onload = () => {
     fetchPrintConfig();

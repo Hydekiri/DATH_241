@@ -91,33 +91,7 @@ const renderPrintHistory = (history) => {
         tbody.innerHTML = '<tr><td colspan="5">Không có dữ liệu</td></tr>';
         return;
     }
-    document.querySelector(".uName").innerHTML = `<span>Tên:</span> ${user.name || 'N/A'}`;
-    document.querySelector(".uID").innerHTML = `<span>ID:</span> ${user.user_ID || 'N/A'}`;
-    document.querySelector(".pageBalance").innerHTML = `<span>Số trang in:</span> ${user.pageBalance || 0}`;
-    document.querySelector(".eMail").innerHTML = `<span>Email: </span> ${user.email || 'N/A'}`;
-    
-    const statusText = user.role === 'student' ? 'Hoạt động' : 'Vô hiệu hóa';
-    const statusColor = user.role === 'student' 
-        ? 'rgb(0, 202, 0)' 
-        : 'red';
-    document.querySelector(".status").innerHTML = `<span>Trạng thái:</span> <span style="color: ${statusColor};">${statusText}</span>`;
-};
 
-
-const renderPrintHistory = (history) => {
-    const tbody = document.querySelector(".printer-history tbody");
-    tbody.innerHTML = ''; // Clear existing rows
-
-    if (!history.length) {
-        tbody.innerHTML = '<tr><td colspan="5">Không có dữ liệu</td></tr>';
-        return;
-    }
-
-    history.forEach((record) => {
-        const formattedDate = new Date(record.printStart).toLocaleDateString('vi-VN');
-        const formattedTime = new Date(record.printStart).toLocaleTimeString('vi-VN');
-        const statusClass = record.status.toLowerCase() === 'completed' ? 'success' : 'error';
-        const documents = record.documents?.map(doc => doc.name).join('<br>') || 'N/A';
     history.forEach((record) => {
         const formattedDate = new Date(record.printStart).toLocaleDateString('vi-VN');
         const formattedTime = new Date(record.printStart).toLocaleTimeString('vi-VN');
