@@ -203,7 +203,7 @@ async function createPrintConfigWith(page_orientation, number_of_page, number_of
         "paperSize": paper_type,
         "printSide": type_of_print,
         "orientation": page_orientation,
-        "status": "Completed"
+        "status": "unCompleted"
       }),
       headers: {
         "Content-Type": "application/json"

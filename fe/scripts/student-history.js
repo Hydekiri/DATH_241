@@ -104,7 +104,7 @@ const renderPrintHistory = (history) => {
                 <td>${formattedDate}<br>${formattedTime}</td>
                 <td>${record.numPages} (x${record.numCopies})<br>${record.paperSize}</td>
                 <td>${documents}</td>
-                <td>${record.status === 'Completed' ? 'In thành công' : 'Thất bại'}</td>
+                <td>${record.status === 'Completed' ? 'In thành công' : 'Đang đợi in'}</td>
             </tr>
         `;
         tbody.innerHTML += row;

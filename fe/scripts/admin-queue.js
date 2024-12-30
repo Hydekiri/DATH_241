@@ -123,6 +123,32 @@ const handleToggleStatus = async (printerId, currentStatus, event) => {
 //         printersRowsContainer.appendChild(row);
 //     });
 // };
+async function calQueue(printer_ID) {
+    let totalQueue = 0;
+    try {
+        const response = await fetch(`http://localhost:3000/api/d1/printconfigs/printer/${printer_ID}`)
+        if (!response.ok) {
+            throw new Error("Không thể lấy danh sách hàng đợi");
+        }
+
+        const data = await response.json();
+        const printConfigs = data.data;
+        console.log(printConfigs);
+        
+        printConfigs.forEach((printConfig) => {
+            if (printConfig.status == 'unCompleted') 
+                totalQueue++;
+        });
+
+        return totalQueue;
+    }
+    catch(error) {
+        console.error(error);
+    }
+    return totalQueue;
+}
+
+
 const renderPrinters = () => {
     const printersRowsContainer = document.querySelector(".printers-rows");
     printersRowsContainer.innerHTML = '';
@@ -130,9 +156,11 @@ const renderPrinters = () => {
     const end = start + itemsPerPage;
     const printers = allPrinters.slice(start, end);
 
-    printers.forEach(printer => {
+    printers.forEach(async (printer) => {
         const row = document.createElement("div");
         row.classList.add("printers-row");
+
+        const queueNum = await calQueue(printer.Printer_ID);
 
         const statusColor = printer.status === 'enable' ? 'color: #1EDF04; background-color: #D4FDD1;' : 'color: red; background-color: #FFCCCC;';
         const statusText = printer.status === 'enable' ? 'Hoạt động' : 'Vô hiệu hóa';
@@ -145,7 +173,7 @@ const renderPrinters = () => {
                 <div class="printer-model">${printer.model}</div>
                 <div class="printer-id">${printer.Printer_ID}</div>
                 <div class="printer-location">${printer.location.building}</div>
-                <div class="printer-weight">${printer.queue || '0'}</div>
+                <div class="printer-weight">${queueNum}</div>
                 <div class="printer-status" style="${statusColor}">${statusText}</div>
                 <div class="printer-actions">
                     <img class="printer-infor" src="images/icons/infor.png" alt="" onclick="showQueueInfo(${printer.Printer_ID})">
@@ -227,6 +255,11 @@ document.querySelector(".search-input").addEventListener("input", (event) => {
     );
     renderPrinters(filteredData); // Hiển thị dữ liệu đã lọc
 });
+
+async function fetchPrintConfig() {
+    const response = await fetch('')
+}
+
 
 // Call fetchPrinters when the page loads
 window.onload = fetchPrinters;

@@ -1,5 +1,6 @@
 const urlParams = new URLSearchParams(window.location.search);
 const printer_ID = urlParams.get('printer_ID');
+let printerStatus;
 
 console.log(printer_ID); // Hiển thị printer_ID lên console
 
@@ -23,6 +24,8 @@ const fetchPrinterInfo = async () => {
 
 // Hàm render thông tin chung của máy in
 const renderPrinterInfo = (printer) => {
+    printerStatus = printer.status;
+
     document.querySelector(".IDPrinter").innerHTML = `<span>ID:</span> ${printer.Printer_ID}`;
     document.querySelector(".model").innerHTML = `<span>Model:</span> ${printer.model}`;
     document.querySelector(".location").innerHTML = `<span>Vị trí:</span> ${printer.location.building}`;
@@ -53,18 +56,24 @@ async function fetchPrintConfig() {
     try {
         const response = await fetch(`http://localhost:3000/api/d1/printconfigs/printer/${printer_ID}`);
         if (!response.ok) {
-            throw new Error("Không thể lấy lịch sử máy in");
+            throw new Error("Không thể lấy danh sách hàng đợi");
         }
         const data = await response.json();
         console.log(data.data); 
         renderPrintConfig(data.data); 
     } catch (error) {
         console.error(error);
-        alert("Không thể tải lịch sử máy in!");
+        alert("Không thể tải danh sách hàng đợi!");
     }
 }
 
 function renderPrintConfig(printconfigs) {
+    if (printerStatus !== 'enable')
+    {
+        document.querySelector('.printers-display').innerHTML += '<h1 style="text-align: center">Máy in hiện không khả dụng!</h1>';
+        return;
+    }
+
     const printconfigDisplay = document.querySelector('.printconfig-display');
     let html = '';
 
@@ -101,7 +110,7 @@ async function handlePrintButton(config_ID) {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ status: "completed" })
+            body: JSON.stringify({ status: "Completed" })
         });
 
         if (!response.ok) {
