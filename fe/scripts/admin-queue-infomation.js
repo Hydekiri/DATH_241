@@ -2,7 +2,6 @@ const urlParams = new URLSearchParams(window.location.search);
 const printer_ID = urlParams.get('printer_ID');
 let printerStatus;
 let printerPage;
-let branchName1, model1, description1, status1, weight1, printer_type1, queue1, prints_in_day1, pages_printed1, color_print1, printer_size1, paper_size1, resolution1, ink_type1, location1;
 
 console.log(printer_ID); // Hiển thị printer_ID lên console
 
@@ -28,24 +27,6 @@ const fetchPrinterInfo = async () => {
 const renderPrinterInfo = (printer) => {
     printerStatus = printer.status;
     printerPage = printer.pages_printed;
-
-    branchName1 = printer.branchName;
-    model1 = printer.model;
-    description1 = printer.description;
-    status1 = printer.status;
-    weight1 = printer.weight;
-    printer_type1 = printer.printer_type;
-    queue1 = printer.model;
-    prints_in_day1 = printer.prints_in_day;
-    pages_printed1 = printer.pages_printed;
-    color_print1 = printer.color_print;
-    printer_size1 = printer.printer_size;
-    paper_size1 = printer.paper_size;
-    resolution1 = printer.resolution;
-    ink_type1 = printer.ink_type;
-    location1 = printer.location;
-
-    console.log(location1);
 
     document.querySelector(".IDPrinter").innerHTML = `<span>ID:</span> ${printer.Printer_ID}`;
     document.querySelector(".model").innerHTML = `<span>Model:</span> ${printer.model}`;
@@ -136,57 +117,33 @@ function renderPrintConfig(printconfigs) {
 
 async function updatePrinter(printerPage) {
     printerPage = Number(printerPage);
+    console.log(printerPage);
 
     try {
-        console.log(printerPage);
-        console.log({
-            branchName: branchName1,
-            model: model1,
-            description: description1,
-            status: status1,
-            weight: weight1,
-            printer_type: printer_type1, 
-            queue: queue1,              
-            prints_in_day: prints_in_day1 + 1, 
-            pages_printed: printerPage, 
-            color_print: color_print1,   
-            printer_size: printer_size1,  
-            paper_size: paper_size1,     
-            resolution: resolution1,      
-            ink_type: ink_type1, 
-            location: location
-        });
-
-        const dataToUpdate = {
-            branchName: branchName1,
-            model: model1,
-            description: description1,
-            status: status1,
-            weight: weight1,
-            printer_type: printer_type1, 
-            queue: queue1,              
-            prints_in_day: prints_in_day1 + 1, 
-            pages_printed: printerPage, 
-            color_print: color_print1,   
-            printer_size: printer_size1,  
-            paper_size: paper_size1,     
-            resolution: resolution1,      
-            ink_type: ink_type1, 
-            location: location1
-        };
-
-        const response = await fetch(`http://localhost:3000/api/d1/printers/${printer_ID}`, {
+        const response1 = await fetch(`http://localhost:3000/api/d1/printers/${printer_ID}/updatePagePrint`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(dataToUpdate)
+            body: JSON.stringify({
+                pages_printed: 2000
+            })
         });
-        if (!response.ok) {
-            throw new Error("Không thể cập nhật máy in!");
+
+        if (!response1.ok) {
+            throw new Error("Không thể cập nhật máy in! updatePagePrint");
         }
 
-        alert('cap nhat may in thanh cong');
+        const response2 = await fetch(`http://localhost:3000/api/d1/printers/${printer_ID}/increPrintInDay`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+
+        if (!response2.ok) throw new Error('Không thể cập nhật máy in! increPrintInDay')
+
+        alert('Cập nhật máy in thành công!');
     }
     catch {
         console.error("Lỗi khi cập nhật máy in:", error);
