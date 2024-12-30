@@ -176,6 +176,7 @@ CREATE TABLE IF NOT EXISTS `Queue` (
     `status` ENUM('0', '1', '-1') DEFAULT '1',
     `numPages` INT NOT NULL,
     `print_start` DATETIME DEFAULT NULL,
+    `print_end` DATETIME DEFAULT NULL,
     FOREIGN KEY (`userID`) REFERENCES `User`(`user_ID`) ON DELETE CASCADE,
     FOREIGN KEY (`printer_ID`) REFERENCES `Printer`(`Printer_ID`) ON DELETE CASCADE,
     FOREIGN KEY (`config_ID`, `document_name`) REFERENCES `Document`(`config_ID`, `name`) ON DELETE CASCADE -- Khóa ngoại kép
