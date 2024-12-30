@@ -77,7 +77,7 @@ const renderPrintHistory = (history) => {
                 <td>${formattedDate}<br>${formattedTime}</td>
                 <td>${config.paperSize}<br>${config.numPages}</td>
                 <td>${config.documents.map(doc => doc.name).join('<br>')}</td>
-                <td>${config.status === 'completed' ? 'Successful' : 'Failed'}</td>
+                <td>${config.status === 'completed' ? 'Successful' : 'Waited'}</td>
             </tr>
         `;
         historyContainer.innerHTML += historyRow; // Append the new row

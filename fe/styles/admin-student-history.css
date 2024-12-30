@@ -92,7 +92,7 @@
 
 .printer-history tbody {
     display: block;
-    max-height: 450px; /* Giới hạn chiều cao của tbody */
+    max-height: 480px; /* Giới hạn chiều cao của tbody */
     overflow-y: auto; /* Kích hoạt cuộn dọc cho tbody */
 }
 
@@ -133,8 +133,8 @@
   }
   
   .error td {
-    background-color: #FAD4D4;
-    color: #F90000;
+    background-color: #ff990052;
+    color: #ff8800;
   }
   
   /* Button styling */

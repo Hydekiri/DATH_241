@@ -48,11 +48,11 @@ INSERT INTO `Location` (`building`) VALUES
 
 -- Bảng `Printer`
 INSERT INTO `Printer` (`branchName`, `model`, `description`, `status`, `loc_ID`, `weight`, `printer_type`, `queue`, `prints_in_day`, `pages_printed`, `color_print`,`printer_size` , `paper_size`, `resolution`, `ink_type`) VALUES
-('Printer A1', 'HP LaserJet', 'High-speed B&W printer', 'enable', 1,'9.4kg', 'Laser trắng đen', 0, 0, 0, 'no','452x365x352.5 mm', 'A4', '600x600 dpi', 'HP 6520'),
-('Printer B2', 'Canon Pixma', 'Color printer with duplex printing', 'enable', 2,'9.4kg', 'Inkjet màu', 0, 0, 0, 'yes', '452x365x352.5 mm', 'A4, A5', '1200x1200 dpi', 'Canon 9523'),
-('Printer C3', 'Epson EcoTank', 'Eco-friendly color printer', 'disable', 3,'9.4kg', 'Inkjet màu', 0, 0, 0, 'yes','452x365x352.5 mm', 'A4, Legal', '1440x1440 dpi', 'Epson Eco 500'),
-('Printer D4', 'Brother HL-L2350DW', 'Compact laser printer', 'enable', 4,'9.4kg', 'Laser trắng đen', 0, 0, 0, 'no', '452x365x352.5 mm','A4, Letter', '600x600 dpi', 'Brother 2345'),
-('Printer E5', 'Xerox Phaser', 'High-capacity network printer', 'enable', 5,'9.4kg', 'Laser trắng đen', 0, 0, 0, 'no', '452x365x352.5 mm','A4, Letter, Legal', '1200x1200 dpi', 'Xerox 6589');
+('Printer A1', 'HP LaserJet', 'High-speed B&W printer', 'enable', 1,'9.4kg', 'Laser trắng đen', 0, 5, 1200, 'no','452x365x352.5 mm', 'A4', '600x600 dpi', 'HP 6520'),
+('Printer B2', 'Canon Pixma', 'Color printer with duplex printing', 'enable', 2,'9.4kg', 'Inkjet màu', 0, 10, 1200, 'yes', '452x365x352.5 mm', 'A4, A5', '1200x1200 dpi', 'Canon 9523'),
+('Printer C3', 'Epson EcoTank', 'Eco-friendly color printer', 'disable', 3,'9.4kg', 'Inkjet màu', 0, 2, 1200, 'yes','452x365x352.5 mm', 'A4, Legal', '1440x1440 dpi', 'Epson Eco 500'),
+('Printer D4', 'HL-L2350DW', 'Compact laser printer', 'enable', 4,'9.4kg', 'Laser trắng đen', 2, 12, 1200, 'no', '452x365x352.5 mm','A4, Letter', '600x600 dpi', 'Brother 2345'),
+('Printer E5', 'Xerox Phaser', 'High-capacity network printer', 'enable', 5,'9.4kg', 'Laser trắng đen', 1, 60, 1200, 'no', '452x365x352.5 mm','A4, Letter, Legal', '1200x1200 dpi', 'Xerox 6589');
 
 -- Bảng PrintConfiguration
 INSERT INTO `PrintConfiguration` (`printStart`, `printEnd`, `user_ID`, `printer_ID`, `numPages`, `numCopies`, `paperSize`, `printSide`, `orientation`, `status`) VALUES
