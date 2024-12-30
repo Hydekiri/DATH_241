@@ -88,7 +88,7 @@ const queuePrinterModel = {
         while (true) {
             try {
                 // 1. Lấy tài liệu đang in cho máy in
-                const [currentJob] = await db.query(
+                const [currentJob] = await pool.query(
                     `SELECT * FROM Queue 
                      WHERE printer_ID = ? AND status = '0' 
                      ORDER BY queue_position LIMIT 1`,
