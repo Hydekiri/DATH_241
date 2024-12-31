@@ -89,7 +89,7 @@ function renderPrintConfig(printconfigs) {
         const [date, timeWithTimezone] = datetimeStr.split('T');
         const time = timeWithTimezone.replace('.000Z', '');
 
-
+        
         //Tinh so luong giay can in
         let paperToPrint = printconfig.printSide === 'one-side' ? printconfig.numPages : Math.ceil(printconfig.numPages / 2);
 

@@ -92,10 +92,12 @@ const renderPrintHistory = (history) => {
     const tbody = document.querySelector(".printer-history tbody");
     tbody.innerHTML = ''; // Clear existing rows
 
-    if (!history.length) {
+    if (!history || !history.length) {
+        // Thêm dòng hiển thị "Không có dữ liệu" nếu lịch sử trống
         tbody.innerHTML = '<tr><td colspan="5">Không có dữ liệu</td></tr>';
         return;
     }
+
 
     history.forEach((record) => {
         const formattedDate = new Date(record.printStart).toLocaleDateString('vi-VN');
@@ -114,6 +116,10 @@ const renderPrintHistory = (history) => {
         `;
         tbody.innerHTML += row;
     });
+    // Kiểm tra nếu tbody vẫn trống sau khi lặp qua lịch sử
+    if (!tbody.innerHTML.trim()) {
+        tbody.innerHTML = '<tr><td colspan="5">Không có dữ liệu</td></tr>';
+    }
 };
 
 const handleDeletePrintHistory = async () => {
