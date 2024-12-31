@@ -191,9 +191,41 @@ async function createPrintConfigWith(page_orientation, number_of_page, number_of
     throw error;
   }
 
+  // Update queue
+  try {
+    const response11 = await fetch(`http://localhost:3000/api/d1/printers/${printer_ID}`);
+
+    if (!response11.ok) {
+      throw new Error("Không thể lấy thông tin máy in");
+    }
+
+    const data11 = await response11.json();
+    let newQueue = Number(data11.data.queue);
+    newQueue++;
+    console.log(newQueue);
+
+    const response22 = await fetch(`http://localhost:3000/api/d1/printers/${printer_ID}/queue`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        queue: newQueue
+      })
+    });
+
+    if (!response22.ok) {
+      throw new Error("Không thể cập nhật queue");
+    }
+  }
+  catch(error) {
+    console.error(error);
+    throw error;
+  }
+
   //create PrintConfig
   try {
-    const respone = await fetch("http://localhost:3000/api/d1/printconfigs", {
+    const respone33 = await fetch("http://localhost:3000/api/d1/printconfigs", {
       method: "POST",
       body: JSON.stringify({
         "user_ID": userID,
@@ -209,10 +241,12 @@ async function createPrintConfigWith(page_orientation, number_of_page, number_of
         "Content-Type": "application/json"
       }
     });
-    if (!respone.ok) console.log("Failing add new PrintConfig !");
+    if (!respone33.ok) console.log("Failing add new PrintConfig !");
 
-    const data = await respone.json();
-    const cfID = data.data.config_ID;
+    const data2 = await respone33.json();
+    const cfID = await data2.data.config_ID;
+    console.log(data2);
+    console.log(cfID);
     return cfID;
   }
   catch (error) {
