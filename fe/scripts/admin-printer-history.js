@@ -55,6 +55,11 @@ const renderPrinterInfo = (printer) => {
         <i class="fas fa-info-circle printer-infor" style="font-size: 24px; color: #ffffff; margin-right: 10px;" onclick="showPrinterInfo(${printer.Printer_ID})"></i>
     `;
 };
+
+function toLower(str) {
+    return String(str).toLowerCase() || str;
+}
+
 const renderPrintHistory = (history) => {
     const historyContainer = document.querySelector(".printer-history tbody");
     historyContainer.innerHTML = ''; // Clear existing rows
@@ -67,7 +72,7 @@ const renderPrintHistory = (history) => {
 
     history.forEach(config => {
         // Ensure that we have a user and documents
-        const statusClass = config.status === 'completed' ? 'success' : 'error'; 
+        const statusClass = toLower(config.status) === 'completed' ? 'success' : 'error'; 
         const printStartDate = new Date(config.printStart);
         const formattedDate = printStartDate.toLocaleDateString(); // 'dd/mm/yyyy' 
         const formattedTime = printStartDate.toLocaleTimeString(); // 'HH:MM:SS' 
@@ -77,7 +82,7 @@ const renderPrintHistory = (history) => {
                 <td>${formattedDate}<br>${formattedTime}</td>
                 <td>${config.paperSize}<br>${config.numPages}</td>
                 <td>${config.documents.map(doc => doc.name).join('<br>')}</td>
-                <td>${config.status === 'completed' ? 'Successful' : 'Waited'}</td>
+                <td>${toLower(config.status) === 'completed' ? 'Successful' : 'Waited'}</td>
             </tr>
         `;
         historyContainer.innerHTML += historyRow; // Append the new row
