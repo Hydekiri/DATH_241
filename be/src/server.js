@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use(cookieParser());
 app.get("/", (req, res) => {
-    res.send("Smart Printing Service!");
+  res.send("Smart Printing Service!");
 });
 
 const swaggerUi = require("swagger-ui-express");

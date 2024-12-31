@@ -38,4 +38,29 @@ exports.deleteAllDocumentOnQueue = async (req, res) => {
         console.error("Error Delete all Documents on Queue!!", error);
         res.status(500).json({ status: 500, message: 'Error Delete all Documents on Queue' })
     }
-}
+};
+exports.printJobOnQueue = async (req, res) => {
+    const { printer_ID, queue_ID } = req.body;
+
+    if (!printer_ID || !queue_ID) {
+        return res.status(400).json({
+            status: 400,
+            message: "Printer ID and Queue ID are required."
+        });
+    }
+    try {
+        await queuePrinterModel.processPrintQueue(printer_ID, queue_ID);
+        return res.status(200).json({
+            status: 200,
+            message: "Print job completed successfully.",
+            data: {
+                printer_ID,
+                queue_ID
+            }
+        });
+
+    } catch (error) {
+        console.error("Error to print this document on Queue", error);
+        res.status(500).json({ status: 500, message: 'Error to print this document on Queue' })
+    }
+};
