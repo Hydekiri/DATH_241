@@ -101,6 +101,10 @@ printerList.addEventListener('click', (event) => {
 const confirm_button = document.querySelector('.confirm-button');
 
 confirm_button.addEventListener('click', async () => {
+  if (file_inf.length === 0) {
+    alert("Vui lòng tải lên ít nhất một tệp trước khi xác nhận!");
+    return;
+  }
 
   const page_orientation = document.getElementById('orientation').value;
   const number_of_page = document.getElementById('page-num').value;
@@ -108,6 +112,10 @@ confirm_button.addEventListener('click', async () => {
   const type_of_print = document.getElementById('print-type').value;
   const paper_type = document.getElementById('paper-size').value;
   //console.log(page_orientation + "-" + number_of_page + "-" + number_of_copy + "-" + type_of_print + "-" + paper_type);
+
+  if(Printer_ID === 0) {
+    alert("Hãy chọn máy in trước !");
+  }
   const configID = await createPrintConfigWith(page_orientation, number_of_page, number_of_copy, type_of_print, paper_type, Printer_ID);
 
   if(!configID) return;
