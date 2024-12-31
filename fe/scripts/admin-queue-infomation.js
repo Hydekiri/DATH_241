@@ -1,6 +1,8 @@
 const urlParams = new URLSearchParams(window.location.search);
 const printer_ID = urlParams.get('printer_ID');
 let printerStatus;
+let globalPrintConfigs = [];
+
 
 console.log(printer_ID); // Hiển thị printer_ID lên console
 
@@ -30,7 +32,7 @@ const renderPrinterInfo = (printer) => {
     document.querySelector(".model").innerHTML = `<span>Model:</span> ${printer.model}`;
     document.querySelector(".location").innerHTML = `<span>Vị trí:</span> ${printer.location.building}`;
     document.querySelector(".wei").innerHTML = `<span>Trọng Lượng: </span>${printer.weight || 'N/A'}`;
-    
+
     const statusColor = printer.status === 'enable' ? ' background-color: #1edf043f; padding: 2px 2px; border-radius: 10px;color: #00C10D; ' : 'color: red; background-color: #FFCCCC;padding: 2px 2px; border-radius: 10px;';
     const statusText = printer.status === 'enable' ? 'Hoạt động' : 'Vô hiệu hóa';
     document.querySelector(".status").innerHTML = `<span>Trạng thái:</span> <span style='${statusColor}'>${statusText}</span>`;
@@ -54,13 +56,13 @@ const showPrinterHistoryInfo = async (printer_ID) => {
 
 async function fetchPrintConfig() {
     try {
-        const response = await fetch(`http://localhost:3000/api/d1/printconfigs/printer/${printer_ID}`);
+        const response = await fetch(`http://localhost:3000/api/d1/printconfigs/printer/${printer_ID}`); //
         if (!response.ok) {
             throw new Error("Không thể lấy danh sách hàng đợi");
         }
         const data = await response.json();
-        console.log(data.data); 
-        renderPrintConfig(data.data); 
+        console.log(data.data);
+        renderPrintConfig(data.data);
     } catch (error) {
         console.error(error);
         alert("Không thể tải danh sách hàng đợi!");
@@ -68,11 +70,12 @@ async function fetchPrintConfig() {
 }
 
 function renderPrintConfig(printconfigs) {
-    if (printerStatus !== 'enable')
-    {
+    if (printerStatus !== 'enable') {
         document.querySelector('.printers-display').innerHTML += '<h1 style="text-align: center">Máy in hiện không khả dụng!</h1>';
         return;
     }
+
+    globalPrintConfigs = printconfigs;
 
     const printconfigDisplay = document.querySelector('.printconfig-display');
     let html = '';
@@ -100,9 +103,36 @@ function renderPrintConfig(printconfigs) {
     if (html === '') document.querySelector('.printers-display').innerHTML += '<h1 style="text-align: center">Không có tài liệu đang đợi in</h1>';
 }
 
+//hàm bổ trợ để lấy location
+async function fetchAllLocations() {
+    try {
+        const response = await fetch('http://localhost:3000/api/d1/locations');
+        if (!response.ok) {
+            throw new Error(`Error fetching locations: ${response.statusText}`);
+        }
+        const result = await response.json();
+        return result.data; // Trả về danh sách locations
+    } catch (error) {
+        console.error('Error fetching all locations:', error);
+        alert('Không thể lấy thông tin địa điểm');
+        return [];
+    }
+}
+
+// Hàm để lọc location dựa vào loc_ID
+async function getLocationByLocID(loc_ID) {
+    const locations = await fetchAllLocations(); // Lấy toàn bộ locations
+    const location = locations.find(location => location.location_ID === loc_ID); // Lọc location theo loc_ID
+    const building = location.building;
+    return building;
+}
+
 async function handlePrintButton(config_ID) {
     const confirmPrint = window.confirm("Xác nhận in tài liệu này?");
     if (!confirmPrint) return;
+
+    const printconfig = globalPrintConfigs.find(item => item.config_ID === config_ID);
+    //console.log(printconfig.printer.loc_ID);
 
     try {
         const response = await fetch(`http://localhost:3000/api/d1/printconfigs/${config_ID}`, {
@@ -118,12 +148,54 @@ async function handlePrintButton(config_ID) {
         }
 
         alert("In thành công và trạng thái đã được cập nhật.");
+        console.log(printconfig);
+
+        await sendMessage(printconfig);
         fetchPrintConfig();
     } catch (error) {
         console.error("Lỗi khi cập nhật trạng thái in:", error);
         alert("Có lỗi xảy ra khi đánh dấu trạng thái.");
     }
 }
+
+
+
+
+
+async function sendMessage(printconfig) {
+    try {
+        const building = await getLocationByLocID(printconfig.printer.loc_ID);
+        //console.log(building);
+        // Tạo nội dung thông báo
+        const documentNames = printconfig.documents.map(doc => doc.name).join(', ');
+        const response = await fetch(`http://localhost:3000/api/d1/notifications/send`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                userId: printconfig.user.user_ID,
+                title: "Thông báo in thành công",
+                content: `Vui lòng đến phòng ${building} để nhận tài liệu: ${documentNames}!`
+            })
+        });
+
+        console.log(`Vui lòng đến phòng ${building} để nhận tài liệu: ${documentNames}!`)
+
+        // Kiểm tra phản hồi từ API
+        if (!response.ok) {
+            const errorMessage = await response.text();
+            throw new Error(`HTTP ${response.status}: ${errorMessage}`);
+        }
+
+        console.log("Thông báo đã được gửi thành công.");
+    } catch (error) {
+        console.error("Lỗi khi gửi thông báo:", error);
+        alert("Không thể gửi thông báo! Lỗi: " + error.message);
+    }
+}
+
+
 
 // Gọi hàm fetchPrinterInfo khi trang được tải
 window.onload = () => {

@@ -16,7 +16,7 @@ function LogOutSPSO() {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-    const res = await fetch('http://127.0.0.1:5500/fe/scripts/general/admin-navbar.html')
+    const res = await fetch('http://127.0.0.1:5500/scripts/general/admin-navbar.html')
         .then(response => response.text())
         .then(data => {
             document.querySelector('.admin-navbar').innerHTML = data;
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const avatar = document.querySelector('.admin-navbar-avatar .avatar');
 
-    if(avatar) avatar.addEventListener("click", () => {
+    if (avatar) avatar.addEventListener("click", () => {
         avatar.parentElement.classList.toggle("active");
     });
 });
