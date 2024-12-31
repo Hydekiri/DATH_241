@@ -42,6 +42,8 @@ const renderPrinterInfo = (printer) => {
     `;
 };
 
+
+/*
 async function calQueue() {
     let totalQueue = 0;
     try {
@@ -66,16 +68,16 @@ async function calQueue() {
     }
     return totalQueue;
 }
-
+*/
 
 
 
 // Hàm render thông tin chi tiết của máy in
 const renderPrinterInfo2 = async (printer) => {
-    const numQueue = await calQueue(printer_ID);
+    //const numQueue = await calQueue(printer_ID);
 
     document.querySelector(".printermodel").innerHTML = `<span>Kiểu máy in:</span> ${printer.printer_type || '0'}`;
-    document.querySelector(".queue").innerHTML = `<span>Hàng đợi:</span> ${numQueue}`;
+    document.querySelector(".queue").innerHTML = `<span>Hàng đợi:</span> ${printer.queue}`;
     document.querySelector(".printInDay").innerHTML = `<span>Số lượt in trong ngày: </span>${printer.prints_in_day || '0'}`;
     document.querySelector(".numPage").innerHTML = `<span>Số lượng giấy in:</span> ${printer.pages_printed || '0'}`;
     document.querySelector(".printColor").innerHTML = `<span>In màu: </span>${printer.color_print === 'yes' ? 'Có' : 'Không'}`;

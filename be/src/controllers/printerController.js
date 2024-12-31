@@ -304,23 +304,45 @@ exports.updatePages_printed = async (req, res) => {
     }
 };
 
-exports.decreQueue = async (req, res) => {
+exports.updateQueue = async (req, res) => {
     try {
-        const printerId = req.params.id;
+        const printerId = req.params.id; // Lấy ID của printer từ params
+        const { queue } = req.body; // Lấy giá trị queue mới từ body request
+
+        // Kiểm tra giá trị queue mới có được gửi không
+        if (typeof queue !== 'number') {
+            return res.status(400).json({
+                status: 400,
+                message: "Invalid or missing 'queue' value",
+            });
+        }
+
+        // Tìm printer dựa trên ID
         const printer = await printerModel.getPrinterById(printerId);
         if (!printer) {
-            return res.status(404).json({ status: 404, message: "Printer does not exist" });
+            return res.status(404).json({
+                status: 404,
+                message: "Printer does not exist",
+            });
         }
-        const newQueue = printer.queue - 1;
-        const updatedPrinter = await printerModel.updatePrinter(printerId, { queue: newQueue });
+
+        // Cập nhật giá trị queue mới
+        const updatedPrinter = await printerModel.updatePrinter(printerId, { queue: queue });
+
+        // Trả về phản hồi thành công
         res.status(200).json({
             status: 200,
             data: updatedPrinter,
-            message: `Printer queue successfully changed to ${newQueue}!`,
+            message: `Printer queue successfully updated to ${queue}!`,
         });
     } catch (error) {
-        console.error("Error Changing Printer queue:", error);
-        res.status(500).json({ status: 500, message: "Error Changing Printer queue", error: error.message });
+        console.error("Error updating printer queue:", error);
+        res.status(500).json({
+            status: 500,
+            message: "Error updating printer queue",
+            error: error.message,
+        });
     }
 };
+
 

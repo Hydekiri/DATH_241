@@ -1,7 +1,6 @@
 const urlParams = new URLSearchParams(window.location.search);
 const printer_ID = urlParams.get('printer_ID');
-let printerStatus;
-let printerPage;
+let printerStatus, printerPage, printerQueue;
 
 console.log(printer_ID); // Hiển thị printer_ID lên console
 
@@ -27,6 +26,7 @@ const fetchPrinterInfo = async () => {
 const renderPrinterInfo = (printer) => {
     printerStatus = printer.status;
     printerPage = printer.pages_printed;
+    printerQueue = printer.queue;
 
     document.querySelector(".IDPrinter").innerHTML = `<span>ID:</span> ${printer.Printer_ID}`;
     document.querySelector(".model").innerHTML = `<span>Model:</span> ${printer.model}`;
@@ -118,6 +118,9 @@ function renderPrintConfig(printconfigs) {
 async function updatePrinter(printerPage) {
     printerPage = Number(printerPage);
     console.log(printerPage);
+    
+    // Giam queue
+    printerQueue--;
 
     try {
         const response1 = await fetch(`http://localhost:3000/api/d1/printers/${printer_ID}/updatePagePrint`, {
@@ -141,7 +144,17 @@ async function updatePrinter(printerPage) {
             }
         })
 
-        if (!response2.ok) throw new Error('Không thể cập nhật máy in! increPrintInDay')
+        if (!response2.ok) throw new Error('Không thể cập nhật máy in! increPrintInDay');
+
+        const response3 = await fetch(`http://localhost:3000/api/d1/printers/${printer_ID}/queue`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                queue: printerQueue
+            })
+        })
 
         alert('Cập nhật máy in thành công!');
     }
