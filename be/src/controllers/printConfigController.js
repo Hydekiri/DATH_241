@@ -135,7 +135,7 @@ exports.createConfig = async (req, res) => {
 
         //thêm job vào queue
 
-        await queueModel.addPrintJob(user_ID, printer_ID, config.config_ID, numPages);
+        // await queueModel.addPrintJob(user_ID, printer_ID, config.config_ID, numPages);
 
         res.status(201).json({ status: 201, data: config, message: "Print Configuration Created Successfully!" });
     } catch (error) {
