@@ -22,21 +22,25 @@ fileInput.onchange = ({ target }) => {
 
 async function displayFile(name, file) {
   let fileSize = (file.size / 1024 / 1024).toFixed(2) + " MB"; // Convert bytes to MB
+  const pagecnt = await getPdfPageCount(file);
+  file_inf.push({ name: name, size: (file.size / 1024 / 1024).toFixed(2), pagecount: pagecnt });
+
+  // Tạo URL tạm thời cho file để xem
+  const fileURL = URL.createObjectURL(file);
+
   let uploadedHTML = `<li class="row">
                         <div class="content upload">
                           <i class="fas fa-file-alt"></i>
                           <div class="details">
-                            <span class="name">${name}</span>
-                            <span class="size">${fileSize}</span>
+                            <span class="name">${name} - Số trang : ${pagecnt}</span>
+                            <span class="size">${fileSize}<a href="${fileURL}" target="_blank" class="view-file-button">      Xem file</a></span>
                           </div>
                         </div>
                         <img class="file-delete-button" src="images/icons/delete.png" onclick="deleteimg(event, '${name}')"></img>
                       </li>`;
   uploadedArea.insertAdjacentHTML("afterbegin", uploadedHTML);
-
-  const pagecnt = await getPdfPageCount(file);
-  file_inf.push({ name: name, size: (file.size / 1024 / 1024).toFixed(2), pagecount: pagecnt });
 }
+
 
 function deleteimg(event, name) {
   file_inf = file_inf.filter(file => file.name !== name);
@@ -116,7 +120,7 @@ confirm_button.addEventListener('click', async () => {
     return;
   }
 
-  const number_of_page = PageCountProcess.endpg - PageCountProcess.startpg + 1;
+  let number_of_page = PageCountProcess.endpg - PageCountProcess.startpg + 1;
   if (number_of_page === 0) {
     alert("Số trang bằng 0, vui lòng nhập lại số trang chọn");
     return;
@@ -126,6 +130,14 @@ confirm_button.addEventListener('click', async () => {
   const type_of_print = document.getElementById('print-type').value;
   const paper_type = document.getElementById('paper-size').value;
   //console.log(page_orientation + "-" + number_of_page + "-" + number_of_copy + "-" + type_of_print + "-" + paper_type);
+  if(type_of_print === "both-side"){
+    number_of_page = parseInt(number_of_page/2);
+    if(number_of_page === 0) number_of_page += 1;
+  }
+  if(paper_type === "A3"){
+    number_of_page = parseInt(number_of_page*2);
+    if(number_of_page === 0) number_of_page += 1;
+  }
 
   if (Printer_ID === 0) {
     alert("Hãy chọn máy in trước !");
