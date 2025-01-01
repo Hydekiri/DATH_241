@@ -202,6 +202,31 @@ async function handlePrintButton(config_ID, paperNeeded) {
     }
 }
 
+async function handleSendNotification(userId, location, docNames) {
+    try {
+        const response = await fetch('http://localhost:3000/api/d1/notifications/send', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userId: userId,
+                title: "Thông báo in thành công",
+                content: `Vui lòng đến ${location} để nhận tài liệu ${docNames}`
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error("Không thể gửi thông báo");
+        }
+
+        alert("Đã gửi thông báo thành công!");
+    } catch (error) {
+        console.error("Lỗi khi gửi thông báo:", error);
+        alert("Có lỗi xảy ra khi gửi thông báo.");
+    }
+}
+
 // Gọi hàm fetchPrinterInfo khi trang được tải
 window.onload = async () => {
     await fetchPrinterInfo();

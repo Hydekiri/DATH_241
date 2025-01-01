@@ -99,3 +99,31 @@
 .student-navbar-avatar .avatar {
   cursor: pointer;
 }
+
+.notification-popup {
+  position: absolute;
+  top: 60px; /* Adjust based on your layout */
+  right: 10px; /* Adjust based on your layout */
+  width: 300px; /* Adjust based on your layout */
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: none; /* Initially hidden */
+}
+
+.notification-item {
+  margin-bottom: 10px;
+}
+
+.notification-item h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.notification-item p {
+  margin: 5px 0 0;
+  font-size: 14px;
+}

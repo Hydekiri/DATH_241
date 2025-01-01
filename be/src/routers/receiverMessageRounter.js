@@ -2,7 +2,7 @@ module.exports = (router) => {
     const receiverMessageController = require("../controllers/receiverMessageController");
 
     // Gửi thông báo đến một người dùng cụ thể
-    router.post("/notifications/:userId/send", receiverMessageController.sendNotificationToUser);
+    router.post("/notifications/send", receiverMessageController.sendNotificationToUser);
 
     // Lấy danh sách người nhận của một thông báo
     router.get("/notifications/:notificationId/receivers", receiverMessageController.getReceiversByNotification);
