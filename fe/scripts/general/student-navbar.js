@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     setupNotificationPopup(); // Ensure the function is called
 });
 
-function setupNotificationPopup() {
+async function setupNotificationPopup() {
     const notificationIcon = document.querySelector('.student-navbar-notification a');
     if (!notificationIcon) {
         console.error("Notification icon not found. Check your HTML structure.");
@@ -63,6 +63,20 @@ function setupNotificationPopup() {
             const result = await response.json();
 
             if (result.status === 200) {
+                const hasUnread = result.data.some(n => !n.detail.isRead);
+                if (hasUnread) document.querySelector('.notification-dot').style.display = 'block';
+                else document.querySelector('.notification-dot').style.display = 'none';
+
+                await fetch(`http://localhost:3000/api/d1/notifications/user/${userID}/read`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "token": `Bearer ${token}`
+                    }
+                });
+                document.querySelector('.notification-dot').style.display = 'none';
+
+                result.data.sort((a, b) => b.notification_ID - a.notification_ID);
                 result.data.forEach(notification => {
                     const notificationElement = document.createElement('div');
                     notificationElement.classList.add('notification-item');

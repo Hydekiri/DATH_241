@@ -68,7 +68,8 @@ exports.getNotificationsForUser = async (req, res) => {
                 detail : notification.notificationDetails ? {
                     title: notification.notificationDetails.title,
                     content: notification.notificationDetails.content
-                } : null
+                } : null,
+                status: notification.status
             };
         }));
         res.status(200).json({ status: 200, data: notificationDetails, message: "Successfully retrieved notifications!" });
