@@ -285,4 +285,23 @@ exports.deleteAllUserHistoryByID = async (req, res) => {
         console.error("Error deleting print configurations:", error);
         res.status(500).json({ status: 500, message: 'Error Deleting Print Configurations' });
     }
-}
+};
+
+exports.deleteCompletedConfigsByPrinter = async (req, res) => {
+    try {
+        const printer_ID = req.params.printerID;
+        const printer = await printerModel.getPrinterById(printer_ID);
+        if (!printer) {
+            return res.status(404).json({ status: 404, message: "Printer does not exist" });
+        }
+        const deletedConfigs = await printConfigModel.deleteCompletedConfigsByPrinter(printer_ID);
+        res.status(200).json({
+            status: 200,
+            data: deletedConfigs,
+            message: "Completed Print Configurations Deleted Successfully!"
+        });
+    } catch (error) {
+        console.error("Error deleting completed print configurations:", error);
+        res.status(500).json({ status: 500, message: "Error Deleting Completed Print Configurations" });
+    }
+};
