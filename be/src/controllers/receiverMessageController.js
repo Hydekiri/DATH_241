@@ -67,7 +67,8 @@ exports.getNotificationsForUser = async (req, res) => {
                 notification_ID: notification.notification_ID,
                 detail : notification.notificationDetails ? {
                     title: notification.notificationDetails.title,
-                    content: notification.notificationDetails.content
+                    content: notification.notificationDetails.content,
+                    createDate: notification.notificationDetails.createDate
                 } : null,
                 status: notification.status
             };

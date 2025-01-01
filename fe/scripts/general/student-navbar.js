@@ -83,6 +83,7 @@ async function setupNotificationPopup() {
                     notificationElement.innerHTML = `
                         <h4>${notification.detail.title}</h4>
                         <p>${notification.detail.content}</p>
+                        <p class="notification-date">${notification.detail.createDate.replace('T', ' ').replace('Z', ' ').replace(/\.\d+/, '')}</p>
                     `;
                     notificationPopup.appendChild(notificationElement);
                 });

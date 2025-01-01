@@ -143,3 +143,8 @@
 .student-navbar-notification {
   position: relative;
 }
+
+.notification-date {
+  font-style: italic;
+  font-size: 12px;
+}
