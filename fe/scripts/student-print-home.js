@@ -4,6 +4,30 @@ const form = document.querySelector("form"),
 
 let file_inf = [];
 
+
+async function loadChatWidget() {
+  const response = await fetch('/fe/scripts/general/chat-widget.html');
+  const chatHTML = await response.text();
+  document.body.insertAdjacentHTML('beforeend', chatHTML);
+
+  const chatPopup = document.getElementById('chatPopup');
+  const minimizeButton = chatPopup.querySelector('.minimize-chat');
+  const closeButton = chatPopup.querySelector('.close-chat');
+  const chatBody = chatPopup.querySelector('.chat-body');
+
+  minimizeButton.addEventListener('click', () => {
+    chatBody.style.display = chatBody.style.display === 'none' ? 'block' : 'none';
+  });
+
+  closeButton.addEventListener('click', () => {
+    chatPopup.style.display = 'none';
+  });
+}
+
+// Gọi hàm loadChatWidget() để tải khung chat khi trang được load
+//loadChatWidget();
+
+
 form.addEventListener("click", () => {
   fileInput.click();
 });
@@ -130,13 +154,13 @@ confirm_button.addEventListener('click', async () => {
   const type_of_print = document.getElementById('print-type').value;
   const paper_type = document.getElementById('paper-size').value;
   //console.log(page_orientation + "-" + number_of_page + "-" + number_of_copy + "-" + type_of_print + "-" + paper_type);
-  if(type_of_print === "both-side"){
-    number_of_page = parseInt(number_of_page/2);
-    if(number_of_page === 0) number_of_page += 1;
+  if (type_of_print === "both-side") {
+    number_of_page = parseInt(number_of_page / 2);
+    if (number_of_page === 0) number_of_page += 1;
   }
-  if(paper_type === "A3"){
-    number_of_page = parseInt(number_of_page*2);
-    if(number_of_page === 0) number_of_page += 1;
+  if (paper_type === "A3") {
+    number_of_page = parseInt(number_of_page * 2);
+    if (number_of_page === 0) number_of_page += 1;
   }
 
   if (Printer_ID === 0) {
@@ -275,7 +299,7 @@ async function createPrintConfigWith(page_orientation, number_of_page, number_of
       throw new Error("Không thể cập nhật queue");
     }
   }
-  catch(error) {
+  catch (error) {
     console.error(error);
     throw error;
   }

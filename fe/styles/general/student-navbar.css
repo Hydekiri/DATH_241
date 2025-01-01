@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  
+
   border-bottom: 4px solid #24befb;
   padding-left: 95px;
   padding-right: 110px;
@@ -31,7 +31,9 @@
   padding-right: 30px;
 }
 
-.student-navbar-middle-print, .student-navbar-middle-buy, .student-navbar-middle-history {
+.student-navbar-middle-print,
+.student-navbar-middle-buy,
+.student-navbar-middle-history {
   color: black;
   display: flex;
   align-items: center;
@@ -39,7 +41,7 @@
 
   font-size: 36px;
   text-decoration: none;
-  font-weight: bold;  
+  font-weight: bold;
   word-wrap: break-word;
   white-space: normal;
   text-align: center;
@@ -72,7 +74,7 @@
   display: none;
   position: absolute;
   top: 25%;
-  right: 5px; 
+  right: 5px;
   background-color: white;
   border: 1px solid #ccc;
   padding: 5px;
@@ -102,16 +104,20 @@
 
 .notification-popup {
   position: absolute;
-  top: 60px; /* Adjust based on your layout */
-  right: 10px; /* Adjust based on your layout */
-  width: 300px; /* Adjust based on your layout */
+  top: 60px;
+  /* Adjust based on your layout */
+  right: 10px;
+  /* Adjust based on your layout */
+  width: 300px;
+  /* Adjust based on your layout */
   background-color: white;
   border: 1px solid #ccc;
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  display: none; /* Initially hidden */
+  display: none;
+  /* Initially hidden */
 }
 
 .notification-item {
@@ -126,4 +132,132 @@
 .notification-item p {
   margin: 5px 0 0;
   font-size: 14px;
+}
+
+/* ------------------- Message Popup ------------------- */
+.message-popup {
+  position: absolute;
+  top: 60px;
+  /* Vị trí bên dưới icon message, điều chỉnh nếu cần */
+  right: 10px;
+  /* Vị trí so với icon, tùy chỉnh */
+  width: 300px;
+  /* Kích thước của popup */
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: none;
+  /* Ẩn popup ban đầu */
+}
+
+.message-popup h4 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.message-popup .admin-item {
+  padding: 10px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.message-popup .admin-item:hover {
+  background-color: #f0f8ff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.message-popup .chat-messages {
+  height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 5px;
+}
+
+.chat-popup {
+  width: 300px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.chat-header {
+  background-color: #24befb;
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-controls button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.chat-body {
+  display: flex;
+  flex-direction: column;
+  height: 300px;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+}
+
+.message {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.user-message {
+  background-color: #24befb;
+  color: white;
+  align-self: flex-end;
+  border-top-right-radius: 0;
+}
+
+.admin-message {
+  background-color: #e0e0e0;
+  color: black;
+  align-self: flex-start;
+  border-top-left-radius: 0;
+}
+
+.chat-input {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+  resize: none;
+}
+
+.send-message-button {
+  margin: 10px;
+  padding: 10px;
+  border: none;
+  background-color: #24befb;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
 }
