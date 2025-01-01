@@ -15,7 +15,7 @@ const fetchPrinters = async () => {
         allPrinters = data.data;
         totalPages = Math.ceil(allPrinters.length / itemsPerPage);
         renderPrinters();
-        updateTotals(data.data);
+        updateTotals(allPrinters);
     } catch (error) {
         console.error(error);
         alert("Không thể tải danh sách máy in!");
@@ -32,6 +32,7 @@ const updateTotals = (printers) => {
     document.getElementById('total-paper').textContent = totalPaper;
     document.getElementById('total-print-jobs').textContent = totalPrintJobs;
     document.getElementById('total-queue').textContent = totalQueue;
+    
 };
 const handleToggleStatus = async (printerId, currentStatus, event) => {
     event.preventDefault();

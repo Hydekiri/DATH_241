@@ -67,6 +67,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     padding: 32px;
+    position: relative;
 }
 
 .printers-display .printermodel,
@@ -244,9 +245,9 @@ body {
 }
 
 .deco img {
-    position: absolute; /* Định vị tuyệt đối */
-    top: 58px; /* Đặt khoảng cách từ trên xuống */
-    left: 1142px; /* Đặt khoảng cách từ bên trái */
+    position: absolute;
+    right: 40px;
+    top: 65px;
     z-index: 1000; /* Đảm bảo nó nằm trên các thành phần khác */
     cursor: pointer;
     width: 386px;

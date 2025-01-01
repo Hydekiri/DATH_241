@@ -11,6 +11,7 @@ module.exports = (router) => {
     router.put("/printers/:id/updatePagePrint", printerController.updatePages_printed);
     router.put("/printers/:id/resetPrintInDay", printerController.resetPrintInDayByID);
     router.put("/printers/:id/increPrintInDay", printerController.increPrintInDayByID);
+    router.put("/printers/:id/queue", printerController.updateQueue);
     router.delete("/printers/:id", printerController.deletePrinter);
     cron.schedule('0 0 * * *', async () => {
         try {

@@ -18,38 +18,11 @@ const fetchPrinterInfo = async () => {
         renderPrinterInfo(data.data); // Render thông tin chung
         renderPrinterInfo2(data.data);
 
-        checkAndResetPrintCount(data.data.last_reset);
-
     } catch (error) {
         console.error(error);
         alert("Không thể tải thông tin máy in!");
     }
 };
-const checkAndResetPrintCount = async (lastReset) => {
-    const now = new Date();
-    const lastResetDate = new Date(lastReset);
-    const hoursDiff = Math.abs(now - lastResetDate) / 36e5; // Convert to hours
-
-    if (hoursDiff >= 24) {
-        try {
-            const response = await fetch(`http://localhost:3000/api/d1/printers/${printer_ID}/resetPrintInDay`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            
-            if (!response.ok) {
-                throw new Error('Reset failed');
-            }
-            
-            // Refresh printer info after reset
-            fetchPrinterInfo();
-        } catch (error) {
-            console.error('Error resetting print count:', error);
-        }
-    }
-}
 
 // Hàm render thông tin chung của máy in
 const renderPrinterInfo = (printer) => {
@@ -64,15 +37,47 @@ const renderPrinterInfo = (printer) => {
     // Lịch sử in
     const historyContainer = document.querySelector(".history-container");
     historyContainer.innerHTML = `
-        <a href="#">Chi tiết</a>
-        <i class="fas fa-info-circle printer-infor" style="font-size: 24px; color: #ffffff; margin-right: 10px;"onclick="showPrinterHistoryInfo(${printer.Printer_ID})"></i>
+        <a href="#" onclick="showPrinterHistoryInfo(${printer.Printer_ID})">Chi tiết</a>
+        <i class="fas fa-info-circle printer-infor" style="font-size: 24px; color: #ffffff; margin-right: 10px;"></i>
     `;
 };
 
+
+/*
+async function calQueue() {
+    let totalQueue = 0;
+    try {
+        const response = await fetch(`http://localhost:3000/api/d1/printconfigs/printer/${printer_ID}`)
+        if (!response.ok) {
+            throw new Error("Không thể lấy danh sách hàng đợi");
+        }
+
+        const data = await response.json();
+        const printConfigs = data.data;
+        console.log(printConfigs);
+        
+        printConfigs.forEach((printConfig) => {
+            if (printConfig.status == 'unCompleted') 
+                totalQueue++;
+        });
+
+        return totalQueue;
+    }
+    catch(error) {
+        console.error(error);
+    }
+    return totalQueue;
+}
+*/
+
+
+
 // Hàm render thông tin chi tiết của máy in
-const renderPrinterInfo2 = (printer) => {
+const renderPrinterInfo2 = async (printer) => {
+    //const numQueue = await calQueue(printer_ID);
+
     document.querySelector(".printermodel").innerHTML = `<span>Kiểu máy in:</span> ${printer.printer_type || '0'}`;
-    document.querySelector(".queue").innerHTML = `<span>Hàng đợi:</span> ${printer.queue || '0'}`;
+    document.querySelector(".queue").innerHTML = `<span>Hàng đợi:</span> ${printer.queue}`;
     document.querySelector(".printInDay").innerHTML = `<span>Số lượt in trong ngày: </span>${printer.prints_in_day || '0'}`;
     document.querySelector(".numPage").innerHTML = `<span>Số lượng giấy in:</span> ${printer.pages_printed || '0'}`;
     document.querySelector(".printColor").innerHTML = `<span>In màu: </span>${printer.color_print === 'yes' ? 'Có' : 'Không'}`;
@@ -103,9 +108,6 @@ document.querySelector(".edit a").addEventListener("click", (e) => {
         alert("Không tìm thấy ID máy in!");
     }
 });
-
-
-
 // Gọi hàm fetchPrinterInfo khi trang được tải
 window.onload = fetchPrinterInfo;
 
@@ -113,4 +115,3 @@ window.onload = fetchPrinterInfo;
 document.querySelector(".return button").addEventListener("click", () => {
     window.history.back(); // Quay lại trang trước đó
 });
-

@@ -1,6 +1,6 @@
 const urlParams = new URLSearchParams(window.location.search);
 const printer_ID = urlParams.get('printer_ID');
-let printerStatus;
+let printerStatus, printerPage, printerQueue;
 
 console.log(printer_ID); // Hiển thị printer_ID lên console
 
@@ -25,6 +25,8 @@ const fetchPrinterInfo = async () => {
 // Hàm render thông tin chung của máy in
 const renderPrinterInfo = (printer) => {
     printerStatus = printer.status;
+    printerPage = printer.pages_printed;
+    printerQueue = printer.queue;
 
     document.querySelector(".IDPrinter").innerHTML = `<span>ID:</span> ${printer.Printer_ID}`;
     document.querySelector(".model").innerHTML = `<span>Model:</span> ${printer.model}`;
@@ -68,7 +70,7 @@ async function fetchPrintConfig() {
 }
 
 function renderPrintConfig(printconfigs) {
-    if (printerStatus !== 'enable')
+    if (printerStatus != "enable")
     {
         document.querySelector('.printers-display').innerHTML += '<h1 style="text-align: center">Máy in hiện không khả dụng!</h1>';
         return;
@@ -76,22 +78,37 @@ function renderPrintConfig(printconfigs) {
 
     const printconfigDisplay = document.querySelector('.printconfig-display');
     let html = '';
+    let index = 0;
 
     printconfigs.forEach((printconfig) => {
         if (printconfig.status !== 'unCompleted') return;
 
-        const datetimeStr = printconfig.printStart;
-        const [date, timeWithTimezone] = datetimeStr.split('T');
-        const time = timeWithTimezone.replace('.000Z', '');
+        index++;
+        //Tinh toan lai dinh dang thoi gian
+        // const datetimeStr = printconfig.printStart;
+        // const [date, timeWithTimezone] = datetimeStr.split('T');
+        // const time = timeWithTimezone.replace('.000Z', '');
+        const printDate = new Date(printconfig.printStart);
+        const date = printDate.toLocaleDateString('vi-VN');
+        const time = printDate.toLocaleTimeString('vi-VN');
+        
+        //Tinh so luong giay can in
+        let paperToPrint = printconfig.printSide === 'one-side' ? printconfig.numPages : Math.ceil(printconfig.numPages / 2);
+
+        if (printconfig.paperSize === 'A3') paperToPrint *= 2;
+
+        paperToPrint *= printconfig.numCopies;
+
+        console.log(paperToPrint);
 
         html += `
             <tr class="success">
                 <td>${printconfig.user.name}<br>${printconfig.user.user_ID}</td>
                 <td>${date} <br>${time}</br></td>
-                <td>${printconfig.config_ID}</td>
-                <td>${printconfig.numPages} <br>${printconfig.paperSize}</br></td>
+                <td>${index}</td>
+                <td>${paperToPrint} <br>${printconfig.paperSize}</br></td>
                 <td>${printconfig.documents.map(doc => doc.name).join('<br>')}<br>Đã kiểm duyệt</td>
-                <td class="print-action"><button class="print-button" onclick="handlePrintButton(${printconfig.config_ID})">In</button></td>
+                <td class="print-action"><button class="print-button" onclick="handlePrintButton(${printconfig.config_ID}, '${paperToPrint}')">In</button></td>
             </tr>
         `;
     });
@@ -100,9 +117,67 @@ function renderPrintConfig(printconfigs) {
     if (html === '') document.querySelector('.printers-display').innerHTML += '<h1 style="text-align: center">Không có tài liệu đang đợi in</h1>';
 }
 
-async function handlePrintButton(config_ID) {
+async function updatePrinter(printerPage) {
+    printerPage = Number(printerPage);
+    console.log(printerPage);
+    
+    // Giam queue
+    printerQueue--;
+
+    try {
+        const response1 = await fetch(`http://localhost:3000/api/d1/printers/${printer_ID}/updatePagePrint`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                pages_printed: printerPage
+            })
+        });
+
+        if (!response1.ok) {
+            throw new Error("Không thể cập nhật máy in! updatePagePrint");
+        }
+
+        const response2 = await fetch(`http://localhost:3000/api/d1/printers/${printer_ID}/increPrintInDay`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+
+        if (!response2.ok) throw new Error('Không thể cập nhật máy in! increPrintInDay');
+
+        const response3 = await fetch(`http://localhost:3000/api/d1/printers/${printer_ID}/queue`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                queue: printerQueue
+            })
+        })
+
+        alert('Cập nhật máy in thành công!');
+    }
+    catch {
+        console.error("Lỗi khi cập nhật máy in:", error);
+        alert("Có lỗi xảy ra khi cập nhật máy in.");
+    }
+}
+
+async function handlePrintButton(config_ID, paperNeeded) {
     const confirmPrint = window.confirm("Xác nhận in tài liệu này?");
     if (!confirmPrint) return;
+
+    paperNeeded = Number(paperNeeded);
+
+    console.log(paperNeeded);
+
+    if (paperNeeded > printerPage) {
+        alert('Máy in không đủ giấy, hãy nạp thêm!');
+        return;
+    }
 
     try {
         const response = await fetch(`http://localhost:3000/api/d1/printconfigs/${config_ID}`, {
@@ -117,6 +192,8 @@ async function handlePrintButton(config_ID) {
             throw new Error("Không thể cập nhật trạng thái cấu hình in!");
         }
 
+        await updatePrinter(`${printerPage - paperNeeded}`);
+
         alert("In thành công và trạng thái đã được cập nhật.");
         fetchPrintConfig();
     } catch (error) {
@@ -125,29 +202,35 @@ async function handlePrintButton(config_ID) {
     }
 }
 
-// async function sendMessage(printconfig) {
-//     try {
-//         const response = await fetch(`http://localhost:3000/api/d1/notifications/send`, {
-//             method: "POST",
-//             headers: {
-//             "Content-Type": "application/json",
-//             },
-//             body: JSON.stringify({
-//             userId: printconfig.user.user_ID,
-//             title: "Thông báo in thành công",
-//             content: `Vui lòng đến phòng ${printconfig.printer.location.building} để nhận tài liệu ${printconfig.documents.map(doc => doc.name).join(', ')}!`
-//             })
-//         });
-//     } catch (error) {
-//         console.error("Error sending notification:", error);
-//         alert("Không thể gửi thông báo!");
-//     }
-// }
+async function handleSendNotification(userId, location, docNames) {
+    try {
+        const response = await fetch('http://localhost:3000/api/d1/notifications/send', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userId: userId,
+                title: "Thông báo in thành công",
+                content: `Vui lòng đến ${location} để nhận tài liệu ${docNames}`
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error("Không thể gửi thông báo");
+        }
+
+        alert("Đã gửi thông báo thành công!");
+    } catch (error) {
+        console.error("Lỗi khi gửi thông báo:", error);
+        alert("Có lỗi xảy ra khi gửi thông báo.");
+    }
+}
 
 // Gọi hàm fetchPrinterInfo khi trang được tải
-window.onload = () => {
-    fetchPrintConfig();
-    fetchPrinterInfo();
+window.onload = async () => {
+    await fetchPrinterInfo();
+    fetchPrintConfig();   
 }
 
 // Tạo sự kiện "Trở lại"

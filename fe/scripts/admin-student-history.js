@@ -6,14 +6,17 @@ const getCookie = (name) => {
 };
 
 // Ensure user_ID is available
+/*
 const user_ID = parseInt(getCookie('id'));
 if (!user_ID) {
     console.error('User ID not found in cookies');
     alert('User not authenticated');
-}
+}*/
+
 
 const urlParams = new URLSearchParams(window.location.search);
 const printer_ID = urlParams.get('printer_ID');
+const user_ID = urlParams.get('user_ID');
 console.log('Printer ID:', printer_ID);  // Debug log for printer_ID
 console.log('user_ID ID:', user_ID);  
 const fetchPrinterHistory = async () => {

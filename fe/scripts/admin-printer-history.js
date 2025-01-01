@@ -55,6 +55,11 @@ const renderPrinterInfo = (printer) => {
         <i class="fas fa-info-circle printer-infor" style="font-size: 24px; color: #ffffff; margin-right: 10px;" onclick="showPrinterInfo(${printer.Printer_ID})"></i>
     `;
 };
+
+function toLower(str) {
+    return String(str).toLowerCase() || str;
+}
+
 const renderPrintHistory = (history) => {
     const historyContainer = document.querySelector(".printer-history tbody");
     historyContainer.innerHTML = ''; // Clear existing rows
@@ -67,7 +72,7 @@ const renderPrintHistory = (history) => {
 
     history.forEach(config => {
         // Ensure that we have a user and documents
-        const statusClass = config.status === 'completed' ? 'success' : 'error'; 
+        const statusClass = toLower(config.status) === 'completed' ? 'success' : 'error'; 
         const printStartDate = new Date(config.printStart);
         const formattedDate = printStartDate.toLocaleDateString(); // 'dd/mm/yyyy' 
         const formattedTime = printStartDate.toLocaleTimeString(); // 'HH:MM:SS' 
@@ -77,7 +82,7 @@ const renderPrintHistory = (history) => {
                 <td>${formattedDate}<br>${formattedTime}</td>
                 <td>${config.paperSize}<br>${config.numPages}</td>
                 <td>${config.documents.map(doc => doc.name).join('<br>')}</td>
-                <td>${config.status === 'completed' ? 'Successful' : 'Waited'}</td>
+                <td>${toLower(config.status) === 'completed' ? 'Successful' : 'Waiting'}</td>
             </tr>
         `;
         historyContainer.innerHTML += historyRow; // Append the new row
@@ -91,6 +96,39 @@ const showPrinterInfo = async (printer_ID) => {
     // Điều hướng đến trang thông tin máy in với ID máy in
     window.location.href = `admin-info-printer.html?printer_ID=${printer_ID}`;
 };
+const handleDeletePrintHistory = async () => {
+    const confirmation = window.confirm("Bạn có chắc muốn xóa toàn bộ lịch sử in của máy in này không?");
+    if (!confirmation) return;
+
+    // const token = getCookie('token');
+    // if (!user_ID) {
+    //     alert('Không thể xác định người dùng!');
+    //     return;
+    // }
+
+    try {
+        // Send DELETE request to remove all print history for the user
+        const response = await fetch(`http://localhost:3000/api/d1/printconfigs/printer/${printer_ID}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                // 'token': `Bearer ${token}`,
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Không thể xóa lịch sử in của người dùng");
+        }
+
+        // Refresh the page or update the UI to reflect the changes
+        alert("Đã xóa lịch sử in của máy in thành công!");
+        window.location.reload();  // Reload the page to refresh the data
+
+    } catch (error) {
+        console.error(error);
+        alert("Không thể xóa lịch sử in lúc này!");
+    }
+};
 
 // Gọi hàm fetchPrinterInfo khi trang được tải
 window.onload = fetchPrinterHistory;
@@ -99,3 +137,6 @@ window.onload = fetchPrinterHistory;
 document.querySelector(".return button").addEventListener("click", () => {
     window.history.back(); // Quay lại trang trước đó
 });
+
+
+
