@@ -6,14 +6,17 @@ const getCookie = (name) => {
 };
 
 // Ensure user_ID is available
+/*
 const user_ID = parseInt(getCookie('id'));
 if (!user_ID) {
     console.error('User ID not found in cookies');
     alert('User not authenticated');
-}
+}*/
+
 
 const urlParams = new URLSearchParams(window.location.search);
 const printer_ID = urlParams.get('printer_ID');
+const user_ID = urlParams.get('user_ID');
 console.log('Printer ID:', printer_ID);  // Debug log for printer_ID
 console.log('user_ID ID:', user_ID);  
 const fetchPrinterHistory = async () => {
@@ -92,12 +95,10 @@ const renderPrintHistory = (history) => {
     const tbody = document.querySelector(".printer-history tbody");
     tbody.innerHTML = ''; // Clear existing rows
 
-    if (!history || !history.length) {
-        // Thêm dòng hiển thị "Không có dữ liệu" nếu lịch sử trống
+    if (!history.length) {
         tbody.innerHTML = '<tr><td colspan="5">Không có dữ liệu</td></tr>';
         return;
     }
-
 
     history.forEach((record) => {
         const formattedDate = new Date(record.printStart).toLocaleDateString('vi-VN');
@@ -116,10 +117,6 @@ const renderPrintHistory = (history) => {
         `;
         tbody.innerHTML += row;
     });
-    // Kiểm tra nếu tbody vẫn trống sau khi lặp qua lịch sử
-    if (!tbody.innerHTML.trim()) {
-        tbody.innerHTML = '<tr><td colspan="5">Không có dữ liệu</td></tr>';
-    }
 };
 
 const handleDeletePrintHistory = async () => {

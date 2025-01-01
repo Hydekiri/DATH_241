@@ -5,6 +5,7 @@ let allHistory = [];
 let filteredHistory = [];
 
 const fetchPrintHistory = async () => {
+    
     try {
         const response = await fetch('http://localhost:3000/api/d1/printconfigs');
         // if (printconfig.status !== 'unCompleted') return;

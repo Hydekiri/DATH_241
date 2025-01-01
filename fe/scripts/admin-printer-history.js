@@ -34,7 +34,7 @@ const fetchPrinterHistoryInfo2 = async () => {
         renderPrintHistory(data.data); 
     } catch (error) {
         console.error(error);
-        // alert("Không thể tải lịch sử máy in!");
+        alert("Không thể tải lịch sử máy in!");
     }
 };
 
@@ -61,29 +61,25 @@ function toLower(str) {
 }
 
 const renderPrintHistory = (history) => {
-    // const printconfigDisplay = document.querySelector('.printconfig-display');
     const historyContainer = document.querySelector(".printer-history tbody");
     historyContainer.innerHTML = ''; // Clear existing rows
     
-    if (!history || !history.length) {
-        // Thêm dòng hiển thị "Không có dữ liệu" nếu lịch sử trống
-        historyContainer.innerHTML = '<tr><td colspan="5">Không có dữ liệu</td></tr>';
+    // Check if history is an array
+    if (!Array.isArray(history)) {
+        console.error("History is not an array", history);
         return;
     }
 
     history.forEach(config => {
         // Ensure that we have a user and documents
         const statusClass = toLower(config.status) === 'completed' ? 'success' : 'error'; 
-        const formattedDateEnd = config.printEnd 
-            ? new Date(config.printEnd).toLocaleDateString('vi-VN') 
-            : 'N/A';
-        const formattedTimeEnd = config.printEnd 
-            ? new Date(config.printEnd).toLocaleTimeString('vi-VN') 
-            : ' ';
+        const printStartDate = new Date(config.printStart);
+        const formattedDate = printStartDate.toLocaleDateString(); // 'dd/mm/yyyy' 
+        const formattedTime = printStartDate.toLocaleTimeString(); // 'HH:MM:SS' 
         const historyRow = `
             <tr class="${statusClass}">
                 <td>${config.user ? `${config.user.name}<br> ID: ${config.user.user_ID}` : 'N/A'}</td>
-                <td>${formattedDateEnd}<br>${formattedTimeEnd}</td>
+                <td>${formattedDate}<br>${formattedTime}</td>
                 <td>${config.paperSize}<br>${config.numPages}</td>
                 <td>${config.documents.map(doc => doc.name).join('<br>')}</td>
                 <td>${toLower(config.status) === 'completed' ? 'Successful' : 'Waiting'}</td>
@@ -91,9 +87,14 @@ const renderPrintHistory = (history) => {
         `;
         historyContainer.innerHTML += historyRow; // Append the new row
     });
-    if (!historyContainer.innerHTML.trim()) {
-        historyContainer.innerHTML = '<tr><td colspan="5">Không có dữ liệu</td></tr>';
-    }
+};
+
+const showPrinterInfo = async (printer_ID) => {
+    const res = window.confirm("Bạn có chắc muốn xem thông tin máy in này?");
+    if (!res) return;
+
+    // Điều hướng đến trang thông tin máy in với ID máy in
+    window.location.href = `admin-info-printer.html?printer_ID=${printer_ID}`;
 };
 const handleDeletePrintHistory = async () => {
     const confirmation = window.confirm("Bạn có chắc muốn xóa toàn bộ lịch sử in của máy in này không?");
@@ -129,16 +130,6 @@ const handleDeletePrintHistory = async () => {
     }
 };
 
-// Add event listener for the delete button
-document.querySelector('.delete-history-btn').addEventListener('click', handleDeletePrintHistory);
-const showPrinterInfo = async (printer_ID) => {
-    const res = window.confirm("Bạn có chắc muốn xem thông tin máy in này?");
-    if (!res) return;
-
-    // Điều hướng đến trang thông tin máy in với ID máy in
-    window.location.href = `admin-info-printer.html?printer_ID=${printer_ID}`;
-};
-
 // Gọi hàm fetchPrinterInfo khi trang được tải
 window.onload = fetchPrinterHistory;
 // window.onload = fetchPrinterHistoryInfo2;
@@ -146,3 +137,6 @@ window.onload = fetchPrinterHistory;
 document.querySelector(".return button").addEventListener("click", () => {
     window.history.back(); // Quay lại trang trước đó
 });
+
+
+

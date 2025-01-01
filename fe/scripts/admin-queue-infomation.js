@@ -85,10 +85,12 @@ function renderPrintConfig(printconfigs) {
 
         index++;
         //Tinh toan lai dinh dang thoi gian
-        const datetimeStr = printconfig.printStart;
-        const [date, timeWithTimezone] = datetimeStr.split('T');
-        const time = timeWithTimezone.replace('.000Z', '');
-
+        // const datetimeStr = printconfig.printStart;
+        // const [date, timeWithTimezone] = datetimeStr.split('T');
+        // const time = timeWithTimezone.replace('.000Z', '');
+        const printDate = new Date(printconfig.printStart);
+        const date = printDate.toLocaleDateString('vi-VN');
+        const time = printDate.toLocaleTimeString('vi-VN');
         
         //Tinh so luong giay can in
         let paperToPrint = printconfig.printSide === 'one-side' ? printconfig.numPages : Math.ceil(printconfig.numPages / 2);
