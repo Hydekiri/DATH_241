@@ -23,10 +23,10 @@ module.exports = (router) => {
     }, orderController.buyPages);*/
 
    // API: Lấy đơn hàng theo ID
-   router.get("/checkorderid", orderController.getOrderById);
+//    router.get("/checkorderid", orderController.getOrderById);
 
    // API: Lấy tất cả đơn hàng của một người dùng
-   router.get("/checkorderuser", orderController.getAllOrdersByUser);
+//    router.get("/checkorderuser", orderController.getAllOrdersByUser);
    //API tạo link thanh toán QR'
    router.post("/create-payment-link", orderController.CreatePaymentLink);
 };
