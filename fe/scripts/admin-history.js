@@ -111,21 +111,42 @@ document.querySelector(".search-input").addEventListener("input", (event) => {
 });
 const filterPrinters = (searchTerm) => {
     const printerRows = document.querySelectorAll(".printers-row"); // Lấy tất cả các hàng máy in
-
+    let hasResult = false; // Biến để kiểm tra xem có kết quả tìm kiếm không
+    // Nếu input trống, reset trạng thái
+    if (!searchTerm) {
+        printerRows.forEach((row) => {
+            row.style.display = ""; // Hiển thị tất cả các hàng
+        });
+        fetchPrintHistory(); 
+    }
     printerRows.forEach((row) => {
         const userName = row.querySelector(".student-name").textContent.toLowerCase();
-        // const userID = row.querySelector(".printer-id")?.textContent.toLowerCase() || '';
         const printerName = row.querySelector(".printer-name").textContent.toLowerCase();
         const paper = row.querySelector(".printer-paper").textContent.toLowerCase();
         const time = row.querySelector(".print-time").textContent.toLowerCase();
         const id = row.querySelector(".printer-id").textContent.toLowerCase();
+
         // Kiểm tra nếu giá trị nhập khớp với bất kỳ thuộc tính nào
-        if (userName.includes(searchTerm)  || printerName.includes(searchTerm)|| id.includes(searchTerm)|| paper.includes(searchTerm)|| time.includes(searchTerm) ) {
+        if (
+            userName.includes(searchTerm) ||
+            printerName.includes(searchTerm) ||
+            id.includes(searchTerm) ||
+            paper.includes(searchTerm) ||
+            time.includes(searchTerm)
+        ) {
             row.style.display = ""; // Hiển thị hàng
+            hasResult = true; // Có ít nhất một kết quả phù hợp
         } else {
             row.style.display = "none"; // Ẩn hàng
         }
     });
+
+    const printersContainer = document.querySelector(".printers-rows");
+
+    // Nếu không có kết quả phù hợp, hiển thị thông báo "Không có dữ liệu"
+    if (!hasResult) {
+        printersContainer.innerHTML = '<div class="no-data">Không có dữ liệu</div>';
+    }
 };
 
 
