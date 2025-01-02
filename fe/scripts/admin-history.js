@@ -47,8 +47,8 @@ const renderHistory = () => {
             <div class="printer-paper">${record.numPages}/ ${record.paperSize}</div>
             <div class="print-time">${formattedDate} <br> ${formattedTime}</div>
             <div class="printer-actions">
-                <img class="printer-infor" src="images/icons/infor.png" alt="" onclick="showUserHistory('${record.user?.user_ID}', '${record.printer?.printer_ID}')">
-                <img class="history-delete" src="images/icons/delete.png" alt="" onclick="handleDeleteUserHistory('${record.user?.user_ID}')">
+                <img class="printer-infor" src="images/icons/infor.png" alt="Info" onclick="showUserHistory('${record.user?.user_ID}', '${record.printer?.printer_ID}')">
+                <img class="history-delete" src="images/icons/delete.png" alt="Delete" onclick="handleDeleteUserHistory('${record.config_ID}')">
             </div>
         `;
 
@@ -66,27 +66,22 @@ const showUserHistory = async (user_ID, printer_ID) => {
     window.location.href = `admin-student-history.html?user_ID=${user_ID}&printer_ID=${printer_ID}`;
 };
 
-const handleDeleteUserHistory = async (userID) => {
-    if (!userID || userID === 'N/A') {
-        alert("Không thể xác định người dùng!");
+const handleDeleteUserHistory = async (config_ID) => {
+    if (!config_ID || config_ID === 'N/A') {
+        alert("Không thể xác định lịch sử in!");
         return;
     }
 
-    const confirmation = window.confirm("Bạn có chắc muốn xóa toàn bộ lịch sử in của người dùng này không?");
+    const confirmation = confirm("Bạn có chắc muốn xóa toàn bộ lịch sử in này không?");
     if (!confirmation) return;
 
     try {
-        const response = await fetch(`http://localhost:3000/api/d1/printconfigs/user/${userID}/history`, {
-            method: 'DELETE'
-        });
-
+        const response = await fetch(`http://localhost:3000/api/d1/printconfigs/${config_ID}`, { method: 'DELETE' });
         if (!response.ok) {
             throw new Error("Failed to delete user history");
         }
-
-        // Refresh the history after deletion
         await fetchPrintHistory();
-        alert("Đã xóa lịch sử in của người dùng thành công!");
+        alert("Đã xóa lịch sử in thành công!");
     } catch (error) {
         console.error(error);
         alert("Không thể xóa lịch sử in lúc này!");
@@ -116,21 +111,42 @@ document.querySelector(".search-input").addEventListener("input", (event) => {
 });
 const filterPrinters = (searchTerm) => {
     const printerRows = document.querySelectorAll(".printers-row"); // Lấy tất cả các hàng máy in
-
+    let hasResult = false; // Biến để kiểm tra xem có kết quả tìm kiếm không
+    // Nếu input trống, reset trạng thái
+    if (!searchTerm) {
+        printerRows.forEach((row) => {
+            row.style.display = ""; // Hiển thị tất cả các hàng
+        });
+        fetchPrintHistory(); 
+    }
     printerRows.forEach((row) => {
         const userName = row.querySelector(".student-name").textContent.toLowerCase();
-        // const userID = row.querySelector(".printer-id")?.textContent.toLowerCase() || '';
         const printerName = row.querySelector(".printer-name").textContent.toLowerCase();
         const paper = row.querySelector(".printer-paper").textContent.toLowerCase();
         const time = row.querySelector(".print-time").textContent.toLowerCase();
         const id = row.querySelector(".printer-id").textContent.toLowerCase();
+
         // Kiểm tra nếu giá trị nhập khớp với bất kỳ thuộc tính nào
-        if (userName.includes(searchTerm)  || printerName.includes(searchTerm)|| id.includes(searchTerm)|| paper.includes(searchTerm)|| time.includes(searchTerm) ) {
+        if (
+            userName.includes(searchTerm) ||
+            printerName.includes(searchTerm) ||
+            id.includes(searchTerm) ||
+            paper.includes(searchTerm) ||
+            time.includes(searchTerm)
+        ) {
             row.style.display = ""; // Hiển thị hàng
+            hasResult = true; // Có ít nhất một kết quả phù hợp
         } else {
             row.style.display = "none"; // Ẩn hàng
         }
     });
+
+    const printersContainer = document.querySelector(".printers-rows");
+
+    // Nếu không có kết quả phù hợp, hiển thị thông báo "Không có dữ liệu"
+    if (!hasResult) {
+        printersContainer.innerHTML = '<div class="no-data">Không có dữ liệu</div>';
+    }
 };
 
 

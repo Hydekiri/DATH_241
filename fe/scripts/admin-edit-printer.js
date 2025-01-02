@@ -5,7 +5,7 @@ const cancel = document.querySelector('.cancel');
 const confirmButton = document.querySelector('.confirm-button');
 const urlParams = new URLSearchParams(window.location.search);
 const printer_ID = urlParams.get('printer_ID');
-
+let originalPrinterData = null; 
 console.log(printer_ID);
 
 // Đóng overlay khi nhấp ra ngoài
@@ -24,181 +24,95 @@ cancel.addEventListener('click', () => {
     overlay2.classList.add('hidden');
 });
 
-// const fetchPrinter = async () => {
-//     if (!printer_ID) {
-//         alert("No printer ID provided.");
-//         return;
-//     }
-
-//     try {
-//         const response = await fetch(`http://localhost:3000/api/d1/printers/${printer_ID}`);
-//         if (!response.ok) {
-//             throw new Error("Không thể lấy thông tin máy in");
-//         }
-//         const data = await response.json();
-//         console.log(data); // Xử lý dữ liệu máy in ở đây
-//         renderPrinter(data.data); // Render thông tin chung
-
-//     } catch (error) {
-//         console.error(error);
-//         alert("Không thể tải thông tin máy in!");
-//     }
-// };
-
-// const renderPrinter = (printer) => {
-//     const printersRowsContainer = document.querySelector(".overlay");
-
-//     printersRowsContainer.innerHTML = ''; // Clear any previous content
-
-//     const row = document.createElement("div");
-//     row.classList.add("printers-row");
-
-//     const statusClass = printer.status === 'enable' ? 'status-active' : 'status-disabled';
-//     const statusText = printer.status === 'enable' ? 'Hoạt động' : 'Vô hiệu hóa';
-//     row.innerHTML = `
-//         <form action="" class="add-printer-container form">
-//             <div class="add-form-left">
-//                 <h2>Thêm máy in mới</h2>
-//                 <div class="input-row">
-//                     <label for="model" class="left-label">Model:</label>
-//                     <input id="model" class="left-input" type="text" value="${printer.model}" required>
-//                 </div>
-//                 <div class="input-row">
-//                     <label for="branchName" class="left-label">BranchName:</label>
-//                     <input id="branchName" class="left-input" type="text" value="${printer.branchName}" required>
-//                 </div>
-//                 <div class="input-row">
-//                     <label for="location" class="left-label">Vị trí:</label>
-//                     <input id="location" class="left-input" type="text" value="${printer.location.building}" required>
-//                 </div>
-//                 <div class="input-row">
-//                     <label for="weight" class="left-label">Trọng lượng:</label>
-//                     <input id="weight" class="left-input" type="text" value="${printer.weight}" required>
-//                 </div>
-//                 <div class="input-row">
-//                     <label for="description" class="left-label">Mô tả:</label>
-//                     <input id="description" class="left-input" type="text" value="${printer.description}" required>
-//                 </div>
-//                 <div class="input-row">
-//                     <label for="printer_type" class="middle-label">Kiểu máy in:</label>
-//                     <input id="printer_type" class="middle-input" type="text" value="${printer.printer_type}" required>
-//                 </div>
-//                 <div class="input-row">
-//                     <label for="queue" class="middle-label">Hàng đợi:</label>
-//                     <input id="queue" class="middle-input" type="number" value="${printer.queue}" required>
-//                 </div>
-//                 <div class="input-row">
-//                     <label for="status" class="middle-label">Trạng thái:</label>
-//                     <select id="status" class="middle-input" required>
-//                         <option value="enable" ${printer.status === 'enable' ? 'selected' : ''}>Có</option>
-//                         <option value="disable" ${printer.status === 'disable' ? 'selected' : ''}>Không</option>
-//                     </select>
-//                 </div>
-//             </div>
-
-//             <div class="add-form-middle">
-//                 <h2>Tes</h2>
-//                 <div class="input-row">
-//                     <label for="prints_in_day" class="middle-label">Số lượt in trong ngày:</label>
-//                     <input id="prints_in_day" class="middle-input" type="number" value="${printer.prints_in_day}" required>
-//                 </div>
-//                 <div class="input-row">
-//                     <label for="pages_printed" class="middle-label">Số lượng giấy in:</label>
-//                     <input id="pages_printed" class="middle-input" type="number" value="${printer.pages_printed}" required>
-//                 </div>
-//                 <div class="input-row">
-//                     <label for="color_print" class="middle-label">In màu:</label>
-//                     <select id="color_print" class="middle-input" required>
-//                         <option value="no" ${printer.color_print === 'no' ? 'selected' : ''}>Không</option>
-//                         <option value="yes" ${printer.color_print === 'yes' ? 'selected' : ''}>Có</option>
-//                     </select>
-//                 </div>
-//                 <div class="input-row">
-//                     <label for="printer_size" class="middle-label">Kích thước:</label>
-//                     <input id="printer_size" class="middle-input" type="text" value="${printer.printer_size}" required>
-//                 </div>
-//                 <div class="input-row">
-//                     <label for="resolution" class="middle-label">Độ phân giải:</label>
-//                     <input id="resolution" class="middle-input" type="text" value="${printer.resolution}" required>
-//                 </div>
-//                 <div class="input-row">
-//                     <label for="ink_type" class="middle-label">Loại mực:</label>
-//                     <input id="ink_type" class="middle-input" type="text" value="${printer.ink_type}" required>
-//                 </div>
-//                 <div class="input-row">
-//                     <label for="paper_size" class="middle-label">Khổ giấy hỗ trợ:</label>
-//                     <input id="paper_size" class="middle-input" type="text" value="${printer.paper_size}" required>
-//                 </div>
-//                 <div class="add-status2">
-//                     <span>Trạng thái:</span>
-//                     <div class="toggle-button-container">
-                        
-//                     </div>
-//                 </div>
-//             </div>
-
-//             <div class="add-form-right">
-//                 <img src="images/add-printer.png" alt="">
-//                 <div class="buttons">
-//                     <button type="reset" class="reset-button">Đặt lại</button>
-//                     <button type="submit" class="submit-button">Xác nhận</button>
-//                 </div>
-//             </div>
-//         </form>
-//     `;
-//     printersRowsContainer.appendChild(row);
-// };
-// window.onload = fetchPrinter;
-
-// Xác nhận chỉnh sửa
-confirmButton.addEventListener('click', async () => {
-    const formValues = document.querySelectorAll('.form input, .form select');
-    const printerData = {};
-
-    // Collect input values
-    formValues.forEach(input => {
-        const key = input.id;
-        let value = input.value.trim();
-        printerData[key] = input.type === 'number' ? Number(value) || null : value || null;
-    });
-
-    // Ensure location is properly structured
-    if (printerData.location && typeof printerData.location === 'string') {
-        printerData.location = { building: printerData.location };
-    }
-
-    // Validate required fields
-    const requiredFields = ['branchName', 'model', 'status', 'location'];
-    for (const field of requiredFields) {
-        if (!printerData[field]) {
-            alert(`Field "${field}" is required!`);
-            return;
+// Fetch thông tin máy in và điền vào form
+const fetchPrinterInfo = async () => {
+    try {
+        const response = await fetch(`http://localhost:3000/api/d1/printers/${printer_ID}`);
+        if (!response.ok) {
+            throw new Error("Không thể lấy thông tin máy in");
         }
+        const data = await response.json();
+        originalPrinterData = data.data; // Save original data
+        populateForm(originalPrinterData);
+    } catch (error) {
+        console.error(error);
+        alert("Không thể tải thông tin máy in!");
     }
+};
 
-    console.log('Data to send:', printerData);
+// Điền thông tin vào form
+const populateForm = (printer) => {
+    // Điền thông tin cơ bản
+    document.getElementById('model').value = printer.model || '';
+    document.getElementById('branchName').value = printer.branchName || '';
+    document.getElementById('location').value = printer.location?.building || '';
+    document.getElementById('weight').value = printer.weight || '';
+    document.getElementById('description').value = printer.description || '';
+    
+    // Điền thông tin kỹ thuật
+    document.getElementById('printer_type').value = printer.printer_type || '';
+    document.getElementById('queue').value = printer.queue || 0;
+    document.getElementById('status').value = printer.status || 'enable';
+    document.getElementById('prints_in_day').value = printer.prints_in_day || 0;
+    document.getElementById('pages_printed').value = printer.pages_printed || 0;
+    document.getElementById('color_print').value = printer.color_print || 'no';
+    document.getElementById('printer_size').value = printer.printer_size || '';
+    document.getElementById('resolution').value = printer.resolution || '';
+    document.getElementById('ink_type').value = printer.ink_type || '';
+    document.getElementById('paper_size').value = printer.paper_size || '';
+};
+document.querySelector('.reset-button').addEventListener('click', (e) => {
+    e.preventDefault();
+    if (originalPrinterData) {
+        populateForm(originalPrinterData);
+    }
+});
+// Xử lý xác nhận chỉnh sửa
+confirmButton.addEventListener('click', async () => {
+    const formData = {
+        model: document.getElementById('model').value,
+        branchName: document.getElementById('branchName').value,
+        location: { building: document.getElementById('location').value },
+        weight: document.getElementById('weight').value,
+        description: document.getElementById('description').value,
+        printer_type: document.getElementById('printer_type').value,
+        queue: parseInt(document.getElementById('queue').value),
+        status: document.getElementById('status').value,
+        prints_in_day: parseInt(document.getElementById('prints_in_day').value),
+        pages_printed: parseInt(document.getElementById('pages_printed').value),
+        color_print: document.getElementById('color_print').value,
+        printer_size: document.getElementById('printer_size').value,
+        resolution: document.getElementById('resolution').value,
+        ink_type: document.getElementById('ink_type').value,
+        paper_size: document.getElementById('paper_size').value
+    };
 
-    // Send PUT request
     try {
         const response = await fetch(`http://localhost:3000/api/d1/printers/${printer_ID}`, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(printerData), // Corrected payload
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
         });
 
         if (response.ok) {
-            alert('Printer updated successfully!');
+            alert('Cập nhật thông tin máy in thành công!');
             window.location.href = 'admin-printer-home.html';
         } else {
             const errorText = await response.text();
-            alert(`Server Error: ${errorText}`);
+            alert(`Lỗi cập nhật: ${errorText}`);
         }
     } catch (error) {
-        console.error('Connection Error:', error);
-        alert('Failed to connect to the server.');
+        console.error('Lỗi kết nối:', error);
+        alert('Không thể kết nối đến máy chủ.');
     }
 });
 
+// Xử lý nút quay lại
+document.querySelector(".return button").addEventListener("click", () => {
+    window.history.back();
+});
 
-
-
+// Load dữ liệu khi trang được tải
+window.onload = fetchPrinterInfo;

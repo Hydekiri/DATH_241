@@ -18,25 +18,39 @@ const fetchPrinterHistoryInfo = async () => {
         const data = await response.json();
         console.log(data); // Xử lý dữ liệu máy in ở đây
         renderPrinterInfo(data.data); // Render thông tin chung
+        
     } catch (error) {
         console.error(error);
         alert("Không thể tải thông tin máy in!");
     }
 };
 const fetchPrinterHistoryInfo2 = async () => {
+    const tbody = document.querySelector(".printer-history tbody");
     try {
         const response = await fetch(`http://localhost:3000/api/d1/printconfigs/printer/${printer_ID}`);
         if (!response.ok) {
-            throw new Error("Không thể lấy lịch sử máy in");
+            // throw new Error("Không thể lấy lịch sử máy in");
         }
         const data = await response.json();
-        console.log(data); 
-        renderPrintHistory(data.data); 
+
+        // Nếu không có dữ liệu hoặc dữ liệu không phải mảng
+        if (!data.data || !Array.isArray(data.data) || data.data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5"><h2>Không có dữ liệu</h2></td></tr>';
+            return;
+        }
+
+        // Render dữ liệu lịch sử in
+        const completedHistory = data.data.filter(record => record.status === "Completed");
+
+        renderPrintHistory(completedHistory);
+        // renderPrintHistory(data.data);
     } catch (error) {
         console.error(error);
+        tbody.innerHTML = '<tr><td colspan="5"><h2>Không có dữ liệu</h2></td></tr>';
         alert("Không thể tải lịch sử máy in!");
     }
 };
+
 
 // Hàm render thông tin chung của máy in
 const renderPrinterInfo = (printer) => {
@@ -61,9 +75,29 @@ function toLower(str) {
 }
 
 const renderPrintHistory = (history) => {
+    const sortedHistory = history.sort((a, b) => {
+        const dateA = new Date(a.printStart);
+        const dateB = new Date(b.printStart);
+        
+        // Sắp xếp trước theo ngày (in mới nhất lên đầu)
+        if (dateB - dateA !== 0) {
+            return dateB - dateA;
+        }
+
+        // Nếu thời gian in giống nhau, ưu tiên config_ID cao hơn
+        return b.config_ID - a.config_ID;
+    });
     const historyContainer = document.querySelector(".printer-history tbody");
     historyContainer.innerHTML = ''; // Clear existing rows
-    
+
+    if (!sortedHistory.length) {
+        historyContainer.innerHTML = '<tr><td colspan="5">Không có dữ liệu</td></tr>';
+        return;
+    }
+    if (!history.length) {
+        historyContainer.innerHTML = '<tr><td colspan="5">Không có dữ liệu</td></tr>';
+        return;
+    }
     // Check if history is an array
     if (!Array.isArray(history)) {
         console.error("History is not an array", history);

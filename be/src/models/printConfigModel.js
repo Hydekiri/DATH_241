@@ -158,6 +158,16 @@ const printConfigModel = {
             console.error("Error in deleteCompletedConfigsByPrinter:", error);
             throw error;
         }
+    },
+
+    deleteCompletedConfigsByUserID: async (user_ID) => {
+        try {
+            await query.deleteRow("PrintConfiguration", { user_ID, status: "Completed" });
+            return { user_ID: parseInt(user_ID), status: "Completed" };
+        } catch (error) {
+            console.error("Error in deleteCompletedConfigsByUserID:", error);
+            throw error;
+        }
     }
 
 };

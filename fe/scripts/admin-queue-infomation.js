@@ -102,7 +102,7 @@ function renderPrintConfig(printconfigs) {
 
         html += `
             <tr class="success">
-                <td>${printconfig.user.name}<br>${printconfig.user.user_ID}</td>
+                <td>${printconfig.user.name}<br>ID: ${printconfig.user.user_ID}</td>
                 <td>${date} <br>${time}</br></td>
                 <td>${index}</td>
                 <td>${printconfig.numPages} <br>${printconfig.paperSize}</br></td>
