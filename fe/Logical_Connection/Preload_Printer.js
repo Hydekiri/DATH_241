@@ -179,7 +179,7 @@ function renderPrintConfig(printconfigs) {
     let index = 0;
 
     printconfigs.forEach((printconfig) => {
-        if (printconfig.status === 'completed') return;
+        if (printconfig.status === 'completed' || printconfig.status === 'Completed') return;
 
         index++;
         const printDate = new Date(printconfig.printStart);
