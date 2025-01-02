@@ -107,13 +107,10 @@ function renderPrintConfig(printconfigs) {
                 <td>${index}</td>
                 <td>${printconfig.numPages} <br>${printconfig.paperSize}</br></td>
                 <td>${printconfig.documents.map(doc => doc.name).join('<br>')}<br>Đã kiểm duyệt</td>
-                <td class="print-action"><button class="print-button" onclick="handlePrintButton(${printconfig.config_ID}, '${paperToPrint}')">In</button></td>
-                <td class="send-action">
-                    <button class="send-button" 
-                        onclick="handleSendNotification('${printconfig.user.user_ID}', printerLocation, '${docNames}')">
-                        Send
-                    </button>
-                </td>
+                <td class="print-action"><button class="print-button" onclick="
+                        handlePrintButton(${printconfig.config_ID}, '${printconfig.numPages}');
+                        handleSendNotification('${printconfig.user.user_ID}', printerLocation, '${docNames}');  
+                    ">In</button></td>
             </tr>
         `;
     });
@@ -163,7 +160,6 @@ async function updatePrinter(printerPage) {
             })
         })
 
-        alert('Cập nhật máy in thành công!');
     }
     catch {
         console.error("Lỗi khi cập nhật máy in:", error);
