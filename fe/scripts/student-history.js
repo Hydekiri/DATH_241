@@ -131,8 +131,27 @@ const renderPrinterInfo = (user) => {
 //     }
 // };
 const renderPrintHistory = (history) => {
+    // Sắp xếp history theo thứ tự thời gian in trễ nhất và config_ID cao hơn trước
+    const sortedHistory = history.sort((a, b) => {
+        const dateA = new Date(a.printStart);
+        const dateB = new Date(b.printStart);
+        
+        // Sắp xếp trước theo ngày (in mới nhất lên đầu)
+        if (dateB - dateA !== 0) {
+            return dateB - dateA;
+        }
+
+        // Nếu thời gian in giống nhau, ưu tiên config_ID cao hơn
+        return b.config_ID - a.config_ID;
+    });
+
     const tbody = document.querySelector(".printer-history tbody");
     tbody.innerHTML = ''; // Clear existing rows
+
+    if (!sortedHistory.length) {
+        tbody.innerHTML = '<tr><td colspan="5">Không có dữ liệu</td></tr>';
+        return;
+    }
 
     if (!history || !history.length) {
         // Thêm dòng hiển thị "Không có dữ liệu" nếu lịch sử trống

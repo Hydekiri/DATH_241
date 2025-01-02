@@ -65,6 +65,7 @@ const fetchPrinterHistoryInfo2 = async () => {
         // const completedHistory = data.data.filter(record => record.status === "Completed");
 
         // renderPrintHistory(completedHistory);
+        
     } catch (error) {
         console.error(error);
         alert("Không thể tải lịch sử máy in!");
@@ -92,8 +93,27 @@ const renderPrinterInfo = (user) => {
 
 
 const renderPrintHistory = (history) => {
+    // Sắp xếp history theo thứ tự thời gian in trễ nhất và config_ID cao hơn trước
+    const sortedHistory = history.sort((a, b) => {
+        const dateA = new Date(a.printStart);
+        const dateB = new Date(b.printStart);
+        
+        // Sắp xếp trước theo ngày (in mới nhất lên đầu)
+        if (dateB - dateA !== 0) {
+            return dateB - dateA;
+        }
+
+        // Nếu thời gian in giống nhau, ưu tiên config_ID cao hơn
+        return b.config_ID - a.config_ID;
+    });
+
     const tbody = document.querySelector(".printer-history tbody");
     tbody.innerHTML = ''; // Clear existing rows
+
+    if (!sortedHistory.length) {
+        tbody.innerHTML = '<tr><td colspan="5">Không có dữ liệu</td></tr>';
+        return;
+    }
 
     if (!history.length) {
         tbody.innerHTML = '<tr><td colspan="5">Không có dữ liệu</td></tr>';
@@ -131,7 +151,7 @@ const handleDeletePrintHistory = async () => {
 
     try {
         // Send DELETE request to remove all print history for the user
-        const response = await fetch(`http://localhost:3000/api/d1/printconfigs/user/${user_ID}/history`, {
+        const response = await fetch(`http://localhost:3000/api/d1/printconfigs/user/${user_ID}/history/completed`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

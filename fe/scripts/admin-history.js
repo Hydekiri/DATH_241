@@ -47,8 +47,8 @@ const renderHistory = () => {
             <div class="printer-paper">${record.numPages}/ ${record.paperSize}</div>
             <div class="print-time">${formattedDate} <br> ${formattedTime}</div>
             <div class="printer-actions">
-                <img class="printer-infor" src="images/icons/infor.png" alt="" onclick="showUserHistory('${record.user?.user_ID}', '${record.printer?.printer_ID}')">
-                <img class="history-delete" src="images/icons/delete.png" alt="" onclick="handleDeleteUserHistory('${record.user?.user_ID}')">
+                <img class="printer-infor" src="images/icons/infor.png" alt="Info" onclick="showUserHistory('${record.user?.user_ID}', '${record.printer?.printer_ID}')">
+                <img class="history-delete" src="images/icons/delete.png" alt="Delete" onclick="handleDeleteUserHistory('${record.config_ID}')">
             </div>
         `;
 
@@ -66,27 +66,22 @@ const showUserHistory = async (user_ID, printer_ID) => {
     window.location.href = `admin-student-history.html?user_ID=${user_ID}&printer_ID=${printer_ID}`;
 };
 
-const handleDeleteUserHistory = async (userID) => {
-    if (!userID || userID === 'N/A') {
-        alert("Không thể xác định người dùng!");
+const handleDeleteUserHistory = async (config_ID) => {
+    if (!config_ID || config_ID === 'N/A') {
+        alert("Không thể xác định lịch sử in!");
         return;
     }
 
-    const confirmation = window.confirm("Bạn có chắc muốn xóa toàn bộ lịch sử in của người dùng này không?");
+    const confirmation = confirm("Bạn có chắc muốn xóa toàn bộ lịch sử in này không?");
     if (!confirmation) return;
 
     try {
-        const response = await fetch(`http://localhost:3000/api/d1/printconfigs/user/${userID}/history`, {
-            method: 'DELETE'
-        });
-
+        const response = await fetch(`http://localhost:3000/api/d1/printconfigs/${config_ID}`, { method: 'DELETE' });
         if (!response.ok) {
             throw new Error("Failed to delete user history");
         }
-
-        // Refresh the history after deletion
         await fetchPrintHistory();
-        alert("Đã xóa lịch sử in của người dùng thành công!");
+        alert("Đã xóa lịch sử in thành công!");
     } catch (error) {
         console.error(error);
         alert("Không thể xóa lịch sử in lúc này!");
