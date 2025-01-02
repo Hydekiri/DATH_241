@@ -93,22 +93,15 @@ function renderPrintConfig(printconfigs) {
         const time = printDate.toLocaleTimeString('vi-VN');
         
         //Tinh so luong giay can in
-        let paperToPrint = printconfig.printSide === 'one-side' ? printconfig.numPages : Math.ceil(printconfig.numPages / 2);
-
-        if (printconfig.paperSize === 'A3') paperToPrint *= 2;
-
-        paperToPrint *= printconfig.numCopies;
-
-        console.log(paperToPrint);
 
         html += `
             <tr class="success">
                 <td>${printconfig.user.name}<br>${printconfig.user.user_ID}</td>
                 <td>${date} <br>${time}</br></td>
                 <td>${index}</td>
-                <td>${paperToPrint} <br>${printconfig.paperSize}</br></td>
+                <td>${printconfig.numPages} <br>${printconfig.paperSize}</br></td>
                 <td>${printconfig.documents.map(doc => doc.name).join('<br>')}<br>Đã kiểm duyệt</td>
-                <td class="print-action"><button class="print-button" onclick="handlePrintButton(${printconfig.config_ID}, '${paperToPrint}')">In</button></td>
+                <td class="print-action"><button class="print-button" onclick="handlePrintButton(${printconfig.config_ID}, '${printconfig.numPages}')">In</button></td>
             </tr>
         `;
     });
