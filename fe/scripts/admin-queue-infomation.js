@@ -1,6 +1,7 @@
 const urlParams = new URLSearchParams(window.location.search);
 const printer_ID = urlParams.get('printer_ID');
 let printerStatus, printerPage, printerQueue;
+let printerLocation = "";
 
 console.log(printer_ID); // Hiển thị printer_ID lên console
 
@@ -25,6 +26,7 @@ const fetchPrinterInfo = async () => {
 // Hàm render thông tin chung của máy in
 const renderPrinterInfo = (printer) => {
     printerStatus = printer.status;
+    printerLocation = printer.location?.building || "Không xác định";
     printerPage = printer.pages_printed;
     printerQueue = printer.queue;
 
@@ -91,6 +93,10 @@ function renderPrintConfig(printconfigs) {
         const printDate = new Date(printconfig.printStart);
         const date = printDate.toLocaleDateString('vi-VN');
         const time = printDate.toLocaleTimeString('vi-VN');
+        const location = (printconfig.location && printconfig.location.building) 
+            ? printconfig.location.building 
+            : "Không xác định";
+        const docNames = printconfig.documents.map(doc => doc.name).join(', ');
         
         //Tinh so luong giay can in
 
@@ -101,7 +107,13 @@ function renderPrintConfig(printconfigs) {
                 <td>${index}</td>
                 <td>${printconfig.numPages} <br>${printconfig.paperSize}</br></td>
                 <td>${printconfig.documents.map(doc => doc.name).join('<br>')}<br>Đã kiểm duyệt</td>
-                <td class="print-action"><button class="print-button" onclick="handlePrintButton(${printconfig.config_ID}, '${printconfig.numPages}')">In</button></td>
+                <td class="print-action"><button class="print-button" onclick="handlePrintButton(${printconfig.config_ID}, '${paperToPrint}')">In</button></td>
+                <td class="send-action">
+                    <button class="send-button" 
+                        onclick="handleSendNotification('${printconfig.user.user_ID}', printerLocation, '${docNames}')">
+                        Send
+                    </button>
+                </td>
             </tr>
         `;
     });

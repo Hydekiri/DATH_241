@@ -8,4 +8,5 @@ module.exports = (router) => {
     router.get("/notifications/:id", middlewareController.verifyControllerAndAdmin, notificationController.getNotificationById);
     router.delete("/notifications/:id", middlewareController.verifyToken, notificationController.deleteNotification);
     router.put('/notifications/:notificationId/user/:userId/read', middlewareController.verifyToken, notificationController.markNotificationAsRead);
+    router.put('/notifications/user/:userId/read', notificationController.markAllAsRead);
 };

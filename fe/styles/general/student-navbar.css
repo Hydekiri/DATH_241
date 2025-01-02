@@ -127,3 +127,24 @@
   margin: 5px 0 0;
   font-size: 14px;
 }
+
+.notification-dot {
+  position: absolute;
+  top: -8px;
+  right: -5px;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  display: none;
+  z-index: 9999;
+}
+
+.student-navbar-notification {
+  position: relative;
+}
+
+.notification-date {
+  font-style: italic;
+  font-size: 12px;
+}
