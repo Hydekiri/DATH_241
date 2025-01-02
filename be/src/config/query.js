@@ -41,7 +41,6 @@ const Query = {
             const placeholders = Object.keys(data).map(() => "?").join(", ");
             const query = `INSERT INTO ${table} (${fields}) VALUES (${placeholders})`;
             const [result] = await pool.query(query, Object.values(data));
-            console.log(Object.values(data));
             return result;
         } catch (error) {
             console.log(error);

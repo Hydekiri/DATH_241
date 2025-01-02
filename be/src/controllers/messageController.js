@@ -2,20 +2,20 @@
 // const userModel = require("../models/usersModel");
 const messageModel = require("../models/messageModel");
 
-exports.getAllNotifications = async (req, res) => {
-    try {
-        const notifications = await messageModel.getAllNotifications();
+// exports.getAllNotifications = async (req, res) => {
+//     try {
+//         const notifications = await messageModel.getAllNotifications();
 
-        if (!notifications || notifications.length === 0) {
-            return res.status(404).json({ status: 404, message: "No Notifications Found" });
-        }
+//         if (!notifications || notifications.length === 0) {
+//             return res.status(404).json({ status: 404, message: "No Notifications Found" });
+//         }
 
-        res.status(200).json({ status: 200, data: notifications, message: "Successfully Retrieved Notifications!" });
-    } catch (error) {
-        console.error("Error Retrieving Notifications:", error.message);
-        res.status(500).json({ status: 500, message: 'Error Retrieving Notifications', error: error.message });
-    }
-};
+//         res.status(200).json({ status: 200, data: notifications, message: "Successfully Retrieved Notifications!" });
+//     } catch (error) {
+//         console.error("Error Retrieving Notifications:", error.message);
+//         res.status(500).json({ status: 500, message: 'Error Retrieving Notifications', error: error.message });
+//     }
+// };
 
 exports.sendMessageToUser = async (req, res) => {
     try {
