@@ -1,7 +1,6 @@
 -- Bảng User
 INSERT INTO `User`
-    (`email`, `password
-`, `name`, `role`, `pageBalance`) VALUES
+    (`email`, `password`, `name`, `role`, `pageBalance`) VALUES
 ('student1@example.com', 'password123', 'Student One', 'student', 100),
 ('student2@example.com', 'password456', 'Student Two', 'student', 150),
 ('spso1@example.com', 'password789', 'SPSO One', 'spso', 0),
@@ -41,8 +40,7 @@ INSERT INTO `User`
 -- ('Printer E5', 'Xerox Phaser', 'High-capacity network printer', 'enable', 5);
 
 -- Bảng `Location`
-INSERT INTO `Location` (`
-building`)
+INSERT INTO `Location` (`building`)
 VALUES
     ('H6-604'),
     ('H1-302'),
@@ -51,15 +49,7 @@ VALUES
     ('H6-203');
 
 -- Bảng `Printer`
-INSERT INTO `Printer` (`
-branchName`,
-`model`,
-`description`,
-`status`,
-`loc_ID`,
-`weight`,
-`printer_type
-`, `queue`, `prints_in_day`, `pages_printed`, `color_print`,`printer_size` , `paper_size`, `resolution`, `ink_type`) VALUES
+INSERT INTO `Printer` (`branchName`,`model`,`description`,`status`,`loc_ID`,`weight`,`printer_type`, `queue`, `prints_in_day`, `pages_printed`, `color_print`,`printer_size` , `paper_size`, `resolution`, `ink_type`) VALUES
 ('Printer A1', 'HP LaserJet', 'High-speed B&W printer', 'enable', 1,'9.4kg', 'Laser trắng đen', 0, 0, 1200, 'no','452x365x352.5 mm', 'A4', '600x600 dpi', 'HP 6520'),
 ('Printer B2', 'Canon Pixma', 'Color printer with duplex printing', 'enable', 2,'9.4kg', 'Inkjet màu', 0, 0, 1200, 'yes', '452x365x352.5 mm', 'A4, A5', '1200x1200 dpi', 'Canon 9523'),
 ('Printer C3', 'Epson EcoTank', 'Eco-friendly color printer', 'disable', 3,'9.4kg', 'Inkjet màu', 0, 0, 1200, 'yes','452x365x352.5 mm', 'A4, Legal', '1440x1440 dpi', 'Epson Eco 500'),
@@ -130,16 +120,14 @@ branchName`,
 -- (4, 4, 'unread'),
 -- (5, 5, 'read');
 
-INSERT INTO `Queue` (`
-printer_ID`,`userID
-`, `config_ID`, `document_name`, `queue_position`, `status`, `numPages`)
-VALUES
-(1, 1, 1, 'Document1.pdf', 1, '1', 10),
--- Tài liệu đầu tiên
-(2, 2, 2, 'Document2.docx', 1, '1', 20),
--- Tài liệu thứ hai
-(3, 3, 3, 'Document3.xlsx', 1, '1', 15),
--- Tài liệu thứ ba
-(4, 4, 4, 'Document4.txt', 1, '1', 30),
--- Tài liệu thứ tư
-(5, 5, 5, 'Document5.jpeg', 1, '1', 5); -- Tài liệu cuối cùng
+-- INSERT INTO `Queue` (`printer_ID`,`userID`, `config_ID`, `document_name`, `queue_position`, `status`, `numPages`)
+-- VALUES
+-- (1, 1, 1, 'Document1.pdf', 1, '1', 10),
+-- -- Tài liệu đầu tiên
+-- (2, 2, 2, 'Document2.docx', 1, '1', 20),
+-- -- Tài liệu thứ hai
+-- (3, 3, 3, 'Document3.xlsx', 1, '1', 15),
+-- -- Tài liệu thứ ba
+-- (4, 4, 4, 'Document4.txt', 1, '1', 30),
+-- -- Tài liệu thứ tư
+-- (5, 5, 5, 'Document5.jpeg', 1, '1', 5); -- Tài liệu cuối cùng
