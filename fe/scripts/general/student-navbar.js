@@ -70,10 +70,15 @@ async function setupNotificationPopup() {
                 result.data.forEach(notification => {
                     const notificationElement = document.createElement('div');
                     notificationElement.classList.add('notification-item');
+                    
+                    const notiDate = new Date(notification.detail.createDate);
+                    const date = notiDate.toLocaleDateString('vi-VN');
+                    const time = notiDate.toLocaleTimeString('vi-VN');
+
                     notificationElement.innerHTML = `
                         <h4>${notification.detail.title}</h4>
                         <p>${notification.detail.content}</p>
-                        <p class="notification-date">${notification.detail.createDate.replace('T', ' ').replace('Z', ' ').replace(/\.\d+/, '')}</p>
+                        <p class="notification-date">${date} ${time}</p>
                     `;
 
                     if (notification.status === 'unread') {
