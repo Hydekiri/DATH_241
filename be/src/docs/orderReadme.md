@@ -2,7 +2,7 @@
 
 API nguồn: http://localhost:3000/api/d1
 ---
-## chú ý: chạy lên npm install @payos/node để thêm model payOS
+## chú ý: chạy lệnh "npm install @payos/node" để thêm model payOS
 ## 1. Route: **(http://localhost:3000/api/d1/buypages)**
 - **Phương thức:** `POST` 
 - **Mục đích:** tạo đơn mua trang in và cập nhật vào database
@@ -48,14 +48,19 @@ API nguồn: http://localhost:3000/api/d1
 ## 2. Route: **[/create-payment-link](http://localhost:3000/api/d1/create-payment-link)** 
 
 - **Phương thức:** `POST`
-- **Mục đích:** tạo link quét QR thanh toán và điều hướng đến link thanh toán để quét QR
+- **Mục đích:** tạo link quét QR thanh toán
 - **Dữ liệu yêu cầu:**
        "code"(interger): ID của đơn hàng trên hệ thóng payOs.
        "pagesToBuy"(interger): số trang in mà người dùng mua trong đơn hàng lần này.
 - **Dữ liệu trả về:**
   - **Thành công:**
-        "status": 200
-        không có dữ liệu trả về mà sẽ điều hướng đến trang thanh tanh toán và hiển thị mã QR
+    ```json
+    {
+      "status": 200,
+      "message": "Tạo link thanh toán thành công!",
+      "paymentLink": "string",
+    }
+    ```
 
   - **Lỗi:**
     ```json
