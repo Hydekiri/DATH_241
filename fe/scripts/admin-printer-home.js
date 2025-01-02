@@ -32,7 +32,7 @@ const updateTotals = (printers) => {
     document.getElementById('total-paper').textContent = totalPaper;
     document.getElementById('total-print-jobs').textContent = totalPrintJobs;
     document.getElementById('total-queue').textContent = totalQueue;
-    
+
 };
 const handleToggleStatus = async (printerId, currentStatus, event) => {
     event.preventDefault();
@@ -41,9 +41,9 @@ const handleToggleStatus = async (printerId, currentStatus, event) => {
     const confirmButton = document.querySelector('.confirm-button');
     const cancelButton = document.querySelector('.cancel');
     const toggleCheckbox = document.querySelector(`#toggle-${printerId}`);
-    
-    overlay.classList.remove('hidden'); 
-    
+
+    overlay.classList.remove('hidden');
+
     toggleCheckbox.disabled = true;
 
     confirmButton.onclick = async () => {
@@ -64,20 +64,20 @@ const handleToggleStatus = async (printerId, currentStatus, event) => {
             }
 
             toggleCheckbox.checked = newStatus === 'disable';
-            fetchPrinters(); 
+            fetchPrinters();
 
             overlay.classList.add('hidden');
         } catch (e) {
             console.log(e.message);
             alert("Không thể thay đổi trạng thái của máy in ngay bây giờ! Vui lòng thử lại sau!");
-            overlay.classList.add('hidden'); 
+            overlay.classList.add('hidden');
         } finally {
             toggleCheckbox.disabled = false;
         }
     };
 
     cancelButton.onclick = () => {
-        overlay.classList.add('hidden'); 
+        overlay.classList.add('hidden');
         toggleCheckbox.disabled = false;
     };
 };
@@ -213,7 +213,7 @@ const filterPrinters = (searchTerm) => {
         const weight = row.querySelector(".printer-weight").textContent.toLowerCase();
         const id = row.querySelector(".printer-id").textContent.toLowerCase();
         // Kiểm tra nếu giá trị nhập khớp với bất kỳ thuộc tính nào
-        if (model.includes(searchTerm)  || building.includes(searchTerm)|| id.includes(searchTerm)|| weight.includes(searchTerm)|| branchName.includes(searchTerm) || status.includes(searchTerm)) {
+        if (model.includes(searchTerm) || building.includes(searchTerm) || id.includes(searchTerm) || weight.includes(searchTerm) || branchName.includes(searchTerm) || status.includes(searchTerm)) {
             row.style.display = ""; // Hiển thị hàng
         } else {
             row.style.display = "none"; // Ẩn hàng
@@ -221,14 +221,32 @@ const filterPrinters = (searchTerm) => {
     });
 };
 
+async function loadChatWidget() {
+    const response = await fetch('/fe/scripts/general/chat-widget.html');
+    const chatHTML = await response.text();
+    document.body.insertAdjacentHTML('beforeend', chatHTML);
+
+    const chatPopup = document.getElementById('chatPopup');
+    const minimizeButton = chatPopup.querySelector('.minimize-chat');
+    const closeButton = chatPopup.querySelector('.close-chat');
+    const chatBody = chatPopup.querySelector('.chat-body');
+
+    minimizeButton.addEventListener('click', () => {
+        chatBody.style.display = chatBody.style.display === 'none' ? 'block' : 'none';
+    });
+
+    closeButton.addEventListener('click', () => {
+        chatPopup.style.display = 'none';
+    });
+}
 
 document.querySelector(".search-input").addEventListener("input", (event) => {
     const searchTerm = event.target.value.toLowerCase();
-    const filteredData = printerData.filter(printer => 
+    const filteredData = printerData.filter(printer =>
         printer.model.toLowerCase().includes(searchTerm) ||
         (printer.branchName && printer.branchName.toLowerCase().includes(searchTerm)) ||
         printer.status.toLowerCase().includes(searchTerm) || printer.weight.toLowerCase().includes(searchTerm) ||
-        printer.location.building.toLowerCase().includes(searchTerm)|| printer.id.toLowerCase().includes(searchTerm)
+        printer.location.building.toLowerCase().includes(searchTerm) || printer.id.toLowerCase().includes(searchTerm)
     );
     renderPrinters(filteredData); // Hiển thị dữ liệu đã lọc
 });

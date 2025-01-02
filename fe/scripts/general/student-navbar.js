@@ -161,12 +161,14 @@ function setupMessagePopup() {
         chatPopup.style.bottom = '0';
         chatPopup.style.right = '10px';
         document.body.appendChild(chatPopup);
+        const studentID = parseInt(getCookie('id'));
+        console.log(studentID);
 
-        fetch(`http://localhost:3000/api/d1/messages?sender_id=1&receiver_id=${admin.user_ID}`) // Giả sử sender_id=1
+        fetch(`http://localhost:3000/api/d1/messages?sender_id=${studentID}&receiver_id=${admin.user_ID}`) // Giả sử sender_id=1
             .then(response => response.json())
             .then(data => {
                 if (data.status === 200) {
-                    renderChatInterface(chatPopup, admin, data.data);
+                    renderChatInterface(chatPopup, studentID, admin, data.data);
                 } else {
                     chatPopup.innerHTML = '<p>Error loading chat messages</p>';
                 }
@@ -177,7 +179,7 @@ function setupMessagePopup() {
             });
     }
 
-    function renderChatInterface(chatPopup, admin, messages) {
+    function renderChatInterface(chatPopup, sender_id, admin, messages) {
         fetch('http://127.0.0.1:5500/fe/scripts/general/chat-widget.html') // Đường dẫn tới file chat-widget.html
             .then(response => response.text())
             .then(htmlContent => {
@@ -197,7 +199,7 @@ function setupMessagePopup() {
                 // Hiển thị các tin nhắn
                 messages.forEach(msg => {
                     const messageElement = document.createElement('div');
-                    messageElement.classList.add('message', msg.sender_id === 1 ? 'user-message' : 'admin-message'); // Giả sử sender_id=1
+                    messageElement.classList.add('message', msg.sender_id === sender_id ? 'user-message' : 'admin-message'); // Giả sử sender_id=1
                     messageElement.innerHTML = `<p>${msg.content}</p><small>${msg.created_at}</small>`;
                     chatMessages.appendChild(messageElement);
                 });
@@ -207,7 +209,7 @@ function setupMessagePopup() {
                     const content = chatInput.value.trim();
                     if (!content) return;
 
-                    fetch(`http://localhost:3000/api/d1/messages/1`, { // Giả sử sender_id=1
+                    fetch(`http://localhost:3000/api/d1/messages/${sender_id}`, { // Giả sử sender_id=1
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ receiver_id: admin.user_ID, content })

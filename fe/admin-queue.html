@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quản lý máy in</title>
 
+  <link rel="stylesheet" href="styles/general/chat-widget.css">
   <link rel="stylesheet" href="/fe/styles/admin-queue.css">
   <link rel="stylesheet" href="/fe/styles/general/admin-navbar.css">
   <link rel="stylesheet" href="/fe/styles/general/general.css">
   <link rel="stylesheet" href="/fe/styles/fontchar.css">
   <script src="/fe/scripts/admin-queue.js" defer></script>
 </head>
+
 <body>
   <div class="admin-navbar"></div>
 
@@ -20,7 +23,7 @@
         <img src="images/icons/search.png" alt="">
         <input class="search-input" type="text" placeholder="Tìm kiếm...........">
       </div>
-      
+
       <!-- <div class="filter">
         <img src="/fe/images/icons/filter.png" alt="">
         <span>Lọc kết quả</span>
@@ -83,16 +86,16 @@
           </div>
         </div> -->
 
-        
 
-        
+
+
       </div>
     </div>
 
     <div class="printers-pages">
-        <button class="prev-page" onclick="changePage(-1)">&lt;</button>
-        <span class="current-page" id="page-info">1 / 1</span>
-        <button class="next-page" onclick="changePage(1)">&gt;</button>
+      <button class="prev-page" onclick="changePage(-1)">&lt;</button>
+      <span class="current-page" id="page-info">1 / 1</span>
+      <button class="next-page" onclick="changePage(1)">&gt;</button>
     </div>
   </div>
   <div class="overlay-2 hidden">
@@ -104,10 +107,11 @@
         <button class="cancel">Hủy</button>
         <button class="confirm-button">Xác nhận</button>
       </div>
-      
+
     </div>
   </div>
   <script src="/fe/scripts/general/admin-navbar.js"></script>
-  
+
 </body>
+
 </html>
