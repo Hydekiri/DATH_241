@@ -146,6 +146,9 @@ async function showprinterqueue(id) {
         await fetchPrintConfig(id);
     } catch (error) {
         console.error('Error loading print configuration:', error);
+        const printconfigDisplay = document.querySelector('.printconfig-display');
+        printconfigDisplay.innerHTML = 'Không có tài liệu đang đợi in';
+        return;
     }
 }
 
@@ -155,6 +158,9 @@ function backtohome(){
 
     mainDiv.style.display = 'grid';
     printerInfoDiv.style.display = 'none';
+
+    const printconfigDisplay = document.querySelector('.printconfig-display');
+    printconfigDisplay.innerHTML = '';
 }
 
 
@@ -168,8 +174,11 @@ async function fetchPrintConfig(printer_ID) {
         //console.log(data.data); 
         renderPrintConfig(data.data); 
     } catch (error) {
-        console.error(error);
-        alert("Không thể tải danh sách hàng đợi!");
+        console.error(error); 
+        const printconfigDisplay = document.querySelector('.printconfig-display');
+        printconfigDisplay.innerHTML = 'Không có tài liệu đang đợi in';
+        alert("Không thể tải danh sách hàng đợi!");   
+        return;
     }
 }
 
