@@ -109,21 +109,41 @@ const updatePaginationButtons = () => {
     nextButton.disabled = currentPage === totalPages;
 };
 
-const setupSearch = () => {
-    const searchInput = document.querySelector('.search-input');
-    searchInput.addEventListener('input', (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-        filteredHistory = allHistory.filter(record => 
-            record.user?.name?.toLowerCase().includes(searchTerm) ||
-            record.user?.user_ID?.toLowerCase().includes(searchTerm) ||
-            record.printer?.model?.toLowerCase().includes(searchTerm) ||
-            record.paperSize?.toLowerCase().includes(searchTerm)
-        );
-        currentPage = 1;
-        totalPages = Math.ceil(filteredHistory.length / itemsPerPage);
-        renderHistory();
+
+document.querySelector(".search-input").addEventListener("input", (event) => {
+    const searchTerm = event.target.value.toLowerCase(); // Lấy giá trị nhập vào và chuyển thành chữ thường
+    filterPrinters(searchTerm); // Gọi hàm lọc
+});
+const filterPrinters = (searchTerm) => {
+    const printerRows = document.querySelectorAll(".printers-row"); // Lấy tất cả các hàng máy in
+
+    printerRows.forEach((row) => {
+        const userName = row.querySelector(".student-name").textContent.toLowerCase();
+        // const userID = row.querySelector(".printer-id")?.textContent.toLowerCase() || '';
+        const printerName = row.querySelector(".printer-name").textContent.toLowerCase();
+        const paper = row.querySelector(".printer-paper").textContent.toLowerCase();
+        const time = row.querySelector(".print-time").textContent.toLowerCase();
+        const id = row.querySelector(".printer-id").textContent.toLowerCase();
+        // Kiểm tra nếu giá trị nhập khớp với bất kỳ thuộc tính nào
+        if (userName.includes(searchTerm)  || printerName.includes(searchTerm)|| id.includes(searchTerm)|| paper.includes(searchTerm)|| time.includes(searchTerm) ) {
+            row.style.display = ""; // Hiển thị hàng
+        } else {
+            row.style.display = "none"; // Ẩn hàng
+        }
     });
 };
+
+
+document.querySelector(".search-input").addEventListener("input", (event) => {
+    const searchTerm = event.target.value.toLowerCase();
+    const filteredData = historyData.filter(history => 
+        history.userName.toLowerCase().includes(searchTerm) ||
+        (history.printerName && history.printerName.toLowerCase().includes(searchTerm)) ||
+        history.time.toLowerCase().includes(searchTerm) || history.paper.toLowerCase().includes(searchTerm) ||
+        history.id.toLowerCase().includes(searchTerm)
+    );
+    renderHistory(filteredData); // Hiển thị dữ liệu đã lọc
+});
 
 const setupDateFilter = () => {
     const filterButton = document.getElementById('filter-button');
@@ -147,6 +167,7 @@ const setupDateFilter = () => {
         renderHistory();
     });
 };
+
 
 // Initialize everything when the page loads
 window.onload = () => {

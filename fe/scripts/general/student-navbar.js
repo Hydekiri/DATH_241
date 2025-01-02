@@ -77,7 +77,8 @@ async function setupNotificationPopup() {
                     `;
 
                     if (notification.status === 'unread') {
-                        notificationElement.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
+                        notificationElement.style.backgroundColor = '#ff990052';
+                        notificationElement.style.color = '#ff8800';
                     }
 
                     notificationPopup.appendChild(notificationElement);

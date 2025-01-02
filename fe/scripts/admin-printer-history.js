@@ -108,13 +108,13 @@ const handleDeletePrintHistory = async () => {
 
     try {
         // Send DELETE request to remove all print history for the user
-        const response = await fetch(`http://localhost:3000/api/d1/printconfigs/printer/${printer_ID}`, {
+        const response = await fetch(`http://localhost:3000/api/d1/printconfigs/printer/${printer_ID}/completed`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                // 'token': `Bearer ${token}`,
-            }
+            },
         });
+        
 
         if (!response.ok) {
             throw new Error("Không thể xóa lịch sử in của người dùng");
@@ -129,7 +129,7 @@ const handleDeletePrintHistory = async () => {
         alert("Không thể xóa lịch sử in lúc này!");
     }
 };
-
+document.querySelector('.delete-history-btn').addEventListener('click', handleDeletePrintHistory);
 // Gọi hàm fetchPrinterInfo khi trang được tải
 window.onload = fetchPrinterHistory;
 // window.onload = fetchPrinterHistoryInfo2;
