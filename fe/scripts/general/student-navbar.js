@@ -38,15 +38,9 @@ async function setupNotificationPopup() {
         return;
     }
 
-    const notificationPopup = document.createElement('div');
-    notificationPopup.classList.add('notification-popup');
-    notificationPopup.style.position = 'absolute'; // Ensure the popup is positioned correctly
-    notificationPopup.style.display = 'none'; // Initially hide the popup
-    document.body.appendChild(notificationPopup);
-
     notificationIcon.addEventListener('click', async (event) => {
         event.preventDefault();
-        notificationPopup.innerHTML = ''; // Clear previous notifications
+        notificationPopup.innerHTML = ''; 
         notificationPopup.style.display = 'block';
 
         try {
@@ -63,10 +57,6 @@ async function setupNotificationPopup() {
             const result = await response.json();
 
             if (result.status === 200) {
-                const hasUnread = result.data.some(n => !n.detail.isRead);
-                if (hasUnread) document.querySelector('.notification-dot').style.display = 'block';
-                else document.querySelector('.notification-dot').style.display = 'none';
-
                 await fetch(`http://localhost:3000/api/d1/notifications/user/${userID}/read`, {
                     method: "PUT",
                     headers: {
@@ -85,6 +75,11 @@ async function setupNotificationPopup() {
                         <p>${notification.detail.content}</p>
                         <p class="notification-date">${notification.detail.createDate.replace('T', ' ').replace('Z', ' ').replace(/\.\d+/, '')}</p>
                     `;
+
+                    if (notification.status === 'unread') {
+                        notificationElement.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
+                    }
+
                     notificationPopup.appendChild(notificationElement);
                 });
             } else {
@@ -119,3 +114,28 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
     return null;  // If cookie not found
 }
+
+const notificationPopup = document.createElement('div');
+    notificationPopup.classList.add('notification-popup');
+    document.body.appendChild(notificationPopup);
+
+document.addEventListener("DOMContentLoaded", async () => {
+    const userID1 = parseInt(getCookie('id'));
+    const token1 = getCookie('token');
+    const response1 = await fetch(`http://localhost:3000/api/d1/users/${userID1}/notifications`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "token": `Bearer ${token1}`
+        }
+    });
+    if (!response1.ok) console.log("Failing Getting User by ID for create config!");
+    const result1 = await response1.json();
+
+    if (result1.status === 200) {
+        const hasUnread1 = result1.data.some(n => n.status === 'unread');
+        if (hasUnread1) document.querySelector('.notification-dot').style.display = 'block';
+        else document.querySelector('.notification-dot').style.display = 'none';
+    }
+})
+
