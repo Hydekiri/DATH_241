@@ -1,50 +1,52 @@
 <!DOCTYPE html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Học sinh đăng nhập</title>
-    <link rel="stylesheet" href="styles/general/login-navbar.css">
-    <link rel="stylesheet" href="styles/general/general.css">
-    <link rel="stylesheet" href="styles/login-sutdent.css">
-  </head>
-  <body>
-    <div class="login-navbar"></div>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Admin đăng nhập</title>
+        <link rel="stylesheet" href="styles/general/login-navbar.css">
+        <link rel="stylesheet" href="styles/general/general.css">
+        <link rel="stylesheet" href="styles/login-admin.css">
+    </head>
+    <body>
+        <div class="login-navbar"></div>
 
-    <div class="main">
-      <div class="main-left">
-        <h1>Trường đại học Bách Khoa - Đại học Quốc Gia TPHCM Student Smart Printing Service</h1>
-        <img class="login-image" src="images/login.jpg" alt="">
-      </div>
-      <form class="main-right" action="">
-        <h2 class="login-title">ĐĂNG NHẬP</h2>
-
-        <div class="input-group">
-          <label for="username">Tên đăng nhập
-          </label>
-          <input id="username" type="text" placeholder="uyaware@hcmut.edu.vn">
+        <div class="main">
+        <div class="main-left">
+            <h1>Trường đại học Bách Khoa - Đại học Quốc Gia TPHCM Student Smart Printing Service</h1>
+            <img class="login-image" src="images/login.jpg" alt="">
         </div>
+        <form class="main-right" action="">
+            <h2 class="login-title">ĐĂNG NHẬP</h2>
 
-        <div class="input-group">
-          <label for="password">Mật khẩu
-          </label>
-          <input id="password" type="password">
-        </div>
+            <div class="input-group">
+            <label for="username">Tên đăng nhập
+            </label>
+            <input id="username" type="text" placeholder="uyaware@hcmut.edu.vn">
+            </div>
 
-        <div class="remember-forget">
-          <div class="remember-input">
-            <input id="remember" type="checkbox">
-            <label class="remember-label" for="remember">Ghi nhớ đăng nhập</label>
-          </div>
-          <a class="forget" href="">Quên mật khẩu?</a>
+            <div class="input-group">
+            <label for="password">Mật khẩu
+            </label>
+            <input id="password" type="password">
+            </div>
+
+            <div class="remember-forget">
+            <div class="remember-input">
+                <input id="remember" type="checkbox">
+                <label class="remember-label" for="remember">Ghi nhớ đăng nhập</label>
+            </div>
+            <a class="forget" href="">Quên mật khẩu?</a>
+            </div>
+            
+            <button class="submit-button" type="button">Đăng nhập</button>
+            
+        </form>
         </div>
         
-        <button class="submit-button" type="button">Đăng nhập</button>
-        
-      </form>
-    </div>
 
-    <script src="scripts/general/login-navbar.js"></script>
-    <script src="./Logical_Connection/Admin_Login.js"></script>
-  </body>
+
+        <script src="scripts/general/login-navbar.js"></script>
+        <script src="./Logical_Connection/Admin_Login.js"></script>
+    </body>
 </html>

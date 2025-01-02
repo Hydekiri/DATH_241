@@ -2,3 +2,213 @@
   background-color: #70D3FA;
   color: white !important;
 }
+
+
+/* main */
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Lato-Heavy';
+}
+
+
+/* search filter  */
+.search-filter-add {
+  display: flex;
+  width: 1390px;
+  margin-left: 60px;
+}
+
+.search {
+  background-color: rgba(112, 211, 250, 0.42);
+  width: 100%;
+  height: 53px;
+  
+  display: flex;
+  align-items: center;
+
+  padding-left: 30px;
+  padding-right: 30px;
+  border-radius: 15px;
+  margin-right: 60px;
+}
+
+.search img {
+  cursor: pointer;
+}
+
+.search-input {
+  flex: 1;
+  background-color: transparent;
+  color: #5B5B5B;
+  font-size: 30px;
+  font-weight: light;
+  margin-left: 20px;
+
+  border: none;
+  outline: none;
+}
+
+.filter {
+  background-color: rgba(112, 211, 250, 0.42);
+  width: 280px;
+  height: 53px;
+  border-radius: 15px;
+
+  display: flex;
+  align-items: center;
+  padding-left: 25px;
+}
+
+.filter span {
+  font-size: 30px;
+  padding-left: 16px;
+}
+
+/* end .search-filter*/
+
+.date-filter {
+  display: flex;
+  margin-top: 30px;
+  gap: 20px;
+  justify-content: start;
+  width: 1330px;
+}
+.filter-input button{
+  background-color: rgba(112, 211, 250, 0.42);
+  color: #0081b9;
+  height: 53px;
+  width: 80px;
+  font-size: 26px;
+  border-radius: 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}
+.filter-input button:hover{
+  background-color: rgb(0, 183, 255);
+  color: #ffffff;
+}
+.date-input {
+  background-color: rgba(112, 211, 250, 0.42);
+  color: #5B5B5B;
+  height: 53px;
+  width: 350px;
+  border-radius: 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.date-input label {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.date-input input {
+  font-size: 24px;
+}
+
+/* bang thong tin nhung may in */
+
+.printers-display {
+  width: 1330px;
+  border: 1px solid #6B6B6B;
+  border-radius: 10px;
+  margin-top: 40px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/* ten cot */
+
+.column-names {
+  display: grid;
+  grid-template-columns: 196px 138px 194px 186px 187px 193px;
+  width: 1145px;
+  justify-content: space-between;
+}
+
+.column-name{
+  background-color: rgba(112, 211, 250, 0.65);
+  height: 37px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+/* end ten cot */
+
+/* printers */
+
+.printers-row {
+  width: 1145px;
+  height: 57px;
+  border: 1px solid #6B6B6B;
+  border-radius: 10px;
+
+  display: grid;
+  grid-template-columns: 196px 138px 194px 186px 187px 193px;
+  align-items: center;
+  justify-content: space-between;
+
+  font-size: 20px;
+  margin: 30px 0;
+}
+
+.printer-infor {
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+.history-delete {
+  cursor: pointer;
+}
+
+.student-name, .printer-id, .printer-name, .print-time, .printer-paper, .printer-actions {
+  display: flex;
+  justify-content: center;
+}
+/* end printers */
+
+.printers-pages {
+  width: 1330px;
+  height: 48px;
+  background-color: #CBEEFC;
+  margin-top: 18px;
+  border-radius: 10px;
+  padding-right: 15px;;
+
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+.prev-page, .next-page {
+  width: 30px;
+  height: 26px;
+  background-color: white;
+  border: none;
+  box-shadow: none;
+  border-radius: 5px;
+  font-size: 20px;
+}
+
+.current-page {
+  font-size: 18px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+/* end bang thong tin cac may in */
+

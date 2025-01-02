@@ -106,6 +106,59 @@ const printConfigModel = {
             console.error("Error in deleteConfig:", error);
             throw error;
         }
+    },
+
+    deleteConfigByPrinter: async (printer_ID) => {
+        try {
+            await query.deleteRow("PrintConfiguration", { printer_ID });
+            return { printer_ID: parseInt(printer_ID) };
+        } catch (error) {
+            console.error("Error in deleteConfigByPrinter:", error);
+            throw error;
+        }
+    },
+
+    getAllUserHistory: async (user_ID) => {
+        try {
+            const printConfigs = await query.getAll("PrintConfiguration", { user_ID });
+
+            if (!printConfigs || printConfigs.length === 0) {
+                console.log("No printConfig found.");
+                return [];
+            }
+            for (const config of printConfigs) {
+                const user = await query.getOne("User", { user_ID: config.user_ID });
+                const printer = await query.getOne("Printer", { Printer_ID: config.printer_ID });
+                config.user = user || null;
+                config.printer = printer || null;
+            }
+
+            return printConfigs;
+        } catch (error) {
+            console.error("Error in getAllUserHistory:", error);
+            throw error;
+        }
+    }, 
+
+    deleteAllUserHistoryByID: async (user_ID) => {
+        try {
+            await query.deleteRow("PrintConfiguration", { user_ID });
+            return { user_ID: parseInt(user_ID) };
+        } catch (error) {
+            console.error("Error in deleteAllUserHistory:", error);
+            throw error;
+        }
+    },
+
+    deleteCompletedConfigsByPrinter: async (printer_ID) => {
+        try {
+            await query.deleteRow("PrintConfiguration", { printer_ID, status: "Completed" });
+            return { printer_ID: parseInt(printer_ID), status: "Completed" };
+        } catch (error) {
+            console.error("Error in deleteCompletedConfigsByPrinter:", error);
+            throw error;
+        }
     }
+
 };
 module.exports = printConfigModel;

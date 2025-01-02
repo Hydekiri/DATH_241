@@ -99,3 +99,57 @@
 .student-navbar-avatar .avatar {
   cursor: pointer;
 }
+
+.notification-popup {
+  position: fixed;
+  top: 110px; 
+  bottom: 0;
+  right: 10px; 
+  width: 300px; 
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: none; 
+  overflow: scroll;
+}
+
+.notification-item {
+  margin-bottom: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.notification-item h4 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.notification-item p {
+  margin: 5px 0 0;
+  font-size: 14px;
+}
+
+.notification-dot {
+  position: absolute;
+  top: -8px;
+  right: -5px;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  display: none;
+  z-index: 9999;
+}
+
+.student-navbar-notification {
+  position: relative;
+}
+
+.notification-date {
+  font-style: italic;
+  font-size: 12px;
+}

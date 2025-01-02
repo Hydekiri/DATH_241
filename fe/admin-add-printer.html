@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Printer</title>
+  <link rel="stylesheet" href="styles/general/general.css">
+  <link rel="stylesheet" href="/fe/styles/general/admin-navbar.css">
+  <link rel="stylesheet" href="styles/admin-add-printer.css">
+  <link rel="stylesheet" href="/fe/styles/fontchar.css">
+</head>
+<body>
+  <div class="admin-navbar"></div>
+
+  <div class="overlay">
+    <form action="" class="add-printer-container form">
+      <div class="add-form-left">
+        <h2>Thêm máy in mới</h2>
+        
+        
+        
+        <div class="input-row">
+          <label for="model" class="left-label">Model:</label>
+          <input id="model" class="left-input" type="text" placeholder="CanonXS364211" required>
+        </div>
+        <div class="input-row">
+          <label for="branchName" class="left-label">BranchName:</label>
+          <input id="branchName" class="left-input" type="text" placeholder="CanonXS364211" required>
+        </div>
+
+        <div class="input-row">
+          <label for="location" class="left-label">Vị trí:</label>
+          <input id="location" class="left-input" type="text" placeholder="H6-604" required>
+        </div>
+        
+        <div class="input-row">
+          <label for="weight" class="left-label">Trọng lượng:</label>
+          <input id="weight" class="left-input" type="text" placeholder="9.4 kg" required>
+        </div>
+        <div class="input-row">
+          <label for="description" class="left-label">Mô tả:</label>
+          <input id="description" class="left-input" type="text" placeholder="High Speed" required>
+        </div>
+        <div class="input-row">
+          <label for="printer_type" class="middle-label">Kiểu máy in:</label>
+          <input id="printer_type" class="middle-input" type="text" placeholder="In laser trắng đen" required>
+        </div>
+        
+        <div class="input-row">
+          <label for="queue" class="middle-label">Hàng đợi:</label>
+          <input id="queue" class="middle-input" type="number" value="0" required>
+        </div>
+        <div class="input-row">
+          <label for="status" class="middle-label">Trạng thái:</label>
+          <select id="status" class="middle-input" required>
+            <option value="enable">Có</option>
+            <option value="disable">Không</option>
+          </select>
+        </div>
+        <!-- <div class="add-status">
+          <span id="sts">Trạng thái:</span>
+          <div class="toggle-button-container">
+            <input type="checkbox" id="add-toggle-button" class="add-toggle-checkbox">
+            <label for="add-toggle-button" class="add-toggle-label">
+              <span class="add-toggle-circle"></span>
+            </label>
+          </div>
+        </div> -->
+      </div>
+
+      <div class="add-form-middle">
+        
+        <h2>Tes</h2>
+        <div class="input-row">
+          <label for="prints_in_day" class="middle-label">Số lượt in trong ngày:</label>
+          <input id="prints_in_day" class="middle-input" type="number" value="0" required>
+        </div>
+        
+
+        <div class="input-row">
+          <label for="pages_printed" class="middle-label">Số lượng giấy in:</label>
+          <input id="pages_printed" class="middle-input" type="number" value="1200" required>
+        </div>
+        
+
+        <div class="input-row">
+          <label for="color_print" class="middle-label">In màu:</label>
+          <select id="color_print" class="middle-input" required>
+            <option value="no">Không</option>
+            <option value="yes">Có</option>
+          </select>
+        </div>
+        
+
+        <div class="input-row">
+          <label for="printer_size" class="middle-label">Kích thước:</label>
+          <input id="printer_size" class="middle-input" type="text" placeholder="452x365x352.5 mm" required>
+        </div>
+        
+
+        <div class="input-row">
+          <label for="resolution" class="middle-label">Độ phân giải:</label>
+          <input id="resolution" class="middle-input" type="text" placeholder="600x600 dpi" required>
+        </div>
+        
+        <div class="input-row">
+          <label for="ink_type" class="middle-label">Loại mực:</label>
+          <input id="ink_type" class="middle-input" type="text" placeholder="Canon XO 652152-X" required>
+        </div>
+        
+        <div class="input-row">
+          <label for="paper_size" class="middle-label">Khổ giấy hỗ trợ:</label>
+          <input id="paper_size" class="middle-input" type="text" placeholder=" A4, A5, Legel" required>
+        </div>
+        <div class="add-status2">
+          <span>Trạng thái:</span>
+          <div class="toggle-button-container">
+            
+          </div>
+        </div>
+      </div>
+
+      <div class="add-form-right">
+        <img src="images/add-printer.png" alt="">
+
+        <div class="buttons">
+          <button type="reset" class="reset-button">Đặt lại</button>
+          <button type="submit" class="submit-button">Thêm</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="overlay-2 hidden">
+    <div class="confirm-container">
+      <h1>Xác nhận</h1>
+      <p>Bạn có chắc <span>thêm máy in mới</span> này không?</p>
+
+      <div class="cancel-confirm">
+        <button class="cancel">Hủy</button>
+        <button class="confirm-button">Xác nhận</button>
+      </div>
+      
+    </div>
+  </div>
+
+  <script src="/fe/scripts/general/admin-navbar.js"></script>
+  <script src="scripts/admin-add-printer.js"></script>
+</body>
+</html>

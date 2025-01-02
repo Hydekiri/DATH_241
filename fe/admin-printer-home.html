@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quản lý máy in</title>
 
-  <link rel="stylesheet" href="styles/admin-printer-home.css">
-
-
-  <link rel="stylesheet" href="styles/general/admin-navbar.css">
-  <link rel="stylesheet" href="styles/general/general.css">
+  <link rel="stylesheet" href="/fe/styles/admin-printer-home.css">
+  <link rel="stylesheet" href="/fe/styles/general/admin-navbar.css">
+  <link rel="stylesheet" href="/fe/styles/general/general.css">
+  <link rel="stylesheet" href="/fe/styles/fontchar.css">
+  <script src="/fe/scripts/admin-printer-home.js" defer></script>
 </head>
 <body>
   <div class="admin-navbar"></div>
@@ -21,38 +21,39 @@
         <input class="search-input" type="text" placeholder="Tìm kiếm...........">
       </div>
       
-      <div class="filter">
-        <img src="images/icons/filter.png" alt="">
+      <!-- <div class="filter">
+        <img src="/fe/images/icons/filter.png" alt="">
         <span>Lọc kết quả</span>
-      </div>
+      </div> -->
 
-      <button class="add">
+      <a style="text-decoration: none;" href="admin-add-printer.html" target="_self"><button class="add">
         <img src="images/icons/plus-circle.png" alt="">
         <span>Thêm máy in</span>
-      </button>
+      </button></a>
     </div>
 
     <div class="total-display">
       <div class="total-display-box">
         <p class="box-description">Số lượng máy in</p>
-        <p class="box-information">32</p>
+        <p class="box-information" id="total-printers">0</p>
       </div>
       <div class="total-display-box">
         <p class="box-description">Số lượng giấy in</p>
-        <p class="box-information">12000</p>
+        <p class="box-information" id="total-paper">0</p>
       </div>
       <div class="total-display-box">
         <p class="box-description">Số lượt in trong ngày</p>
-        <p class="box-information">124</p>
+        <p class="box-information" id="total-print-jobs">0</p>
       </div>
       <div class="total-display-box">
         <p class="box-description">Hàng đợi</p>
-        <p class="box-information">32</p>
+        <p class="box-information" id="total-queue">0</p>
       </div>
     </div>
 
     <div class="printers-display">
       <div class="column-names">
+        <div class="column-name">Hãng</div>
         <div class="column-name">Model</div>
         <div class="column-name">ID</div>
         <div class="column-name">Vị trí</div>
@@ -62,7 +63,7 @@
       </div>
 
       <div class="printers-rows">
-        <div class="printers-row">
+        <!-- <div class="printers-row">
           <div class="printer-checkbox-container">
             <input class="printer-checkbox" type="checkbox">
           </div>
@@ -84,257 +85,24 @@
               <span class="toggle-circle"></span>
             </label>
           </div>
-        </div>
+        </div> -->
 
-        <div class="printers-row">
-          <div class="printer-checkbox-container">
-            <input class="printer-checkbox" type="checkbox">
-          </div>
-          
-          <div class="printer-display">
-            <div class="printer-model">CanonXPSS65215</div>
-            <div class="printer-id">HX3291566</div>
-            <div class="printer-location">H6-608</div>
-            <div class="printer-weight">9.4 kg</div>
-            <div class="printer-status">Hoạt động</div>
-            <div class="printer-actions">
-              <img class="printer-infor" src="images/icons/infor.png" alt="">
-              <img class="printer-delete" src="images/icons/delete.png" alt="">
-            </div>
-          </div>
-          <div class="toggle-button-container">
-            <input type="checkbox" id="toggle-button" class="toggle-checkbox">
-            <label for="toggle-button" class="toggle-label">
-              <span class="toggle-circle"></span>
-            </label>
-          </div>
-        </div>
-
-        <div class="printers-row">
-          <div class="printer-checkbox-container">
-            <input class="printer-checkbox" type="checkbox">
-          </div>
-          
-          <div class="printer-display">
-            <div class="printer-model">CanonXPSS65215</div>
-            <div class="printer-id">HX3291566</div>
-            <div class="printer-location">H6-608</div>
-            <div class="printer-weight">9.4 kg</div>
-            <div class="printer-status">Hoạt động</div>
-            <div class="printer-actions">
-              <img class="printer-infor" src="images/icons/infor.png" alt="">
-              <img class="printer-delete" src="images/icons/delete.png" alt="">
-            </div>
-          </div>
-          <div class="toggle-button-container">
-            <input type="checkbox" id="toggle-button" class="toggle-checkbox">
-            <label for="toggle-button" class="toggle-label">
-              <span class="toggle-circle"></span>
-            </label>
-          </div>
-        </div>
-
-        <div class="printers-row">
-          <div class="printer-checkbox-container">
-            <input class="printer-checkbox" type="checkbox">
-          </div>
-          
-          <div class="printer-display">
-            <div class="printer-model">CanonXPSS65215</div>
-            <div class="printer-id">HX3291566</div>
-            <div class="printer-location">H6-608</div>
-            <div class="printer-weight">9.4 kg</div>
-            <div class="printer-status">Hoạt động</div>
-            <div class="printer-actions">
-              <img class="printer-infor" src="images/icons/infor.png" alt="">
-              <img class="printer-delete" src="images/icons/delete.png" alt="">
-            </div>
-          </div>
-          <div class="toggle-button-container">
-            <input type="checkbox" id="toggle-button" class="toggle-checkbox">
-            <label for="toggle-button" class="toggle-label">
-              <span class="toggle-circle"></span>
-            </label>
-          </div>
-        </div>
-
-        <div class="printers-row">
-          <div class="printer-checkbox-container">
-            <input class="printer-checkbox" type="checkbox">
-          </div>
-          
-          <div class="printer-display">
-            <div class="printer-model">CanonXPSS65215</div>
-            <div class="printer-id">HX3291566</div>
-            <div class="printer-location">H6-608</div>
-            <div class="printer-weight">9.4 kg</div>
-            <div class="printer-status">Hoạt động</div>
-            <div class="printer-actions">
-              <img class="printer-infor" src="images/icons/infor.png" alt="">
-              <img class="printer-delete" src="images/icons/delete.png" alt="">
-            </div>
-          </div>
-          <div class="toggle-button-container">
-            <input type="checkbox" id="toggle-button" class="toggle-checkbox">
-            <label for="toggle-button" class="toggle-label">
-              <span class="toggle-circle"></span>
-            </label>
-          </div>
-        </div>
-
-        <div class="printers-row">
-          <div class="printer-checkbox-container">
-            <input class="printer-checkbox" type="checkbox">
-          </div>
-          
-          <div class="printer-display">
-            <div class="printer-model">CanonXPSS65215</div>
-            <div class="printer-id">HX3291566</div>
-            <div class="printer-location">H6-608</div>
-            <div class="printer-weight">9.4 kg</div>
-            <div class="printer-status">Hoạt động</div>
-            <div class="printer-actions">
-              <img class="printer-infor" src="images/icons/infor.png" alt="">
-              <img class="printer-delete" src="images/icons/delete.png" alt="">
-            </div>
-          </div>
-          <div class="toggle-button-container">
-            <input type="checkbox" id="toggle-button" class="toggle-checkbox">
-            <label for="toggle-button" class="toggle-label">
-              <span class="toggle-circle"></span>
-            </label>
-          </div>
-        </div>
+        
 
         
       </div>
     </div>
 
     <div class="printers-pages">
-        <a href=""><button class="prev-page">&lt;</button></a>
-        <span class="current-page">1 / 10</span>
-        <a href=""><button class="next-page">&gt;</button></a>
+        <button class="prev-page" onclick="changePage(-1)">&lt;</button>
+        <span class="current-page" id="page-info">1 / 1</span>
+        <button class="next-page" onclick="changePage(1)">&gt;</button>
     </div>
   </div>
-
-  <div class="overlay hidden">
-    <form action="" class="add-printer-container form">
-      <div class="add-form-left">
-        <h2>Thêm máy in mới</h2>
-        
-        <div class="upload-image-container">
-          <input class="upload-image" type="file">
-        </div>
-        
-        <div class="input-row">
-          <label for="id" class="left-label">ID:</label>
-          <input id="id" class="left-input" type="text" placeholder="HX354021" required>
-        </div>
-        
-        <div class="input-row">
-          <label for="model" class="left-label">Model:</label>
-          <input id="model" class="left-input" type="text" placeholder="CanonXS364211" required>
-        </div>
-        
-        
-
-        <div class="input-row">
-          <label for="location" class="left-label">Vị trí:</label>
-          <input id="location" class="left-input" type="text" placeholder="H6-604" required>
-        </div>
-        
-        <div class="input-row">
-          <label for="weight" class="left-label">Trọng lượng:</label>
-          <input id="weight" class="left-input" type="text" placeholder="9.4 kg" required>
-        </div>
-        
-        <div class="add-status">
-          <span>Trạng thái:</span>
-          <div class="toggle-button-container">
-            <input type="checkbox" id="add-toggle-button" class="add-toggle-checkbox">
-            <label for="add-toggle-button" class="add-toggle-label">
-              <span class="add-toggle-circle"></span>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <div class="add-form-middle">
-        <div class="input-row">
-          <label for="type" class="middle-label">Kiểu máy in:</label>
-          <input id="type" class="middle-input" type="text" placeholder="In laser trắng đen" required>
-        </div>
-        
-        <div class="input-row">
-          <label for="queue" class="middle-label">Hàng đợi:</label>
-          <input id="queue" class="middle-input" type="number" placeholder="20" required>
-        </div>
-        
-        <div class="input-row">
-          <label for="daily-prints" class="middle-label">Số lượt in trong ngày:</label>
-          <input id="daily-prints" class="middle-input" type="number" placeholder="12" required>
-        </div>
-        
-
-        <div class="input-row">
-          <label for="paper" class="middle-label">Số lượng giấy in:</label>
-          <input id="paper" class="middle-input" type="number" placeholder="1200" required>
-        </div>
-        
-
-        <div class="input-row">
-          <label for="color" class="middle-label">In màu:</label>
-          <input id="color" class="middle-input" type="text" placeholder="Không" required>
-        </div>
-        
-
-        <div class="input-row">
-          <label for="size" class="middle-label">Kích thước:</label>
-          <input id="size" class="middle-input" type="text" placeholder="452x365x352.5 mm" required>
-        </div>
-        
-
-        <div class="input-row">
-          <label for="resolution" class="middle-label">Độ phân giải:</label>
-          <input id="resolution" class="middle-input" type="text" placeholder="600x600 dpi" required>
-        </div>
-        
-
-        <div class="input-row">
-          <label for="ink" class="middle-label">Loại mực:</label>
-          <input id="ink" class="middle-input" type="text" placeholder="Canon XO 652152-X" required>
-        </div>
-        
-
-        <div class="input-row">
-          <label for="paper-size" class="middle-label">Khổ giấy hỗ trợ:</label>
-          <input id="paper-size" class="middle-input" type="text" placeholder=" A4, A5, Legel" required>
-        </div>
-        
-
-        <div class="input-row">
-          <label for="type" class="middle-label">Kiểu máy in:</label>
-          <input id="type" class="middle-input" type="text" placeholder="In laser trắng đen" required>
-        </div>
-        
-
-      </div>
-
-      <div class="add-form-right">
-        <img src="images/add-printer.png" alt="">
-
-        <div class="buttons">
-          <button type="reset" class="reset-button">Đặt lại</button>
-          <button type="submit" class="submit-button">Thêm</button>
-        </div>
-      </div>
-    </form>
-  </div>
-
   <div class="overlay-2 hidden">
     <div class="confirm-container">
       <h1>Xác nhận</h1>
-      <p>Bạn có chắc <span>thêm máy in mới</span> này không?</p>
+      <p>Bạn có chắc <span>thay đổi trạng thái máy in </span> này không?</p>
 
       <div class="cancel-confirm">
         <button class="cancel">Hủy</button>
@@ -343,10 +111,7 @@
       
     </div>
   </div>
-
-
-
-  <script src="scripts/general/admin-navbar.js"></script>
-  <script src="scripts/admin-printer-home.js"></script>
+  <script src="/fe/scripts/general/admin-navbar.js"></script>
+  
 </body>
 </html>

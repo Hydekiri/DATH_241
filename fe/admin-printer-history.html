@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý lịch sử in chi tiết</title>
+    
+    <link rel="stylesheet" href="styles/admin-printer-history.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/fe/styles/general/admin-navbar.css">
+    <link rel="stylesheet" href="/fe/styles/general/general.css">
+    <link rel="stylesheet" href="/fe/styles/fontchar.css">
+    <script src="/fe/scripts/admin-printer-history.js" defer></script>
+</head>
+<body>
+    <div class="admin-navbar"></div>
+
+    <div class="main">
+            <div class="return">
+                <button><i class="fas fa-arrow-left" style="font-size: 24px; color: #24BEFB;"></i></button>
+            </div>
+            <div class="total-display">
+                <div class="title">Lịch Sử Máy In</div>
+                <div class="ima"><img src="/fe/images/welcome-1-2.jpg"/></div>
+                <div class="IDPrinter"><span>ID:</span> HX354021</div>
+                <div class="model"><span>Model:</span> CanonXS364211</div>
+                <div class="location"><span>Vị trí:</span> H6-604</div>
+                <div class="wei"><span>Trọng Lượng:</span> 9.4 kg</div>
+                <div class="status"><span>Trạng thái:</span> <span style="color: rgb(0, 202, 0);">Hoạt động</span></div>
+                <div class="history"><span>Printer's Info:</span> 
+                    <div class="history-container">
+                        <a href="#">Chi tiết</a>
+                        <i class="fas fa-info-circle printer-infor" style="font-size: 24px; color: #ffffff; margin-right: 10px;"></i>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="printers-display">
+            <table class="printer-history">
+                <thead>
+                    <tr>
+                        <th>Thông tin sinh viên</th>
+                        <th>Thời gian in</th>
+                        <th>Trang/Khổ giấy</th>
+                        <th>File In</th>
+                        <th>Tình trạng</th>
+                    </tr>
+                </thead>
+                <tbody class="printconfig-display" >
+                    <!-- <tr class="success">
+                        <td>Nguyễn Minh Tuấn<br>2213768</td>
+                        <td>13/11/2024<br>15:03:21</td>
+                        <td>50<br>A4</td>
+                        <td>computernetwork.pdf<br>Đã kiểm duyệt</td>
+                        <td>In thành công</td>
+                    </tr>
+                    <tr class="success">
+                        <td>Nguyễn Minh Tuấn<br>2213768</td>
+                        <td>13/11/2024<br>15:03:21</td>
+                        <td>50<br>A4</td>
+                        <td>computernetwork.pdf<br>Đã kiểm duyệt</td>
+                        <td>In thành công</td>
+                    </tr>
+                    <tr class="error">
+                        <td>Nguyễn Minh Tuấn<br>2213768</td>
+                        <td>13/11/2024<br>15:03:21</td>
+                        <td>-1<br>Lỗi</td>
+                        <td>computernetwork.pdf<br>Hết giấy in</td>
+                        <td>In thất bại</td>
+                    </tr> -->
+                </tbody>
+            </table>
+            <button class="delete-history-btn">Xóa lịch sử in</button>
+        </div>
+        
+
+        </div> 
+    <script src="scripts/general/admin-navbar.js"></script>
+</body>
+</html>

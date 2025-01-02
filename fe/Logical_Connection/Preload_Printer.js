@@ -3,10 +3,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.log(data);
 
     data.forEach((printer) =>{
-        if(printer.status === "enable"){
-            const loc = printer.location.building;
-            createPrinterHTMLWith(printer.Printer_ID, printer.model, loc , printer.status === "enable" ? "Hoạt động" : "Không hoạt động");
-        }
+        console.log(printer);
+        if (printer.status === "enable") {
+            const loc = printer.location.building ? printer.location.building : null ;
+            createPrinterHTMLWith(printer.Printer_ID, printer.model, loc, printer.status === "enable" ? "Hoạt động" : "Không hoạt động");
+        }        
     });
 });
 
@@ -38,18 +39,18 @@ function createPrinterHTMLWith(id, model, location, status) {
 
     // Build the new printer HTML string
     const printerHTML = `
-      <div class="printer-display">
-        <div class="printer-id">${id}</div>
-        <div class="printer-model">${model}</div>
-        <div class="printer-location">${location}</div>
-        <div class="printer-status">${status}</div>
-        <div class="printer-actions">
-          <button class="choose-button">Chọn</button>
-          <button class="cancel-choose-button hidden" >Hủy</button>
-          <img class="success hidden" src="images/icons/success.png" alt="">
-          <img class="printer-infor" src="images/icons/infor.png" alt="">
+        <div class="printer-display">
+            <div class="printer-id">${id}</div>
+            <div class="printer-model">${model}</div>
+            <div class="printer-location">${location}</div>
+            <div class="printer-status">${status}</div>
+            <div class="printer-actions">
+                <button class="choose-button">Chọn</button>
+                <button class="cancel-choose-button hidden" >Hủy</button>
+                <img class="success hidden" src="images/icons/success.png" alt="">
+                <img class="printer-infor" src="images/icons/infor.png" alt="">
+            </div>
         </div>
-      </div>
     `;
 
     // Append the new HTML to the list of printers
@@ -103,7 +104,7 @@ function addPrinterEventListeners() {
         }
     });
 }
-
+  
 function resetAllPrinters() {
     const allPrinters = document.querySelectorAll('.printer-display');
   

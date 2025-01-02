@@ -1,20 +1,65 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quản lý lịch sử in</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch sử in</title>
 
-  <link rel="stylesheet" href="styles/admin-history.css">
-
-  <link rel="stylesheet" href="styles/general/general.css">
-  <link rel="stylesheet" href="styles/general/admin-navbar.css">
-
+    <link rel="stylesheet" href="/fe/styles/admin-history.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/fe/styles/general/admin-navbar.css">
+    <link rel="stylesheet" href="/fe/styles/general/general.css">
+    <link rel="stylesheet" href="/fe/styles/fontchar.css">
+    <script src="/fe/scripts/admin-history.js" defer></script>
 </head>
 <body>
-  <div class="admin-navbar"></div>
+    <div class="admin-navbar"></div>
 
-  <div class="main"></div>
-  <script src="scripts/general/admin-navbar.js"></script>
+    <div class="main">
+        <div class="search-filter-add">
+            <div class="search">
+                <img src="images/icons/search.png" alt="">
+                <input class="search-input" type="text" placeholder="Tìm kiếm...">
+            </div>
+        </div>
+
+        <div class="date-filter">
+            <div class="date-input">
+                <label for="start-date">From: </label>
+                <input id="start-date" type="date" class="start-date">
+            </div>
+            
+            <div class="date-input">
+                <label for="end-date">To: </label>
+                <input id="end-date" type="date" class="end-date">
+            </div>
+            <div class="filter-input">
+                <button id="filter-button">Lọc</button>
+            </div>
+        </div>
+
+        <div class="printers-display">
+            <div class="column-names">
+                <div class="column-name">Họ và tên</div>
+                <div class="column-name">ID</div>
+                <div class="column-name">Máy in</div>
+                <div class="column-name">Trang/ khổ giấy</div>
+                <div class="column-name">Thời gian</div>
+                <div class="column-name">Thao tác</div>
+            </div>
+
+            <div class="printers-rows">
+                <!-- Rows will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <div class="printers-pages">
+            <button class="prev-page" onclick="changePage(-1)">&lt;</button>
+            <span class="current-page" id="page-info">1 / 1</span>
+            <button class="next-page" onclick="changePage(1)">&gt;</button>
+        </div>
+    </div>
+
+    <script src="/fe/scripts/general/admin-navbar.js"></script>
 </body>
 </html>
