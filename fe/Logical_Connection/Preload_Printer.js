@@ -146,11 +146,11 @@ async function showprinterqueue(id) {
         await fetchPrintConfig(id);
     } catch (error) {
         console.error('Error loading print configuration:', error);
-        const printconfigDisplay = document.querySelector('.printconfig-display');
-        printconfigDisplay.innerHTML = 'Không có tài liệu đang đợi in';
         return;
     }
 }
+
+
 
 function backtohome(){
     const mainDiv = document.querySelector('.main');
@@ -171,12 +171,12 @@ async function fetchPrintConfig(printer_ID) {
             throw new Error("Không thể lấy danh sách hàng đợi");
         }
         const data = await response.json();
-        //console.log(data.data); 
+        console.log(data.data); 
         renderPrintConfig(data.data); 
     } catch (error) {
         console.error(error); 
         const printconfigDisplay = document.querySelector('.printconfig-display');
-        printconfigDisplay.innerHTML = 'Không có tài liệu đang đợi in';
+        printconfigDisplay.innerHTML = '<h1 style="text-align: center">Không có tài liệu đang đợi in</h1>';
         alert("Không thể tải danh sách hàng đợi!");   
         return;
     }
@@ -184,8 +184,14 @@ async function fetchPrintConfig(printer_ID) {
 
 function renderPrintConfig(printconfigs) {
     const printconfigDisplay = document.querySelector('.printconfig-display');
+    printconfigDisplay.innerHTML = '';
     let html = '';
     let index = 0;
+
+    if (!printconfigs || printconfigs.length === 0) {
+        printersDisplay.innerHTML = '<h1 style="text-align: center">Không có tài liệu đang đợi in</h1>';
+        return;
+    }
 
     printconfigs.forEach((printconfig) => {
         if (printconfig.status === 'completed' || printconfig.status === 'Completed') return;
@@ -208,8 +214,14 @@ function renderPrintConfig(printconfigs) {
                 <td>Đang đợi</td>
             </tr>
         `;
+
+        console.log(html);
     });
 
+    if (html === ''){
+        printconfigDisplay.innerHTML = '<h1 style="text-align: center">Không có tài liệu đang đợi in</h1>';
+        return;
+    } 
     printconfigDisplay.innerHTML = html;
-    if (html === '') document.querySelector('.printers-display').innerHTML += '<h3 style="text-align: center">Không có tài liệu đang đợi in</h3>';
+    
 }
