@@ -41,7 +41,7 @@ function setupMessagePopup() {
 
     const messagePopup = document.createElement('div');
     messagePopup.classList.add('message-popup');
-    messagePopup.style.display = 'none'; // Ban đầu ẩn popup
+    messagePopup.style.display = 'none';
     document.body.appendChild(messagePopup);
 
     messageIcon.addEventListener('click', (event) => {
@@ -54,19 +54,79 @@ function setupMessagePopup() {
         messagePopup.style.left = `${iconRect.right - 300 + scrollLeft}px`;
         messagePopup.style.display = 'block';
 
-        fetch('http://localhost:3000/api/d1/users?role=student')
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 200 && data.data.length) {
-                    showStudentList(data.data);
-                } else {
-                    messagePopup.innerHTML = '<p>No Students Found</p>';
+        messagePopup.innerHTML = `
+            <input type="text" class="search-input" placeholder="Search student..." />
+            <button class="search-button">Search</button>
+            <div class="recent-list"></div>
+        `;
+
+        const searchInput = messagePopup.querySelector('.search-input');
+        const searchButton = messagePopup.querySelector('.search-button');
+        const recentListContainer = messagePopup.querySelector('.recent-list');
+
+        fetchRecentChats();
+
+        searchButton.addEventListener('click', () => {
+            const query = searchInput.value.trim();
+            if (query) {
+                searchStudents(query);  //coppy từ student qua tên hàm sẽ giống hàm bên student
+            } else {
+                fetchRecentChats(); // Tải lại danh sách gần nhất nếu không có từ khóa
+            }
+        });
+
+        function fetchRecentChats() {
+            const userID = parseInt(getCookie('id'));
+            fetch(`http://localhost:3000/api/d1/messages/names/${userID}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 200 && data.data.length) {
+                        updateRecentList(data.data);
+                    } else {
+                        recentListContainer.innerHTML = '<p>No Recent Chats Found</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching recent chats:", error);
+                    recentListContainer.innerHTML = '<p>Error loading recent chats</p>';
+                });
+        }
+
+        function searchStudents(query) {
+            fetch(`http://localhost:3000/api/d1/messages/search?key=${encodeURIComponent(query)}&role=student`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 200 && data.data.length) {
+                        updateRecentList(data.data);
+                    } else {
+                        recentListContainer.innerHTML = '<p>No Results Found</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error("Error searching admins:", error);
+                    recentListContainer.innerHTML = '<p>Error searching admins</p>';
+                });
+        }
+
+        function updateRecentList(users) {
+            recentListContainer.innerHTML = '';
+            users.forEach(user => {
+                const userElement = document.createElement('div');
+                userElement.classList.add('user-item');
+                userElement.textContent = user.name;
+
+                if (user.status === "sent" && user.user_ID === user.sender_id) {
+                    userElement.style.fontWeight = 'bold';
                 }
-            })
-            .catch(error => {
-                console.error("Error fetching students:", error);
-                messagePopup.innerHTML = '<p>Error loading students</p>';
+
+                userElement.addEventListener('click', () => {
+                    showChatInterface(user);
+                    messagePopup.style.display = 'none';
+                });
+
+                recentListContainer.appendChild(userElement);
             });
+        }
     });
 
     document.addEventListener('click', (event) => {
@@ -75,21 +135,6 @@ function setupMessagePopup() {
         }
     });
 
-    function showStudentList(students) {
-        messagePopup.innerHTML = '<h4>Select a Student</h4>';
-        students.forEach(student => {
-            const studentElement = document.createElement('div');
-            studentElement.classList.add('admin-item');
-            studentElement.textContent = student.name;
-
-            studentElement.addEventListener('click', () => {
-                showChatInterface(student);
-                messagePopup.style.display = 'none';
-            });
-
-            messagePopup.appendChild(studentElement);
-        });
-    }
 
     function showChatInterface(student) {
         const chatPopup = document.createElement('div');
@@ -99,6 +144,25 @@ function setupMessagePopup() {
         chatPopup.style.right = '10px';
         document.body.appendChild(chatPopup);
         const adminID = parseInt(getCookie('id'));
+
+        fetch(`http://localhost:3000/api/d1/messages/change?sender_id=${adminID}&receiver_id=${student.user_ID}`, {
+            method: 'PUT', // Chỉ định phương thức PUT
+            headers: {
+                'Content-Type': 'application/json', // Đảm bảo đúng header nếu có payload
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 200) {
+                    console.log("Changing completed!");
+                } else {
+                    chatPopup.innerHTML = '<p>Error changing status</p>';
+                }
+            })
+            .catch(error => {
+                console.error("Error changing message status:", error);
+                chatPopup.innerHTML = '<p>Error changing message status</p>';
+            });
 
         fetch(`http://localhost:3000/api/d1/messages?sender_id=${adminID}&receiver_id=${student.user_ID}`)
             .then(response => response.json())

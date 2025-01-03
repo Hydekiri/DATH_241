@@ -102,8 +102,8 @@ const messageModel = {
             // Tạo query để cập nhật trạng thái trong cơ sở dữ liệu
             const query = `
                 UPDATE messages
-                SET status = $1
-                WHERE sender_id = $2 AND receiver_id = $3
+                SET status = ?
+                WHERE sender_id = ? AND receiver_id = ?
             `;
 
             // Thực hiện query với tham số truyền vào
@@ -119,44 +119,64 @@ const messageModel = {
         try {
             // Truy vấn để lấy 5 người gửi/nhận khác nhau gần nhất
             const query = `
-                SELECT DISTINCT ON (CASE 
-                    WHEN sender_id = ? THEN receiver_id 
-                    ELSE sender_id END) 
-                    *,
-                    CASE
-                        WHEN sender_id = ? THEN receiver_id
-                        ELSE sender_id
-                    END AS other_user_id
-                FROM messages
-                WHERE sender_id = ? OR receiver_id = ?
-                ORDER BY other_user_id, created_at DESC
-                LIMIT 5
-            `;
+            SELECT 
+    u.user_ID AS user_ID,
+    u.name AS name,
+    m.sender_id as sender_id,
+    m.content AS content,
+    m.status AS status,
+    m.created_at AS created_at
+FROM 
+    (
+        SELECT 
+            CASE 
+                WHEN sender_id = ? THEN receiver_id
+                ELSE sender_id 
+            END AS other_user_id,
+            MAX(id) AS message_id
+        FROM 
+            messages
+        WHERE 
+            sender_id = ? OR receiver_id = ?
+        GROUP BY 
+            other_user_id
+        ORDER BY 
+            MAX(created_at) DESC
+    ) AS subquery
+JOIN 
+    messages m ON m.id = subquery.message_id
+JOIN 
+    User u ON u.user_ID = subquery.other_user_id
+ORDER BY 
+    m.created_at DESC;
+`;
+
 
             // Lấy dữ liệu từ bảng messages
-            const [messages] = await pool.execute(query, [userID, userID, userID, userID]);
+            const [messages] = await pool.execute(query, [userID, userID, userID]);
+            console.log(messages)
 
             // Mảng chứa kết quả cuối cùng
-            const results = [];
+            // const results = [];
 
-            // Lấy username của mỗi user khác
-            for (const message of messages) {
-                const otherUserID = message.other_user_id;
+            // // Lấy username của mỗi user khác
+            // for (const message of messages) {
+            //     const otherUserID = message.other_user_id;
 
-                // Gọi hàm getUserById để lấy username
-                const [user] = await userController.getUserById(otherUserID);
+            //     // Gọi hàm getUserById để lấy username
+            //     const [user] = await userController.getUserById(otherUserID);
 
-                if (user) {
-                    results.push({
-                        username: user.name, // Username từ hàm getUserById
-                        content: message.content, // Nội dung tin nhắn
-                        status: message.status,
-                        created_at: message.created_at // Thời gian tạo tin nhắn
-                    });
-                }
-            }
+            //     if (user) {
+            //         results.push({
+            //             username: user.name, // Username từ hàm getUserById
+            //             content: message.content, // Nội dung tin nhắn
+            //             //status: message.status,
+            //             created_at: message.created_at // Thời gian tạo tin nhắn
+            //         });
+            //     }
+            // }
 
-            return results; // Trả về kết quả cuối cùng
+            return messages; // Trả về kết quả cuối cùng
         } catch (error) {
             console.error("Error in getNameandStatus:", error.message);
             throw new Error("Failed to fetch data.");

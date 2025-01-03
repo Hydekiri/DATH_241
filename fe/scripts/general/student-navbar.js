@@ -116,19 +116,79 @@ function setupMessagePopup() {
         messagePopup.style.left = `${iconRect.right - 300 + scrollLeft}px`;
         messagePopup.style.display = 'block';
 
-        fetch('http://localhost:3000/api/d1/users?role=spso')
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 200 && data.data.length) {
-                    showAdminList(data.data);
-                } else {
-                    messagePopup.innerHTML = '<p>No Admins Found</p>';
+        messagePopup.innerHTML = `
+            <input type="text" class="search-input" placeholder="Search admin..." />
+            <button class="search-button">Search</button>
+            <div class="recent-list"></div>
+        `;
+
+        const searchInput = messagePopup.querySelector('.search-input');
+        const searchButton = messagePopup.querySelector('.search-button');
+        const recentListContainer = messagePopup.querySelector('.recent-list');
+
+        fetchRecentChats();
+
+        searchButton.addEventListener('click', () => {
+            const query = searchInput.value.trim();
+            if (query) {
+                searchAdmins(query);
+            } else {
+                fetchRecentChats(); // Tải lại danh sách gần nhất nếu không có từ khóa
+            }
+        });
+
+        function fetchRecentChats() {
+            const userID = parseInt(getCookie('id'));
+            fetch(`http://localhost:3000/api/d1/messages/names/${userID}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 200 && data.data.length) {
+                        updateRecentList(data.data);
+                    } else {
+                        recentListContainer.innerHTML = '<p>No Recent Chats Found</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching recent chats:", error);
+                    recentListContainer.innerHTML = '<p>Error loading recent chats</p>';
+                });
+        }
+
+        function searchAdmins(query) {
+            fetch(`http://localhost:3000/api/d1/messages/search?key=${encodeURIComponent(query)}&role=spso`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 200 && data.data.length) {
+                        updateRecentList(data.data);
+                    } else {
+                        recentListContainer.innerHTML = '<p>No Results Found</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error("Error searching admins:", error);
+                    recentListContainer.innerHTML = '<p>Error searching admins</p>';
+                });
+        }
+
+        function updateRecentList(users) {
+            recentListContainer.innerHTML = '';
+            users.forEach(user => {
+                const userElement = document.createElement('div');
+                userElement.classList.add('user-item');
+                userElement.textContent = user.name;
+
+                if (user.status === "sent" && user.user_ID === user.sender_id) {
+                    userElement.style.fontWeight = 'bold';
                 }
-            })
-            .catch(error => {
-                console.error("Error fetching admins:", error);
-                messagePopup.innerHTML = '<p>Error loading admins</p>';
+
+                userElement.addEventListener('click', () => {
+                    showChatInterface(user);
+                    messagePopup.style.display = 'none';
+                });
+
+                recentListContainer.appendChild(userElement);
             });
+        }
     });
 
     document.addEventListener('click', (event) => {
@@ -137,23 +197,8 @@ function setupMessagePopup() {
         }
     });
 
-    function showAdminList(admins) {
-        messagePopup.innerHTML = '<h4>Select an Admin</h4>';
-        admins.forEach(admin => {
-            const adminElement = document.createElement('div');
-            adminElement.classList.add('admin-item');
-            adminElement.textContent = admin.name;
-
-            adminElement.addEventListener('click', () => {
-                showChatInterface(admin);
-                messagePopup.style.display = 'none';
-            });
-
-            messagePopup.appendChild(adminElement);
-        });
-    }
-
     function showChatInterface(admin) {
+
         const chatPopup = document.createElement('div');
         chatPopup.classList.add('chat-popup');
         chatPopup.style.position = 'fixed';
@@ -161,6 +206,26 @@ function setupMessagePopup() {
         chatPopup.style.right = '10px';
         document.body.appendChild(chatPopup);
         const studentID = parseInt(getCookie('id'));
+
+        fetch(`http://localhost:3000/api/d1/messages/change?sender_id=${studentID}&receiver_id=${admin.user_ID}`, {
+            method: 'PUT', // Chỉ định phương thức PUT
+            headers: {
+                'Content-Type': 'application/json', // Đảm bảo đúng header nếu có payload
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 200) {
+                    console.log("Changing completed!");
+                } else {
+                    chatPopup.innerHTML = '<p>Error changing status</p>';
+                }
+            })
+            .catch(error => {
+                console.error("Error changing message status:", error);
+                chatPopup.innerHTML = '<p>Error changing message status</p>';
+            });
+
 
         fetch(`http://localhost:3000/api/d1/messages?sender_id=${studentID}&receiver_id=${admin.user_ID}`)
             .then(response => response.json())
@@ -260,7 +325,7 @@ function setupMessagePopup() {
                 });
 
                 updateChatMessages(); // Cập nhật ngay khi mở
-                setInterval(updateChatMessages, 1000); // Cập nhật mỗi 5 giây
+                setInterval(updateChatMessages, 1000);
             })
             .catch(error => {
                 console.error("Error loading chat widget:", error);

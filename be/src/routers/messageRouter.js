@@ -4,15 +4,19 @@
 module.exports = (router) => {
     const messageController = require('../controllers/messageController');
 
-    //lấy danh sách người dùng gần nhất
-    router.get("messages/names/:userID", messageController.getNameAndStatus);
 
-    router.get("/messages/all", messageController.getAllNotifications);
     // Gửi tin nhắn tới một người dùng
     router.post("/messages/:sender_id", messageController.sendMessageToUser);
 
+    //lấy danh sách người dùng gần nhất
+    router.get("/messages/names/:userID", messageController.getNameAndStatus);
+
+    router.put("/messages/change", messageController.changeStatus);
+
+    router.get("/messages/all", messageController.getAllNotifications);
+
     //Search tên
-    router.get("/messages/search")
+    router.get("/messages/search", messageController.SearchUserByName);
 
     // Lấy tất cả tin nhắn giữa hai người dùng (cả gửi và nhận)
     router.get("/messages", messageController.getMessagesForUser);
