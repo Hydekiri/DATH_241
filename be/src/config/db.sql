@@ -165,6 +165,7 @@ CREATE TABLE IF NOT EXISTS `Receiver_Message` (
     FOREIGN KEY (`user_ID`) REFERENCES `User`(`user_ID`) ON DELETE CASCADE -- Ràng buộc khóa ngoại
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+/*
 -- Queue
 CREATE TABLE IF NOT EXISTS `Queue` (
     `queue_ID` INT AUTO_INCREMENT PRIMARY KEY,
@@ -181,8 +182,18 @@ CREATE TABLE IF NOT EXISTS `Queue` (
     FOREIGN KEY (`printer_ID`) REFERENCES `Printer`(`Printer_ID`) ON DELETE CASCADE,
     FOREIGN KEY (`config_ID`, `document_name`) REFERENCES `Document`(`config_ID`, `name`) ON DELETE CASCADE -- Khóa ngoại kép
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
+*/
+/* Adding Huynh Message */
+CREATE TABLE IF NOT EXISTS `messages` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `sender_id` INT NOT NULL,
+    `receiver_id` INT NOT NULL,
+    `content` TEXT NOT NULL,
+    `status` ENUM('sent', 'read') DEFAULT 'sent',
+    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (`sender_id`) REFERENCES `User`(`user_ID`) ON DELETE CASCADE,
+    FOREIGN KEY (`receiver_id`) REFERENCES `User`(`user_ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 

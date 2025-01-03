@@ -12,6 +12,7 @@ module.exports = (app) => {
     require("./documentRouter")(router);
     require("./printConfigRouter")(router);
     require("./orderRouter")(router);
+    require("./messageRouter")(router);
     require("./queueRouter")(router);
     app.use("/api/d1", router);
 };
