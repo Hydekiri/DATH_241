@@ -76,19 +76,18 @@ function setupMessagePopup() {
     });
 
     function showStudentList(students) {
-        messagePopup.innerHTML = '<h4>Select an Student</h4>';
-        console.log(students);
+        messagePopup.innerHTML = '<h4>Select a Student</h4>';
         students.forEach(student => {
-            const adminElement = document.createElement('div');
-            adminElement.classList.add('admin-item');
-            adminElement.textContent = student.name;
+            const studentElement = document.createElement('div');
+            studentElement.classList.add('admin-item');
+            studentElement.textContent = student.name;
 
-            adminElement.addEventListener('click', () => {
+            studentElement.addEventListener('click', () => {
                 showChatInterface(student);
                 messagePopup.style.display = 'none';
             });
 
-            messagePopup.appendChild(adminElement);
+            messagePopup.appendChild(studentElement);
         });
     }
 
@@ -99,14 +98,13 @@ function setupMessagePopup() {
         chatPopup.style.bottom = '0';
         chatPopup.style.right = '10px';
         document.body.appendChild(chatPopup);
-        const userID = parseInt(getCookie('id'));
-        console.log(userID);
+        const adminID = parseInt(getCookie('id'));
 
-        fetch(`http://localhost:3000/api/d1/messages?sender_id=${userID}&receiver_id=${student.user_ID}`) // Giả sử sender_id=1
+        fetch(`http://localhost:3000/api/d1/messages?sender_id=${adminID}&receiver_id=${student.user_ID}`)
             .then(response => response.json())
             .then(data => {
                 if (data.status === 200) {
-                    renderChatInterface(chatPopup, userID, student, data.data);
+                    renderChatInterface(chatPopup, adminID, student, data.data);
                 } else {
                     chatPopup.innerHTML = '<p>Error loading chat messages</p>';
                 }
@@ -127,27 +125,42 @@ function setupMessagePopup() {
                 const chatMessages = chatPopup.querySelector('.chat-messages');
                 const chatInput = chatPopup.querySelector('.chat-input');
                 const sendButton = chatPopup.querySelector('.send-message-button');
-                const minimizeButton = chatPopup.querySelector('.minimize-chat');
                 const closeButton = chatPopup.querySelector('.close-chat');
-                const chatBody = chatPopup.querySelector('.chat-body');
 
-                // Gắn tên admin vào tiêu đề
+                // Gắn tên student vào tiêu đề
                 chatHeader.textContent = student.name;
 
-                // Hiển thị các tin nhắn
-                messages.forEach(msg => {
-                    const messageElement = document.createElement('div');
-                    messageElement.classList.add('message', msg.sender_id === sender_id ? 'user-message' : 'admin-message'); // Giả sử sender_id=1
-                    messageElement.innerHTML = `<p>${msg.content}</p><small>${msg.created_at}</small>`;
-                    chatMessages.appendChild(messageElement);
-                });
+                // Hiển thị các tin nhắn ban đầu
+                function displayMessages(messages) {
+                    chatMessages.innerHTML = ''; // Xóa nội dung cũ
+                    messages.forEach(msg => {
+                        const messageElement = document.createElement('div');
+                        messageElement.classList.add('message', msg.sender_id === sender_id ? 'user-message' : 'admin-message'); //do dùng chung một mẫu css
+                        messageElement.innerHTML = `<p>${msg.content}</p><small>${msg.created_at}</small>`;
+                        chatMessages.appendChild(messageElement);
+                    });
+                    chatMessages.scrollTop = chatMessages.scrollHeight; // Cuộn xuống cuối
+                }
+                displayMessages(messages);
+
+                // Cập nhật tin nhắn định kỳ
+                function updateChatMessages() {
+                    fetch(`http://localhost:3000/api/d1/messages?sender_id=${sender_id}&receiver_id=${student.user_ID}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 200) {
+                                displayMessages(data.data);
+                            }
+                        })
+                        .catch(error => console.error("Error updating messages:", error));
+                }
 
                 // Gửi tin nhắn
                 sendButton.addEventListener('click', () => {
                     const content = chatInput.value.trim();
                     if (!content) return;
 
-                    fetch(`http://localhost:3000/api/d1/messages/${sender_id}`, { // Giả sử sender_id=1
+                    fetch(`http://localhost:3000/api/d1/messages/${sender_id}`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ receiver_id: student.user_ID, content })
@@ -155,10 +168,7 @@ function setupMessagePopup() {
                         .then(response => response.json())
                         .then(data => {
                             if (data.status === 201) {
-                                const messageElement = document.createElement('div');
-                                messageElement.classList.add('message', 'user-message');
-                                messageElement.innerHTML = `<p>${content}</p><small>${new Date().toLocaleTimeString()}</small>`;
-                                chatMessages.appendChild(messageElement);
+                                updateChatMessages();
                                 chatInput.value = '';
                             } else {
                                 console.error("Error sending message:", data.message);
@@ -167,29 +177,19 @@ function setupMessagePopup() {
                         .catch(error => console.error("Error sending message:", error));
                 });
 
-                // Thu nhỏ/phóng to khung chat
-                let isMinimized = false;
-                minimizeButton.addEventListener('click', () => {
-                    if (isMinimized) {
-                        chatBody.style.display = 'block';
-                        isMinimized = false;
-                    } else {
-                        chatBody.style.display = 'none';
-                        isMinimized = true;
-                    }
-                });
-
                 // Đóng khung chat
                 closeButton.addEventListener('click', () => {
                     chatPopup.remove();
                 });
+
+                updateChatMessages(); // Cập nhật ngay khi mở
+                setInterval(updateChatMessages, 1000); // Cập nhật mỗi 1 giây
             })
             .catch(error => {
                 console.error("Error loading chat widget:", error);
                 chatPopup.innerHTML = '<p>Error loading chat interface</p>';
             });
     }
-
 }
 
 function getCookie(name) {

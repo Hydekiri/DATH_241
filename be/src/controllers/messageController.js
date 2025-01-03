@@ -73,6 +73,7 @@ exports.getMessagesForUser = async (req, res) => {
     }
 
     try {
+        await messageModel.updateStatus(receiver_id, sender_id, "read");
         // Lấy tin nhắn từ `sender_id -> receiver_id`
         const sentMessages = await messageModel.getMessagesForUser(sender_id, receiver_id);
 
@@ -98,6 +99,29 @@ exports.getMessagesForUser = async (req, res) => {
     } catch (error) {
         console.error("Error retrieving messages:", error);
         res.status(500).json({ status: 500, message: "Error retrieving messages", error: error.message });
+    }
+};
+
+exports.getNameAndStatus = async (req, res) => {
+    try {
+        const { userID } = req.params;
+        const results = await messageModel.getNameandStatus(userID);
+
+        res.status(200).json({ status: 200, data: results });
+    } catch (error) {
+        console.error("Error in getNameAndStatus:", error.message);
+        res.status(500).json({ status: 500, message: "Failed to fetch data." });
+    }
+};
+
+exports.SearchUserByName = async (req, res) => {
+    const { key, role } = req.query;
+    try {
+        const results = await messageModel.getNameUserBySearch(key, role);
+        res.status(200).json({ status: 200, data: results });
+    } catch (error) {
+        console.error("Error in get User by Name:", error.message);
+        res.status(500).json({ status: 500, message: "Failed to fetch data." });
     }
 };
 

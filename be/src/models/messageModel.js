@@ -1,3 +1,6 @@
+const userController = require("../controllers/usersController.js")
+
+
 const { connectDB } = require("../config/config.js");
 const query = require("../config/query.js");
 
@@ -89,10 +92,93 @@ const messageModel = {
             throw error;
         }
     },
-    getStatusByMessages: async (id) => {
-        const result = await query.getOne("messages", { id });
-        return result;
+    updateStatus: async (sender_id, receiver_id, status) => {
+        try {
+            // Kiểm tra các tham số đầu vào
+            if (!sender_id || !receiver_id || typeof status !== 'string') {
+                throw new Error("Invalid parameters. Ensure sender_id, receiver_id, and status are provided.");
+            }
+
+            // Tạo query để cập nhật trạng thái trong cơ sở dữ liệu
+            const query = `
+                UPDATE messages
+                SET status = $1
+                WHERE sender_id = $2 AND receiver_id = $3
+            `;
+
+            // Thực hiện query với tham số truyền vào
+            const result = await pool.execute(query, [status, sender_id, receiver_id]);
+
+            return result;
+        } catch (error) {
+            console.error("Error updating status:", error.message);
+            return { success: false, message: error.message };
+        }
+    },
+    getNameandStatus: async (userID) => {
+        try {
+            // Truy vấn để lấy 5 người gửi/nhận khác nhau gần nhất
+            const query = `
+                SELECT DISTINCT ON (CASE 
+                    WHEN sender_id = ? THEN receiver_id 
+                    ELSE sender_id END) 
+                    *,
+                    CASE
+                        WHEN sender_id = ? THEN receiver_id
+                        ELSE sender_id
+                    END AS other_user_id
+                FROM messages
+                WHERE sender_id = ? OR receiver_id = ?
+                ORDER BY other_user_id, created_at DESC
+                LIMIT 5
+            `;
+
+            // Lấy dữ liệu từ bảng messages
+            const [messages] = await pool.execute(query, [userID, userID, userID, userID]);
+
+            // Mảng chứa kết quả cuối cùng
+            const results = [];
+
+            // Lấy username của mỗi user khác
+            for (const message of messages) {
+                const otherUserID = message.other_user_id;
+
+                // Gọi hàm getUserById để lấy username
+                const [user] = await userController.getUserById(otherUserID);
+
+                if (user) {
+                    results.push({
+                        username: user.name, // Username từ hàm getUserById
+                        content: message.content, // Nội dung tin nhắn
+                        status: message.status,
+                        created_at: message.created_at // Thời gian tạo tin nhắn
+                    });
+                }
+            }
+
+            return results; // Trả về kết quả cuối cùng
+        } catch (error) {
+            console.error("Error in getNameandStatus:", error.message);
+            throw new Error("Failed to fetch data.");
+        }
+    },
+    getNameUserBySearch: async (key, role) => {
+        const query = `
+            SELECT user_ID, name, role
+            FROM User
+            WHERE name LIKE CONCAT('%', ?, '%') AND role = ?
+            ORDER BY name ASC
+        `;
+
+        try {
+            const [results] = await pool.execute(query, [key, role]);
+            return results; // Trả về danh sách kết quả tìm được
+        } catch (error) {
+            console.error("Error in getNameUserBySearch:", error.message);
+            throw new Error("Failed to fetch user by search.");
+        }
     }
+
 };
 
 module.exports = messageModel;

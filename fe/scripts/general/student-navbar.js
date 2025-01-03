@@ -94,7 +94,6 @@ function setupNotificationPopup() {
 //     // Các chức năng khác của navbar
 //     loadChatWidget(); // Tải khung chat
 // });
-
 function setupMessagePopup() {
     const messageIcon = document.querySelector('.student-header-chat a');
     if (!messageIcon) {
@@ -104,7 +103,7 @@ function setupMessagePopup() {
 
     const messagePopup = document.createElement('div');
     messagePopup.classList.add('message-popup');
-    messagePopup.style.display = 'none'; // Ban đầu ẩn popup
+    messagePopup.style.display = 'none';
     document.body.appendChild(messagePopup);
 
     messageIcon.addEventListener('click', (event) => {
@@ -162,9 +161,8 @@ function setupMessagePopup() {
         chatPopup.style.right = '10px';
         document.body.appendChild(chatPopup);
         const studentID = parseInt(getCookie('id'));
-        console.log(studentID);
 
-        fetch(`http://localhost:3000/api/d1/messages?sender_id=${studentID}&receiver_id=${admin.user_ID}`) // Giả sử sender_id=1
+        fetch(`http://localhost:3000/api/d1/messages?sender_id=${studentID}&receiver_id=${admin.user_ID}`)
             .then(response => response.json())
             .then(data => {
                 if (data.status === 200) {
@@ -180,36 +178,52 @@ function setupMessagePopup() {
     }
 
     function renderChatInterface(chatPopup, sender_id, admin, messages) {
-        fetch('http://127.0.0.1:5500/fe/scripts/general/chat-widget.html') // Đường dẫn tới file chat-widget.html
+        fetch('http://127.0.0.1:5500/fe/scripts/general/chat-widget.html')
             .then(response => response.text())
             .then(htmlContent => {
-                chatPopup.innerHTML = htmlContent; // Thêm nội dung HTML vào chatPopup
+                chatPopup.innerHTML = htmlContent;
 
                 const chatHeader = chatPopup.querySelector('.chat-header span');
                 const chatMessages = chatPopup.querySelector('.chat-messages');
                 const chatInput = chatPopup.querySelector('.chat-input');
                 const sendButton = chatPopup.querySelector('.send-message-button');
-                const minimizeButton = chatPopup.querySelector('.minimize-chat');
+                //const minimizeButton = chatPopup.querySelector('.minimize-chat');
                 const closeButton = chatPopup.querySelector('.close-chat');
-                const chatBody = chatPopup.querySelector('.chat-body');
+                //const chatBody = chatPopup.querySelector('.chat-body');
 
-                // Gắn tên admin vào tiêu đề
                 chatHeader.textContent = admin.name;
 
-                // Hiển thị các tin nhắn
-                messages.forEach(msg => {
-                    const messageElement = document.createElement('div');
-                    messageElement.classList.add('message', msg.sender_id === sender_id ? 'user-message' : 'admin-message'); // Giả sử sender_id=1
-                    messageElement.innerHTML = `<p>${msg.content}</p><small>${msg.created_at}</small>`;
-                    chatMessages.appendChild(messageElement);
-                });
+                // Hiển thị các tin nhắn ban đầu
+                function displayMessages(messages) {
+                    chatMessages.innerHTML = ''; // Xóa nội dung cũ
+                    messages.forEach(msg => {
+                        const messageElement = document.createElement('div');
+                        messageElement.classList.add('message', msg.sender_id === sender_id ? 'user-message' : 'admin-message');
+                        messageElement.innerHTML = `<p>${msg.content}</p><small>${msg.created_at}</small>`;
+                        chatMessages.appendChild(messageElement);
+                    });
+                    chatMessages.scrollTop = chatMessages.scrollHeight; // Cuộn xuống cuối
+                }
+                displayMessages(messages);
+
+                // Cập nhật tin nhắn định kỳ
+                function updateChatMessages() {
+                    fetch(`http://localhost:3000/api/d1/messages?sender_id=${sender_id}&receiver_id=${admin.user_ID}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 200) {
+                                displayMessages(data.data);
+                            }
+                        })
+                        .catch(error => console.error("Error updating messages:", error));
+                }
 
                 // Gửi tin nhắn
                 sendButton.addEventListener('click', () => {
                     const content = chatInput.value.trim();
                     if (!content) return;
 
-                    fetch(`http://localhost:3000/api/d1/messages/${sender_id}`, { // Giả sử sender_id=1
+                    fetch(`http://localhost:3000/api/d1/messages/${sender_id}`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ receiver_id: admin.user_ID, content })
@@ -217,10 +231,7 @@ function setupMessagePopup() {
                         .then(response => response.json())
                         .then(data => {
                             if (data.status === 201) {
-                                const messageElement = document.createElement('div');
-                                messageElement.classList.add('message', 'user-message');
-                                messageElement.innerHTML = `<p>${content}</p><small>${new Date().toLocaleTimeString()}</small>`;
-                                chatMessages.appendChild(messageElement);
+                                updateChatMessages();
                                 chatInput.value = '';
                             } else {
                                 console.error("Error sending message:", data.message);
@@ -230,21 +241,26 @@ function setupMessagePopup() {
                 });
 
                 // Thu nhỏ/phóng to khung chat
-                let isMinimized = false;
-                minimizeButton.addEventListener('click', () => {
-                    if (isMinimized) {
-                        chatBody.style.display = 'block';
-                        isMinimized = false;
-                    } else {
-                        chatBody.style.display = 'none';
-                        isMinimized = true;
-                    }
-                });
+                // let isMinimized = false;
+                // minimizeButton.addEventListener('click', () => {
+                //     if (isMinimized) {
+                //         chatBody.style.display = 'block';
+                //         chatMessages.scrollTop = chatMessages.scrollHeight; // Cuộn xuống cuối khi mở
+                //         chatInput.focus(); // Lấy lại tiêu điểm vào khung nhập
+                //         isMinimized = false;
+                //     } else {
+                //         chatBody.style.display = 'none';
+                //         isMinimized = true;
+                //     }
+                // });
 
                 // Đóng khung chat
                 closeButton.addEventListener('click', () => {
                     chatPopup.remove();
                 });
+
+                updateChatMessages(); // Cập nhật ngay khi mở
+                setInterval(updateChatMessages, 1000); // Cập nhật mỗi 5 giây
             })
             .catch(error => {
                 console.error("Error loading chat widget:", error);
@@ -253,6 +269,7 @@ function setupMessagePopup() {
     }
 
 }
+
 
 
 
