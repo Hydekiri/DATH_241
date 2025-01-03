@@ -65,6 +65,7 @@ document.querySelector(".button-pay").addEventListener("click", async () => {
 
     // Bước 2: Gửi yêu cầu tạo liên kết thanh toán
     const orderCode = buyData.order.id + 100; // Lấy mã đơn hàng và tạo mã đơn thanh toán payos
+    const previousPage = window.location.href;
     const paymentResponse = await fetch("http://localhost:3000/api/d1/create-payment-link", {
       method: "POST",
       headers: {
@@ -73,7 +74,8 @@ document.querySelector(".button-pay").addEventListener("click", async () => {
       },
       body: JSON.stringify({
         code: orderCode,
-        pagesToBuy: pages
+        pagesToBuy: pages,
+        url: previousPage
       }),
     });
 
@@ -83,10 +85,13 @@ document.querySelector(".button-pay").addEventListener("click", async () => {
     const paymentData = await paymentResponse.json(); // Chuyển đổi phản hồi thành JSON
     const paymentLink = paymentData.paymentLink; 
     console.log("Điều hướng đến liên kết thanh toán.");
-    window.open(paymentLink, '_blank'); // mở trang thanh toán ở 1 tab khác
+    //window.open(paymentLink, '_blank'); // mở trang thanh toán ở 1 tab khác
+    window.location.href = paymentLink;
+
 
   } catch (error) {
     console.error("Lỗi khi xử lý thanh toán:", error);
     alert("Có lỗi xảy ra. Vui lòng thử lại!");
   }
 });
+
