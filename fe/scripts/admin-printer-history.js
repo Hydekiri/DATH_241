@@ -108,8 +108,8 @@ const renderPrintHistory = (history) => {
         // Ensure that we have a user and documents
         const statusClass = toLower(config.status) === 'completed' ? 'success' : 'error'; 
         const printStartDate = new Date(config.printStart);
-        const formattedDate = printStartDate.toLocaleDateString(); // 'dd/mm/yyyy' 
-        const formattedTime = printStartDate.toLocaleTimeString(); // 'HH:MM:SS' 
+        const formattedDate = printStartDate.toLocaleDateString('vi-VN'); // 'dd/mm/yyyy' 
+        const formattedTime = printStartDate.toLocaleTimeString('vi-VN'); // 'HH:MM:SS' 
         const historyRow = `
             <tr class="${statusClass}">
                 <td>${config.user ? `${config.user.name}<br> ID: ${config.user.user_ID}` : 'N/A'}</td>
