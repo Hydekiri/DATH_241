@@ -7,6 +7,7 @@ const payos = new PayOs (
 );
 const YOUR_DOMAIN = 'http://localhost:3000';
 
+//const orderController = {
     // Controller xử lý việc mua số trang in
     exports.buyPages = async (req, res) => {
         const { userId, pagesToBuy } = req.body;
@@ -36,13 +37,15 @@ const YOUR_DOMAIN = 'http://localhost:3000';
 
     //tạo link thanh toán QR
     exports.CreatePaymentLink = async (req, res) => {
-        const {code ,pagesToBuy} = req.body;
+        const {code ,pagesToBuy, url} = req.body;
         const order = {
             amount: 250*pagesToBuy,
             description: 'Thanh toán trang in',
             orderCode: code,
-            returnUrl: `${YOUR_DOMAIN}`, // nhập lại link để hệ thống biết sẽ điều hướng đến đâu khi thanh toán thành công
-            cancelUrl: `${YOUR_DOMAIN}`, // nhập link để hệ thống biết điều hướng về đâu khi hủy thanh toán
+            //returnUrl: `${YOUR_DOMAIN}/buypages`, // nhập lại link để hệ thống biết sẽ điều hướng đến đâu khi thanh toán thành công
+            //cancelUrl: `${YOUR_DOMAIN}/buypages`, // nhập link để hệ thống biết điều hướng về đâu khi hủy thanh toán
+            returnUrl: url, // nhập lại link để hệ thống biết sẽ điều hướng đến đâu khi thanh toán thành công
+            cancelUrl: url, // nhập link để hệ thống biết điều hướng về đâu khi hủy thanh toán
         };
     
         try {
@@ -51,14 +54,14 @@ const YOUR_DOMAIN = 'http://localhost:3000';
                 message: "Tạo link thanh toán thành công!",
                 paymentLink: paymentLink.checkoutUrl,
             });
+            //console.log("Payment link generated:", paymentLink.checkoutUrl);
+            //res.redirect(303, paymentLink.checkoutUrl);
         } catch (error) {
             console.error("Lỗi khi tạo liên kết thanh toán:", error);
             res.status(500).json({ error: 'Không thể tạo liên kết thanh toán' });
         }
     };
 
-    
-    /*
     // Controller lấy thông tin đơn hàng theo ID
     exports.getOrderById = async (req, res) => {
         const { id } = req.params;
@@ -93,7 +96,7 @@ const YOUR_DOMAIN = 'http://localhost:3000';
             console.error("💀 Error in getAllOrdersByUser:", error);
             res.status(500).json({ error: "Failed to fetch orders for user." });
         }
-    }; */
+    };
 //};
 
 //module.exports = orderController;
