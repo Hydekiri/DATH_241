@@ -202,6 +202,7 @@ document.querySelector(".search-input").addEventListener("input", (event) => {
     const searchTerm = event.target.value.toLowerCase(); // Lấy giá trị nhập vào và chuyển thành chữ thường
     filterPrinters(searchTerm); // Gọi hàm lọc
 });
+/*
 const filterPrinters = (searchTerm) => {
     const printerRows = document.querySelectorAll(".printers-row"); // Lấy tất cả các hàng máy in
 
@@ -219,6 +220,53 @@ const filterPrinters = (searchTerm) => {
             row.style.display = "none"; // Ẩn hàng
         }
     });
+};*/
+const filterPrinters = (searchTerm) => {
+    const printerRows = document.querySelectorAll(".printers-row"); // Lấy tất cả các hàng máy in
+    const printersContainer = document.querySelector(".printers-rows");
+
+    // Nếu input trống, reset trạng thái
+    if (!searchTerm) {
+        printerRows.forEach((row) => {
+            row.style.display = ""; // Hiển thị tất cả các hàng
+        });
+        fetchPrinters(); 
+    }
+
+    let hasResult = false; // Biến để kiểm tra xem có kết quả hay không
+
+    printerRows.forEach((row) => {
+        const model = row.querySelector(".printer-model").textContent.toLowerCase();
+        const branchName = row.querySelector(".printer-branchName")?.textContent.toLowerCase() || '';
+        const status = row.querySelector(".printer-status").textContent.toLowerCase();
+        const building = row.querySelector(".printer-location").textContent.toLowerCase();
+        const weight = row.querySelector(".printer-weight").textContent.toLowerCase();
+        const id = row.querySelector(".printer-id").textContent.toLowerCase();
+
+        // Kiểm tra nếu giá trị nhập khớp với bất kỳ thuộc tính nào
+        if (
+            model.includes(searchTerm) ||
+            building.includes(searchTerm) ||
+            id.includes(searchTerm) ||
+            weight.includes(searchTerm) ||
+            branchName.includes(searchTerm) ||
+            status.includes(searchTerm)
+        ) {
+            row.style.display = ""; // Hiển thị hàng
+            hasResult = true; // Đánh dấu có ít nhất một kết quả phù hợp
+        } else {
+            row.style.display = "none"; // Ẩn hàng
+        }
+    });
+
+    // Nếu không có kết quả phù hợp, hiển thị thông báo "Không có dữ liệu"
+    if (!hasResult) {
+        printersContainer.innerHTML = '<div class="no-data">Không có dữ liệu</div>';
+    } else {
+        // Xóa thông báo "Không có dữ liệu" nếu có kết quả
+        const noDataMessage = printersContainer.querySelector(".no-data");
+        if (noDataMessage) noDataMessage.remove();
+    }
 };
 
 async function loadChatWidget() {
