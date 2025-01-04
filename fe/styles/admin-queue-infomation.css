@@ -60,15 +60,37 @@
     }
     
     
-    /* Table styling */
+     /* Table styling */
     .printers-display {
         width: 974px;
         height: 728px;
         background-color: #ffffff;
-        border:  1px solid #c8c8c8;
+        border: 1px solid #c8c8c8;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         border-radius: 10px;
         padding: 32px;
+        overflow-y: auto; /* Kích hoạt cuộn dọc */
+    }
+    
+    .printer-history {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+        font-family: 'Lato-Heavy';
+        font-size: 18px;
+    }
+    
+    .printer-history tbody {
+        display: block;
+        max-height: 480px; /* Giới hạn chiều cao của tbody */
+        overflow-y: auto; /* Kích hoạt cuộn dọc cho tbody */
+    }
+    
+    .printer-history thead,
+    .printer-history tbody tr {
+        display: table;
+        width: 100%; /* Đảm bảo bảng chiếm toàn bộ chiều rộng */
+        table-layout: fixed; /* Định dạng chiều rộng các cột */
     }
     
     .printer-history {
@@ -95,19 +117,21 @@
     }
     
     .success td {
-        background-color: #1edf043e;
-        color: #17C000;
+        background-color: #ff990052;
+        color: #ff8800;
         
     }
     
     .error td {
-        background-color: #FAD4D4;
-        color: #F90000;
+        background-color: #ff990052;
+        color: #ff8800;
     }
     
     /* Button styling */
     .delete-history-btn {
-        position: fixed;
+        position: absolute;
+        bottom: 40px;
+        right: 40px;
         margin-top: 320px;
         margin-left: 700px;
         background-color: #F66;
@@ -294,4 +318,23 @@
     .deco i {
         font-size: 24px; /* Kích thước biểu tượng */
         color: #24BEFB; /* Màu sắc của biểu tượng */
+    }
+
+    .print-action {
+        padding: 0 !important;
+        position: relative;
+    }
+
+    .print-button {
+        font-size: 24px;
+        margin: 0;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        box-shadow: none;
+        background-color: #24BEFB;;
+        border: none;
+        color: white;
     }

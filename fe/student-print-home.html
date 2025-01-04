@@ -7,10 +7,29 @@
   <link rel="stylesheet" href="styles/general/general.css">
   <link rel="stylesheet" href="styles/general/student-navbar.css">
   <link rel="stylesheet" href="styles/student-print-home.css">
+  <link rel="stylesheet" href="/fe/styles/fontchar.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
 </head>
 <body>
   <div class="student-navbar"></div>
+
+  <div class="printer-information-show">
+    <button id="back-to-home" onclick="backtohome()" ><</button>
+    <div class="printers-display">
+      <table class="printer-history">
+          <thead>
+              <tr>
+                  <th>Thông tin sinh viên</th>
+                  <th>Thời gian in</th>
+                  <th>Vị trí hàng đợi</th>
+                  <th>File In</th>
+                  <th>Tình trạng</th>
+              </tr>
+          </thead>
+          <tbody class="printconfig-display"></tbody>
+      </table>
+  </div>
+  </div>
 
   <div class="main">
     <div class="main-left">
@@ -42,8 +61,8 @@
           </div>
 
           <div class="selection">
-            <label for="page-num">Số trang</label>
-            <input id="page-num" type="number" required value="33">
+            <label for="page-num">Chọn trang</label>
+            <input id="page-num" type="text" placeholder="Ví dụ : 1-10" required>
           </div>
 
           <div class="selection">
@@ -108,5 +127,6 @@
   <script src="scripts/general/student-navbar.js"></script>
   <script src="scripts/student-print-home.js"></script>
   <script src="./Logical_Connection/Preload_Printer.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
 </body>
 </html>

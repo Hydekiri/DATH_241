@@ -148,6 +148,26 @@ const printConfigModel = {
             console.error("Error in deleteAllUserHistory:", error);
             throw error;
         }
+    },
+
+    deleteCompletedConfigsByPrinter: async (printer_ID) => {
+        try {
+            await query.deleteRow("PrintConfiguration", { printer_ID, status: "Completed" });
+            return { printer_ID: parseInt(printer_ID), status: "Completed" };
+        } catch (error) {
+            console.error("Error in deleteCompletedConfigsByPrinter:", error);
+            throw error;
+        }
+    },
+
+    deleteCompletedConfigsByUserID: async (user_ID) => {
+        try {
+            await query.deleteRow("PrintConfiguration", { user_ID, status: "Completed" });
+            return { user_ID: parseInt(user_ID), status: "Completed" };
+        } catch (error) {
+            console.error("Error in deleteCompletedConfigsByUserID:", error);
+            throw error;
+        }
     }
 
 };

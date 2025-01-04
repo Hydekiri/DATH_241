@@ -390,3 +390,14 @@ button {
 .hidden {
   display: none;
 }
+
+.no-data{
+  font-size: 26px;
+  width: 1145px;
+  height:364px;
+  margin: 10px 10px;
+  background-color: #17b9ff57;
+  justify-items:center;
+  align-content: center;
+  padding: 100px 450px;
+}

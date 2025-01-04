@@ -1,19 +1,23 @@
+/*
 const getCookie = (name) => {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
     return null;
-};
+};*/
 
 // Ensure user_ID is available
+/*
 const user_ID = parseInt(getCookie('id'));
 if (!user_ID) {
     console.error('User ID not found in cookies');
     alert('User not authenticated');
-}
+}*/
+
 
 const urlParams = new URLSearchParams(window.location.search);
 const printer_ID = urlParams.get('printer_ID');
+const user_ID = urlParams.get('user_ID');
 console.log('Printer ID:', printer_ID);  // Debug log for printer_ID
 console.log('user_ID ID:', user_ID);  
 const fetchPrinterHistory = async () => {
@@ -57,6 +61,12 @@ const fetchPrinterHistoryInfo2 = async () => {
         if (!response.ok) throw new Error("Không thể lấy lịch sử máy in");
         const data = await response.json();
         renderPrintHistory(data.data || []);
+
+        // Lọc chỉ các mục có status là "Completed"
+        // const completedHistory = data.data.filter(record => record.status === "Completed");
+
+        // renderPrintHistory(completedHistory);
+        
     } catch (error) {
         console.error(error);
         alert("Không thể tải lịch sử máy in!");
@@ -84,8 +94,27 @@ const renderPrinterInfo = (user) => {
 
 
 const renderPrintHistory = (history) => {
+    // Sắp xếp history theo thứ tự thời gian in trễ nhất và config_ID cao hơn trước
+    const sortedHistory = history.sort((a, b) => {
+        const dateA = new Date(a.printStart);
+        const dateB = new Date(b.printStart);
+        
+        // Sắp xếp trước theo ngày (in mới nhất lên đầu)
+        if (dateB - dateA !== 0) {
+            return dateB - dateA;
+        }
+
+        // Nếu thời gian in giống nhau, ưu tiên config_ID cao hơn
+        return b.config_ID - a.config_ID;
+    });
+
     const tbody = document.querySelector(".printer-history tbody");
     tbody.innerHTML = ''; // Clear existing rows
+
+    if (!sortedHistory.length) {
+        tbody.innerHTML = '<tr><td colspan="5">Không có dữ liệu</td></tr>';
+        return;
+    }
 
     if (!history.length) {
         tbody.innerHTML = '<tr><td colspan="5">Không có dữ liệu</td></tr>';
@@ -104,7 +133,7 @@ const renderPrintHistory = (history) => {
                 <td>${formattedDate}<br>${formattedTime}</td>
                 <td>${record.numPages} (x${record.numCopies})<br>${record.paperSize}</td>
                 <td>${documents}</td>
-                <td>${record.status === 'Completed' ? 'In thành công' : 'Thất bại'}</td>
+                <td>${record.status == 'Completed' ? 'In thành công' : 'Đang đợi in'}</td>
             </tr>
         `;
         tbody.innerHTML += row;
@@ -123,7 +152,7 @@ const handleDeletePrintHistory = async () => {
 
     try {
         // Send DELETE request to remove all print history for the user
-        const response = await fetch(`http://localhost:3000/api/d1/printconfigs/user/${user_ID}/history`, {
+        const response = await fetch(`http://localhost:3000/api/d1/printconfigs/user/${user_ID}/history/completed`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

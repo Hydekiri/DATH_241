@@ -75,7 +75,7 @@ const Query = {
             console.log(error);
         }
     },
-
+    
     deleteRow: async (table, condition = {}) => {
         try {
             const keys = Object.keys(condition);

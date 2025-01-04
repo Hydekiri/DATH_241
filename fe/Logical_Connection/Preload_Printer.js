@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const data = await fetchPrinterData();
-    console.log(data);
+    //console.log(data);
 
     data.forEach((printer) =>{
-        console.log(printer);
+        //console.log(printer);
         if (printer.status === "enable") {
             const loc = printer.location.building ? printer.location.building : null ;
             createPrinterHTMLWith(printer.Printer_ID, printer.model, loc, printer.status === "enable" ? "Hoạt động" : "Không hoạt động");
@@ -117,4 +117,111 @@ function resetAllPrinters() {
         cancelChoose.classList.add('hidden');
         successIcon.classList.add('hidden');
     });
+}
+
+document.querySelector('.printers-row').addEventListener('click', async (event) => {
+    if (event.target && event.target.classList.contains('printer-infor')) {
+        const printerDisplay = event.target.closest('.printer-display');
+        const id = printerDisplay.querySelector('.printer-id').textContent;
+        await showprinterqueue(id);
+    }
+});
+
+async function showprinterqueue(id) {
+    const mainDiv = document.querySelector('.main');
+    const printerInfoDiv = document.querySelector('.printer-information-show');
+
+    if (!mainDiv || !printerInfoDiv) {
+        console.error('Main or printer-information-show div not found!');
+        return;
+    }
+
+    // Hide main, show printer info grid
+    mainDiv.style.display = 'none';
+    printerInfoDiv.style.display = 'grid';
+
+    console.log("ID = " + id);
+    
+    try {
+        await fetchPrintConfig(id);
+    } catch (error) {
+        console.error('Error loading print configuration:', error);
+        return;
+    }
+}
+
+
+
+function backtohome(){
+    const mainDiv = document.querySelector('.main');
+    const printerInfoDiv = document.querySelector('.printer-information-show');
+
+    mainDiv.style.display = 'grid';
+    printerInfoDiv.style.display = 'none';
+
+    const printconfigDisplay = document.querySelector('.printconfig-display');
+    printconfigDisplay.innerHTML = '';
+}
+
+
+async function fetchPrintConfig(printer_ID) {
+    try {
+        const response = await fetch(`http://localhost:3000/api/d1/printconfigs/printer/${printer_ID}`);
+        if (!response.ok) {
+            throw new Error("Không thể lấy danh sách hàng đợi");
+        }
+        const data = await response.json();
+        console.log(data.data); 
+        renderPrintConfig(data.data); 
+    } catch (error) {
+        console.error(error); 
+        const printconfigDisplay = document.querySelector('.printconfig-display');
+        printconfigDisplay.innerHTML = '<h1 style="text-align: center">Không có tài liệu đang đợi in</h1>';
+        alert("Không thể tải danh sách hàng đợi!");   
+        return;
+    }
+}
+
+function renderPrintConfig(printconfigs) {
+    const printconfigDisplay = document.querySelector('.printconfig-display');
+    printconfigDisplay.innerHTML = '';
+    let html = '';
+    let index = 0;
+
+    if (!printconfigs || printconfigs.length === 0) {
+        printersDisplay.innerHTML = '<h1 style="text-align: center">Không có tài liệu đang đợi in</h1>';
+        return;
+    }
+
+    printconfigs.forEach((printconfig) => {
+        if (printconfig.status === 'completed' || printconfig.status === 'Completed') return;
+
+        index++;
+        const printDate = new Date(printconfig.printStart);
+        const date = printDate.toLocaleDateString('vi-VN');
+        const time = printDate.toLocaleTimeString('vi-VN');
+        const location = (printconfig.location && printconfig.location.building) 
+            ? printconfig.location.building 
+            : "Không xác định";
+        const docNames = printconfig.documents.map(doc => doc.name).join(', ');
+
+        html += `
+            <tr class="error">
+                <td>${printconfig.user.name}<br>${printconfig.user.user_ID}</td>
+                <td>${date} <br>${time}</br></td>
+                <td>${index}</td>
+                <td>${printconfig.documents.map(doc => doc.name).join('<br>')}
+                <td>Đang đợi</td>
+            </tr>
+        `;
+
+        console.log(html);
+    });
+
+    if (html === ''){
+        printconfigDisplay.innerHTML = '<h1 style="text-align: center">Không có tài liệu đang đợi in</h1>';
+        return;
+    } 
+    printconfigDisplay.innerHTML = html;
+    
 }

@@ -1,9 +1,9 @@
-const getCookie = (name) => {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-    return null;
-};
+// const getCookie = (name) => {
+//     const value = `; ${document.cookie}`;
+//     const parts = value.split(`; ${name}=`);
+//     if (parts.length === 2) return parts.pop().split(';').shift();
+//     return null;
+// };
 
 // Ensure user_ID is available
 const user_ID = parseInt(getCookie('id'));
@@ -17,6 +17,14 @@ const printer_ID = urlParams.get('printer_ID');
 console.log('Printer ID:', printer_ID);  // Debug log for printer_ID
 console.log('user_ID ID:', user_ID);  
 const fetchPrinterHistory = async () => {
+    const tbody = document.querySelector(".printer-history tbody");
+    if (!printer_ID) {
+        console.warn("Printer ID is null, nothing to fetch.");
+        // Hiển thị thông báo "Không có lịch sử in"
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #7E7E7E;"><h2>Không có lịch sử in</h2></td></tr>';
+
+        // return;
+    }
     try {
         await fetchPrinterHistoryInfo();
         await fetchPrinterHistoryInfo2();
@@ -40,7 +48,7 @@ const fetchPrinterHistoryInfo = async () => {
         renderPrinterInfo(data.data);
     } catch (error) {
         console.error(error);
-        alert("Không thể tải thông tin máy in!");
+        alert("Không thể tải thông tin user!");
     }
 };
 
@@ -59,7 +67,7 @@ const fetchPrinterHistoryInfo2 = async () => {
         renderPrintHistory(data.data || []);
     } catch (error) {
         console.error(error);
-        alert("Không thể tải lịch sử máy in!");
+        // alert("Không thể tải lịch sử máy in!");
     }
 };
 
@@ -72,7 +80,7 @@ const renderPrinterInfo = (user) => {
 
     document.querySelector(".uName").innerHTML = `<span>Tên:</span> ${user.name || 'N/A'}`;
     document.querySelector(".uID").innerHTML = `<span>ID:</span> ${user.user_ID || 'N/A'}`;
-    document.querySelector(".pageBalance").innerHTML = `<span>Số trang in:</span> ${user.pageBalance || 0}`;
+    document.querySelector(".pageBalance").innerHTML = `<span>Số dư trang in:</span> ${user.pageBalance || 0}`;
     document.querySelector(".eMail").innerHTML = `<span>Email: </span> ${user.email || 'N/A'}`;
     
     const statusText = user.role === 'student' ? 'Hoạt động' : 'Vô hiệu hóa';
@@ -83,14 +91,74 @@ const renderPrinterInfo = (user) => {
 };
 
 
+// const renderPrintHistory = (history) => {
+//     const tbody = document.querySelector(".printer-history tbody");
+//     tbody.innerHTML = ''; // Xóa tất cả các hàng cũ
+
+//     if (!history || !history.length) {
+//         // Thêm dòng hiển thị "Không có dữ liệu" nếu lịch sử trống
+//         tbody.innerHTML = '<tr><td colspan="5">Không có dữ liệu</td></tr>';
+//         return;
+//     }
+
+//     history.forEach((record) => {
+//         const formattedDateStart = new Date(record.printStart).toLocaleDateString('vi-VN');
+//         const formattedTimeStart = new Date(record.printStart).toLocaleTimeString('vi-VN');
+//         const formattedDateEnd = record.printEnd 
+//             ? new Date(record.printEnd).toLocaleDateString('vi-VN') 
+//             : 'N/A';
+//         const formattedTimeEnd = record.printEnd 
+//             ? new Date(record.printEnd).toLocaleTimeString('vi-VN') 
+//             : ' ';
+//         const statusClass = record.status.toLowerCase() === 'completed' ? 'success' : 'error';
+//         const documents = record.documents?.map(doc => doc.name).join('<br>') || 'N/A';
+
+//         const row = `
+//             <tr class="${statusClass}">
+//                 <td>${record.printer?.branchName || 'N/A'}<br>${record.printer?.location?.building || ''}</td>
+//                 <td>${formattedDateStart}<br>${formattedTimeStart}</td>
+//                 <td>${formattedDateEnd}<br>${formattedTimeEnd}</td>
+//                 <td>${documents}</td>
+//                 <td>${record.status === 'Completed' ? 'In thành công' : 'Đang đợi in'}</td>
+//             </tr>
+//         `;
+//         tbody.innerHTML += row;
+//     });
+
+//     // Kiểm tra nếu tbody vẫn trống sau khi lặp qua lịch sử
+//     if (!tbody.innerHTML.trim()) {
+//         tbody.innerHTML = '<tr><td colspan="5">Không có dữ liệu</td></tr>';
+//     }
+// };
 const renderPrintHistory = (history) => {
+    // Sắp xếp history theo thứ tự thời gian in trễ nhất và config_ID cao hơn trước
+    const sortedHistory = history.sort((a, b) => {
+        const dateA = new Date(a.printStart);
+        const dateB = new Date(b.printStart);
+        
+        // Sắp xếp trước theo ngày (in mới nhất lên đầu)
+        if (dateB - dateA !== 0) {
+            return dateB - dateA;
+        }
+
+        // Nếu thời gian in giống nhau, ưu tiên config_ID cao hơn
+        return b.config_ID - a.config_ID;
+    });
+
     const tbody = document.querySelector(".printer-history tbody");
     tbody.innerHTML = ''; // Clear existing rows
 
-    if (!history.length) {
+    if (!sortedHistory.length) {
         tbody.innerHTML = '<tr><td colspan="5">Không có dữ liệu</td></tr>';
         return;
     }
+
+    if (!history || !history.length) {
+        // Thêm dòng hiển thị "Không có dữ liệu" nếu lịch sử trống
+        tbody.innerHTML = '<tr><td colspan="5">Không có dữ liệu</td></tr>';
+        return;
+    }
+
 
     history.forEach((record) => {
         const formattedDate = new Date(record.printStart).toLocaleDateString('vi-VN');
@@ -104,13 +172,16 @@ const renderPrintHistory = (history) => {
                 <td>${formattedDate}<br>${formattedTime}</td>
                 <td>${record.numPages} (x${record.numCopies})<br>${record.paperSize}</td>
                 <td>${documents}</td>
-                <td>${record.status === 'Completed' ? 'In thành công' : 'Thất bại'}</td>
+                <td>${record.status == 'Completed' ? 'In thành công' : 'Đang đợi in'}</td>
             </tr>
         `;
         tbody.innerHTML += row;
     });
+    // Kiểm tra nếu tbody vẫn trống sau khi lặp qua lịch sử
+    if (!tbody.innerHTML.trim()) {
+        tbody.innerHTML = '<tr><td colspan="5">Không có dữ liệu</td></tr>';
+    }
 };
-
 
 
 window.onload = fetchPrinterHistory;

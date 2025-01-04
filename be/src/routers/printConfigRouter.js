@@ -10,4 +10,6 @@ module.exports = (router) => {
     router.delete("/printconfigs/printer/:printerID", printConfigController.deleteConfigByPrinter);
     router.get("/printconfigs/user/:userID/history", printConfigController.getAllUserHistory);
     router.delete("/printconfigs/user/:userID/history", printConfigController.deleteAllUserHistoryByID);
+    router.delete("/printconfigs/printer/:printerID/completed", printConfigController.deleteCompletedConfigsByPrinter);
+    router.delete("/printconfigs/user/:userID/history/completed", printConfigController.deleteCompletedConfigsByUserID);
 };

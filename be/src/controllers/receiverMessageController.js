@@ -1,5 +1,6 @@
 const notificationModel = require("../models/notificationModel");
 const userModel = require("../models/usersModel");
+const receiverMessageModel = require("../models/receiverMessageModel");
 
 exports.sendNotificationToUser = async (req, res) => {
     try {
@@ -43,11 +44,36 @@ exports.getReceiversByNotification = async (req, res) => {
     }
 };
 
+// exports.getNotificationsForUser = async (req, res) => {
+//     try {
+//         const { userId } = req.params;
+//         const notifications = await notificationModel.getNotificationsForUser(userId);
+//         res.status(200).json({ status: 200, data: notifications, message: "Successfully retrieved notifications!" });
+//     } catch (error) {
+//         console.error("Error retrieving notifications:", error);
+//         res.status(500).json({ status: 500, message: "Error retrieving notifications", error: error.message });
+//     }
+// };
+
 exports.getNotificationsForUser = async (req, res) => {
     try {
-        const { userId } = req.params;
-        const notifications = await notificationModel.getNotificationsForUser(userId);
-        res.status(200).json({ status: 200, data: notifications, message: "Successfully retrieved notifications!" });
+        const notifications = await receiverMessageModel.getNotificationsForUser(req.params.userId);
+        if (!notifications || notifications.length === 0) {
+            return res.status(404).json({ status: 404, message: "No notification found!" });
+        }
+
+        const notificationDetails = await Promise.all(notifications.map(async (notification) => {
+            return {
+                notification_ID: notification.notification_ID,
+                detail : notification.notificationDetails ? {
+                    title: notification.notificationDetails.title,
+                    content: notification.notificationDetails.content,
+                    createDate: notification.notificationDetails.createDate
+                } : null,
+                status: notification.status
+            };
+        }));
+        res.status(200).json({ status: 200, data: notificationDetails, message: "Successfully retrieved notifications!" });
     } catch (error) {
         console.error("Error retrieving notifications:", error);
         res.status(500).json({ status: 500, message: "Error retrieving notifications", error: error.message });
