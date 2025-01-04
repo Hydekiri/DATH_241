@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-
+  
   border-bottom: 4px solid #24befb;
   padding-left: 95px;
   padding-right: 110px;
@@ -31,9 +31,7 @@
   padding-right: 30px;
 }
 
-.student-navbar-middle-print,
-.student-navbar-middle-buy,
-.student-navbar-middle-history {
+.student-navbar-middle-print, .student-navbar-middle-buy, .student-navbar-middle-history {
   color: black;
   display: flex;
   align-items: center;
@@ -41,7 +39,7 @@
 
   font-size: 36px;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: bold;  
   word-wrap: break-word;
   white-space: normal;
   text-align: center;
@@ -74,7 +72,7 @@
   display: none;
   position: absolute;
   top: 25%;
-  right: 5px;
+  right: 5px; 
   background-color: white;
   border: 1px solid #ccc;
   padding: 5px;
@@ -103,36 +101,59 @@
 }
 
 .notification-popup {
-  position: absolute;
-  top: 60px;
-  /* Adjust based on your layout */
-  right: 10px;
-  /* Adjust based on your layout */
-  width: 300px;
-  /* Adjust based on your layout */
+  position: fixed;
+  top: 110px; 
+  bottom: 0;
+  right: 10px; 
+  width: 300px; 
   background-color: white;
   border: 1px solid #ccc;
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  display: none;
-  /* Initially hidden */
+  display: none; 
+  overflow: scroll;
 }
 
 .notification-item {
   margin-bottom: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  padding: 5px;
 }
 
 .notification-item h4 {
   margin: 0;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .notification-item p {
   margin: 5px 0 0;
   font-size: 14px;
 }
+
+.notification-dot {
+  position: absolute;
+  top: -8px;
+  right: -5px;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  display: none;
+  z-index: 9999;
+}
+
+.student-navbar-notification {
+  position: relative;
+}
+
+.notification-date {
+  font-style: italic;
+  font-size: 12px;
+}
+
 
 /* ------------------- Message Popup ------------------- */
 .message-popup {
