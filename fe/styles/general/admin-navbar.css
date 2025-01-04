@@ -13,7 +13,7 @@
   padding-left: 95px;
   padding-right: 110px;
   background-color: white;
-  z-index: 99;
+  z-index: 9999999;
 }
 
 .admin-navbar-middle {

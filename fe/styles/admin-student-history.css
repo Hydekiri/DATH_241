@@ -5,7 +5,7 @@
   }
   
   body{
-    overflow: hidden;
+    overflow: scroll;
   }
   /* main */
   .main {
@@ -139,7 +139,7 @@
   
   /* Button styling */
   .delete-history-btn {
-    position: fixed;
+    position: absolute;
     margin-top: 650px;
     margin-left: 1235px ;
     background-color: #F66;
