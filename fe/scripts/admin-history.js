@@ -5,13 +5,15 @@ let allHistory = [];
 let filteredHistory = [];
 
 const fetchPrintHistory = async () => {
+    
     try {
         const response = await fetch('http://localhost:3000/api/d1/printconfigs');
+        // if (printconfig.status !== 'unCompleted') return;
         if (!response.ok) {
             throw new Error("Failed to fetch print history");
         }
         const data = await response.json();
-        allHistory = data.data;
+        allHistory = data.data.filter(record => record.status === "Completed");
         filteredHistory = [...allHistory];
         totalPages = Math.ceil(filteredHistory.length / itemsPerPage);
         renderHistory();
@@ -73,7 +75,7 @@ const handleDeleteUserHistory = async (userID) => {
     if (!confirmation) return;
 
     try {
-        const response = await fetch(`http://localhost:3000/api/d1/printconfigs/user/${userID}/history`, {
+        const response = await fetch(`http://localhost:3000/api/d1/printconfigs/user/${userID}/history/completed`, {
             method: 'DELETE'
         });
 

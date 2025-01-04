@@ -67,7 +67,7 @@ document.querySelector(".button-pay").addEventListener("click", async () => {
     console.log("Mua trang in thành công:", buyData);
 
     // Bước 2: Gửi yêu cầu tạo liên kết thanh toán
-    const orderCode = buyData.order.id + 200; // Lấy mã đơn hàng và tạo mã đơn thanh toán payos
+    const orderCode = buyData.order.id + 2000; // Lấy mã đơn hàng và tạo mã đơn thanh toán payos
     const previousPage = window.location.href;
     const originUrl = window.location.origin;
     const paymentResponse = await fetch("http://localhost:3000/api/d1/create-payment-link", {

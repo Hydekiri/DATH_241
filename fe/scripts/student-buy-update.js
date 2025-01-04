@@ -12,7 +12,7 @@ const GetCookie = (name) => {
 document.addEventListener('DOMContentLoaded', async function() {
   const userId = parseInt(GetCookie('id'));
   const token = GetCookie('token');
-  const pages = sessionStorage.getItem('pagesToBuy');
+  const pages = parseInt(sessionStorage.getItem('pagesToBuy'));
 
   if (!userId) {
     alert("Bạn cần đăng nhập để thực hiện chức năng này!");
