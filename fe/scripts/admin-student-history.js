@@ -51,7 +51,7 @@ const fetchPrinterHistoryInfo = async () => {
 const fetchPrinterHistoryInfo2 = async () => {
     const token = getCookie('token');
     try {
-        const response = await fetch(`http://localhost:3000/api/d1/printconfigs/user/${user_ID}/history/completed`, {
+        const response = await fetch(`http://localhost:3000/api/d1/printconfigs/user/${user_ID}/history`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
