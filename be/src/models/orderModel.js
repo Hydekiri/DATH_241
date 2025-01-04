@@ -11,19 +11,13 @@ async function initDB() {
 initDB();
 
 const orderModel = {
-    createOrderAndUpdatePages: async (userId, pagesToBuy) => {
+    CreateOrder: async (userId, pagesToBuy) => {
         try {
             // Cập nhật số trang in của người dùng
             const user = await usersModel.getUserById(userId);
             if (!user) {
                 throw new Error('User not found');
             }
-            const currentPages = user.pageBalance || 0;
-            const updatedPages = currentPages + pagesToBuy;
-            const updateData = {
-                pageBalance: updatedPages,
-            };
-            await usersModel.updateUser(userId, updateData);
 
             // Chèn đơn hàng vào bảng Orders
             const orderData = {
@@ -40,18 +34,43 @@ const orderModel = {
                     id: result.insertId,
                     ...orderData,
                 },
+            };
+        } catch (error) {
+            console.error("💀 Error creating order:", error);
+            throw error;
+        }
+    },
+
+    
+    UpdatePages: async (userId, pagesToBuy) => {
+        try {
+            // Cập nhật số trang in của người dùng
+            const user = await usersModel.getUserById(userId);
+            if (!user) {
+                throw new Error('User not found');
+            }
+            const currentPages = user.pageBalance || 0;
+            const updatedPages = currentPages + pagesToBuy;
+            const updateData = {
+                pageBalance: updatedPages,
+            };
+            await usersModel.updateUser(userId, updateData);
+
+            
+            // Trả về thông tin đơn hàng và người dùng
+            return {
                 updatedUser: {
                     userId,
                     updatedPages,
                 },
             };
         } catch (error) {
-            console.error("💀 Error creating order and updating pages:", error);
+            console.error("💀 Error updating pages:", error);
             throw error;
         }
     },
 
-    getOrderById: async (id) => {
+    /*getOrderById: async (id) => {
         try {
             const order = await query.getOne("Orders", { order_ID: id });
             return order;
@@ -69,7 +88,7 @@ const orderModel = {
             console.error("💀 Error fetching orders for user:", error);
             throw error;
         }
-    },
+    },*/
 };
 
 module.exports = orderModel;

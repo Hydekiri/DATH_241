@@ -30,6 +30,9 @@ document.querySelector(".button-pay").addEventListener("click", async () => {
   const pages = parseInt(numInput.value);
   const userId = parseInt(GetCookie('id'));
   const token = GetCookie('token');
+  sessionStorage.setItem('pagesToBuy', pages);
+  sessionStorage.setItem('userId', userId);
+  sessionStorage.setItem('initialPage', window.location.href);
 
   if (isNaN(pages) || pages <= 0) {
     alert("Vui lòng nhập số lượng trang in hợp lệ!");
@@ -64,8 +67,9 @@ document.querySelector(".button-pay").addEventListener("click", async () => {
     console.log("Mua trang in thành công:", buyData);
 
     // Bước 2: Gửi yêu cầu tạo liên kết thanh toán
-    const orderCode = buyData.order.id + 100; // Lấy mã đơn hàng và tạo mã đơn thanh toán payos
+    const orderCode = buyData.order.id + 200; // Lấy mã đơn hàng và tạo mã đơn thanh toán payos
     const previousPage = window.location.href;
+    const originUrl = window.location.origin;
     const paymentResponse = await fetch("http://localhost:3000/api/d1/create-payment-link", {
       method: "POST",
       headers: {
@@ -75,7 +79,8 @@ document.querySelector(".button-pay").addEventListener("click", async () => {
       body: JSON.stringify({
         code: orderCode,
         pagesToBuy: pages,
-        url: previousPage
+        url: previousPage,
+        myDomain: originUrl
       }),
     });
 
@@ -94,4 +99,5 @@ document.querySelector(".button-pay").addEventListener("click", async () => {
     alert("Có lỗi xảy ra. Vui lòng thử lại!");
   }
 });
+
 
